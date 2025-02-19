@@ -1,15 +1,29 @@
 # Project_08
 
+## Name
+Galactic Trail
+
 ## Description
+Text only version of Oregon Trail that does a spin on the original game. This time it takes place in space, there are also some additions
+from the original game. Otherwise it has the same general idea as the original game
 
-Galactic Trail - version of Oregon Trail that takes place in space. Designed as text only.
+## Installation
+Unknown at the moment
 
-Otherwise it contains the same structure
+## Visuals
 
-## Languages Used
+![Logo](LOGO.png)
 
-Java, SQL
+## Roadmap
+Program Frontend and Backend in Java, also include Database to be programmed in SQL. 
 
-## Databases
+Project Roadmap will evolve as the project momentum increases
 
-The project is supposed to make use of a database though we aren't sure which one and what it is supposed to copy
+## Authors and acknowledgment
+Frontend - Will, Dan
+Backend - Steven, Sanja, Arnie
+Database - James
+
+## Project status
+
+We have just started this project
