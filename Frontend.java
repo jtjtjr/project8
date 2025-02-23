@@ -1,18 +1,16 @@
-package project; // fix this with whole project
+// package project; // fix this with whole project
 
 import java.util.Scanner;
 
 /*
  * This is the Frontend
  */
-public class frontend {
-
+public class Frontend {
     /*
     * Intro for game
     */
-    public static void introSlide() {
-        Scanner scanner = new Scanner(System.in); // Readies scanner
-        
+    public static void introSlide(Scanner scanner) {
+
         /////// Intro block
         System.out.println("****************************************************");
         System.out.println("*                                                  *");
@@ -55,8 +53,6 @@ public class frontend {
         } else {
             System.out.println("Failed to connect. Try again later.");
         }
-            
-            scanner.close(); // turns off scanner (TAKE THIS OUT WHEN GAME IS FINISHED)
     }
 
     /*
@@ -65,6 +61,17 @@ public class frontend {
     public static void encounterFrontend(int encounterID) {
         System.out.println("Oh...");
         // backendClass.encounterID; // Uncomment when backend is written
+    }
+
+    /*
+     * Prompt User for input
+     */
+    public static String inputUser(Scanner scanner)
+    {
+        System.out.print("Input> ");
+        String userInput = scanner.nextLine();
+        System.out.println("Command Received: " + userInput);
+        return userInput;
     }
 
     /*
