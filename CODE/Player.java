@@ -11,6 +11,7 @@ public class Player {
     private int crewNum;
     private int morale;
     private int resources;
+    private int location;
 
     private int dayNumber;
     //private List<Event> possibleEvents; This needs the Event object
@@ -76,6 +77,78 @@ public class Player {
          */
         public void setName(String name) {
             this.name = name;
+        }
+    }
+
+    /**
+     * enum for what roles each Crew can be
+     */
+    public enum CrewRole {
+        KNIGHT,
+        MAGE,
+        ARCHER;
+
+        public static CrewRole roleID(int ID) {
+            switch (ID) {
+                case 1:
+                    return KNIGHT;
+                case 2:
+                    return MAGE;
+                case 3:
+                    return ARCHER;
+                default:
+                    throw new IllegalArgumentException();
+            }
+        }
+    }
+
+    /**
+     * Crew class with info about the crew, ie. stats and crewRole
+     */
+    public class Crew {
+        protected final CrewRole role;
+        protected int health;
+        protected int strength;
+        protected int intelligence;
+
+        public Crew(int ID) {
+             role = CrewRole.roleID(ID);
+
+            switch (role) {
+                case KNIGHT:
+                    health = 100;
+                    strength = 20;
+                    intelligence = 10;
+                    break;
+                case MAGE:
+                    health = 30;
+                    strength = 50;
+                    intelligence = 50;
+                    break;
+                case ARCHER:
+                    health = 40;
+                    strength = 40;
+                    intelligence = 50;
+                    break;
+            }
+        }
+
+        public int getHealth() { return this.health; }
+
+        public int getStrength() { return this.strength; }
+
+        public int getIntelligence() { return this.intelligence; }
+
+        public CrewRole getRole() { return this.role; }
+        
+        @Override
+        public String toString() {
+            return "Crew{" +
+                    "role=" + role +
+                    ", health=" + health +
+                    ", strength=" + strength +
+                    ", intelligence=" + intelligence +
+                    '}';
         }
     }
 
