@@ -1,0 +1,10 @@
+Theme
+Survival in Deep Space – A crew traveling to a distant colony, managing limited resources.
+Company controlled mission - you must get high profits
+Style
+Command line - this makes it feel like Oregon Trail
+Algorithms & Mechanics
+Procedural Events – Random encounters based on crew stats and ship condition.
+Resource Management – Oxygen, fuel, food, and morale affecting survival.
+Decision Trees – Player choices with real consequences, altering the journey.
+Dynamic Storytelling – Events changing based on past actions.
