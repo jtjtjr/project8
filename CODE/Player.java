@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.Random;
+import java.util.ArrayList;
 
 /**
  * The Day class represents a single day in Galactic Trail (name of game), 
@@ -14,7 +15,7 @@ public class Player {
     private int location;
 
     private int dayNumber;
-    //private List<Event> possibleEvents; This needs the Event object
+    private List<Event> possibleEvents = new  ArrayList<Event>(); //This needs the Event object
     private boolean survive;
     private int seedValue; //index for possible events
     private Random random; //for random events
@@ -34,8 +35,8 @@ public class Player {
 
         //needs to be True, in future implementation will need events to alter this function so it will not be private 
         //but rather protecter or public
-        this.survive = True; 
-        this.possibleEvents = possibleEvents;
+        this.survive = true; 
+        this.possibleEvents = possibleEvents;// - this still needs to be implemented
 
         //0 - possibleEvents.size() acting as a random value index, just an idea on how to use an event
         this.seedValue = new Random().nextInt(possibleEvents.size());
@@ -165,6 +166,15 @@ public class Player {
      * @return The survival boolean
      */
     public boolean getSurvivalBoolean() {
+        return survive;
+    }
+
+     /**
+     * sets the surivial boolean status.
+     * @return The survival boolean
+     */
+    public boolean setSurvivalBoolean(boolean survive_change) {
+        survive = survive_change;
         return survive;
     }
 
