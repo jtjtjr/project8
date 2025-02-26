@@ -64,6 +64,7 @@ public class EventTester {
     }
 
     //Test triggerEvent()
+    @Test
     void testTriggerEvent(){
         event_2.triggerEvent();
         assertEquals(4, test_guy.getMorale());
