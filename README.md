@@ -7,7 +7,7 @@ Galactic Trail
 Text only version of Oregon Trail that does a spin on the original game. This time it takes place in space, there are also some additions
 from the original game. Otherwise it has the same general idea as the original game.
 
-The game will include Marketplaces, Planets, Events, Crews and resources. 
+The game will include Marketplaces, Morale, Planets, Events, Crews and resources. 
 You can and often will lose crew, resources and morale during events. 
 
 ## Installation
@@ -33,5 +33,6 @@ Database - James
 
 We have just started this project
 
-Backend Work like the PLayer and Event class are being tested currently. The general class is finished. 
+Backend Work like the Player and Event class are being tested currently. The general classes (Event, Class) are finished. 
 Docker work is progressing fast and SQL work is our next target.
+Integrating SQL plus Event class is a significant milestone the group aims to complete. 
