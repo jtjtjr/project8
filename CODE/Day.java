@@ -8,7 +8,7 @@ import java.util.Random;
 public class Day {
     
     private int dayNumber;
-    //private List<Event> possibleEvents; This needs the Event object
+    private List<Event> possibleEvents; // This needs the Event object
     private boolean survive;
     private int seedValue; //index for possible events
     private Random random; //for random events
@@ -26,13 +26,13 @@ public class Day {
     public Day(int dayNumber, List<Event> possibleEvents) {
         this.dayNumber = dayNumber;
 
-        //needs to be True, in future implementation will need events to alter this function so it will not be private 
+        //needs to be true, in future implementation will need events to alter this function so it will not be private 
         //but rather protecter or public
-        this.survive = True; 
+        this.survive = true; 
         this.possibleEvents = possibleEvents;
 
-        //0 - possibleEvents.size() acting as a random value index, just an idea on how to use an event
-        this.seedValue = new Random().nextInt(possibleEvents.size());
+        //0 - possibleEvents.size() could act as a random value index, just an idea on how to use an event
+        this.seedValue = new Random().nextInt(5); // bound is 5 instead of possibleEvents.size() for now since it errors out otherwise (bound must be >0)
         
         this.random = new Random(this.seedValue);
     }
