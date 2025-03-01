@@ -9,6 +9,25 @@ public class Frontend {
     /*
     * Intro for game
     */
+
+    public static void wait(int milliseconds)
+    {
+        try {
+            Thread.sleep(milliseconds); // simulated delay
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void displayTextFunnily(String text)
+    {
+        for(char c : text.toCharArray())
+        {
+            System.out.print(c);
+            wait(500);
+        }
+    }
+
     public static void introSlide(Scanner scanner) {
 
         /////// Intro block
@@ -23,10 +42,18 @@ public class Frontend {
         System.out.println("*        Will you make it to Cerberus XVII?        *");
         System.out.println("****************************************************");
         
+        /* Now we do the setup */
         System.out.print("USERNAME: ");
-        String username = scanner.nextLine();
-        
+        String username = scanner.nextLine();        
         System.out.println("Welcome, Captain " + username + "! \n");
+
+
+        System.out.print("What is the name of your ship: ");
+        String shipName = scanner.nextLine();  ;
+
+    
+        System.out.println("How large is your crew")
+
         /////// Intro block
         
         // THIS IS NOT FINISHED, JUST SIMULATED FOR TESTING///////////////////////////////////////
@@ -34,11 +61,7 @@ public class Frontend {
         int attempts = 0;
         while (!connected && attempts < 5) {  // Timeout for if it attempst more tha 5 times
             System.out.println("Connecting to servers ...");
-            try {
-                Thread.sleep(1000); // simulated delay
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
+            wait(1000);
             attempts++;
 
             // correct on the 3rd attempt
