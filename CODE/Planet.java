@@ -14,6 +14,11 @@ public class Planet {
     private int dangerLevel;        // Scale of risk for visiting (1-10)
     private List<String> amenities; // List of available services (fuel, food, etc.)
     private List<Event> events;     // Possible events that may happen on this planet
+    private int atmosphere;         //Percent of O2 in in the planet
+
+    private Planet nextPlanet;      //The next planet that will be traveled
+    private boolean firstPlanet;     //The planet that they came from
+    private boolean lastPlanet;      //The destination
 
     /**
      * Constructs a new Planet with the given attributes.
@@ -25,7 +30,7 @@ public class Planet {
      * @param dangerLevel  A rating from 1 to 10 indicating how dangerous this planet is.
      * @param amenities    A list of services available on this planet (e.g., refueling, market).
      */
-    public Planet(String name, String affiliation, int healthPerDay, int crewPerDay, int dangerLevel, List<String> amenities) {
+    public Planet(String name, String affiliation, int healthPerDay, int crewPerDay, int dangerLevel, List<String> amenities, int atmosphere) {
         this.name = name;
         this.affiliation = affiliation;
         this.healthPerDay = healthPerDay;
@@ -33,6 +38,11 @@ public class Planet {
         this.dangerLevel = dangerLevel;
         this.amenities = new ArrayList<>(amenities);
         this.events = new ArrayList<>();
+
+        this.atmosphere = atmosphere;
+        this.firstPlanet = false;
+        this.lastPlanet = false;
+
     }
 
     /**
@@ -99,6 +109,12 @@ public class Planet {
     }
 
     /**
+     * Gets the percent 02 level of the planet
+     * @return the percent 02 level
+     */
+    public int getAtmosphere() { return this.atmosphere; }
+
+    /**
      * Gets the list of events associated with this planet.
      *
      * @return A list of potential events that can happen.
@@ -130,6 +146,56 @@ public class Planet {
     }
 
     /**
+     * This set the next planet in the order of the determined path
+     * @param next the next planet in the path
+     */
+    public void setNextPlanet(Planet next) {
+        if (next != null) {
+            this.nextPlanet = next;
+        } else {
+            throw new IllegalArgumentException("The next planet cannot be null");
+        }
+    }
+
+    /**
+     * This gets the next planet down the line
+     * @return the next planet
+     */
+    public Planet getNextPlanet() {
+        return this.nextPlanet;
+    }
+
+    /**
+     * This sets the current planet as the starting point
+     */
+    public void setStartingPlanet() {
+        this.firstPlanet = true;
+    }
+
+    /**
+     * This sets the current planet as the ending point
+     */
+    public void setLastPlanet() {
+        this.lastPlanet = true;
+    }
+
+    /**
+     * This confirms if the planet is the starting planet
+     * @return true if it's the starting planet
+     */
+    public boolean isStartPlanet() {
+        return this.firstPlanet;
+    }
+
+    /**
+     * This confirms if the planet is the last planet
+     * @return true if it's the last planet
+     */
+    public boolean isLastPlanet() {
+        return this.lastPlanet;
+    }
+
+    /**
      * Displays the planet's information.
      */
     public void displayPlanetInfo() {
@@ -140,5 +206,6 @@ public class Planet {
         System.out.println("Crew Effect Per Day: " + crewPerDay);
         System.out.println("Amenities: " + amenities);
         System.out.println("Number of Possible Events: " + events.size());
+        System.out.println("Atmosphere level: " + atmosphere + "% Oxygen");
     }
 }
