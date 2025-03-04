@@ -163,13 +163,49 @@ public class Frontend {
     /*
      * Prompt User for input
      */
-    public static String inputUser(Scanner scanner)
-    {
-        System.out.print("Input> ");
-        String userInput = scanner.nextLine();
-        System.out.println("Command Received: " + userInput);
-        return userInput;
+    public static String inputUser(Scanner scanner) {
+    System.out.print("Input> ");
+    String userInput = scanner.nextLine();
+    System.out.println("Command Received: " + userInput);
+
+    // Check if user typed "planet" (case insensitive)
+    if (userInput.equalsIgnoreCase("planet")) {
+        queryPlanets();
     }
+
+    return userInput;
+    }
+
+    private static final String URL = "jdbc:mysql://localhost:3306/planet_database";
+    private static final String USER = "myuser";
+    private static final String PASSWORD = "mypassword";
+    
+    public static void queryPlanets() {
+        try {
+            // Load MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Connect to MySQL
+            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Planet");
+
+            while (rs.next()) {
+                System.out.println("Planet: " + rs.getString("name") + " | Affiliation: " + rs.getString("affiliation"));
+            }
+
+            rs.close();
+            stmt.close();
+            conn.close();
+        } catch (ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found!");
+            e.printStackTrace();
+        } catch (SQLException e) {
+            System.out.println("Database connection error!");
+            e.printStackTrace();
+        }
+    }
+
 
     /*
     * This is the Frontend printout for the end of the game
