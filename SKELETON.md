@@ -22,7 +22,7 @@ Core Features
 
 Procedural Events: Random encounters influenced by crew stats and ship condition.
 
-Resource Management: Oxygen, fuel, food, and morale affect survival.
+Resource Management: Resources and morale affect survival.
 
 Decision Trees: Choices impact the journey and its outcomes.
 
@@ -34,7 +34,7 @@ Language: Java
 
 Frontend: Command-line interface
 
-Database: TBD (to store game events and progress)
+Database: SQL database on VM
 
 Development Considerations
 
@@ -60,13 +60,19 @@ Class Structure: Exploring Day vs. Player class interactions.
 
 Next Steps
 
-Finalize object-oriented design approach.
+Finalize object-oriented design approach. (Completed)
 
-Implement basic event and resource management mechanics.
+Implement basic event and resource management mechanics. (Completed)
 
-Establish core game loop and testing framework.
+Establish core game loop and testing framework. (Completed)
 
-Determine database schema and integration strategy.
+Determine database schema and integration strategy. (Completed)
+
+New Next Steps after Sprint 1
+
+Integrate Frontend with the Backend
+
+Populate the SQL database and begin further testing fir the Event class
 
 Notes
 
