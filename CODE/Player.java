@@ -20,6 +20,9 @@ public class Player {
     private int seedValue; //index for possible events
     private Random random; //for random events
 
+    private Planet currentPlanet;
+    //private Event currentEvent; not too sure how we want to do this yet
+
     //Needs a Default Constructor for Day 1
 
     /**
@@ -308,6 +311,22 @@ public class Player {
         if (crewNum > 0) {
             crewNum--;
         }
+    }
+
+    /**
+     * This sets the current planet that the player is currently on
+     * @param currentPlanet the current planet
+     */
+    public void setCurrentPlanet(Planet currentPlanet) {
+        this.currentPlanet = currentPlanet;
+    }
+
+    /**
+     * This returns the current planet that the player is on
+     * @return current planet
+     */
+    public Planet getCurrentPlanet() {
+        return this.currentPlanet;
     }
 
     @Override
