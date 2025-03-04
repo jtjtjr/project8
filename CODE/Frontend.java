@@ -21,7 +21,8 @@ public class Frontend {
             Thread.currentThread().interrupt();
         }
     }
-
+    
+    //TODO - easily changed to a different style
     public static void displayTextSlowly(String text)
     {
         for(char c : text.toCharArray())
@@ -68,8 +69,8 @@ public class Frontend {
         System.out.println("*        Will you make it to Cerberus XVII?        *");
         System.out.println("****************************************************");
         /////// Intro block
-        /// 
-        /// 
+   
+
         /* Now we do the setup */
         System.out.print("USERNAME: ");
         String username = scanner.nextLine();        
@@ -83,7 +84,8 @@ public class Frontend {
         //get the number of crew
         displayTextSlowly("How large is your crew: ");
         int crewNum = -1; 
-
+ 
+        // try catch
         while (crewNum < 1 || crewNum > 15)
         {
             crewNum = parseInt(scanner, "crew size");
@@ -106,6 +108,7 @@ public class Frontend {
         displayTextSlowly("On a scale of 1 to 100, how do you feel about this journey!\n");
         int initialMorale = -1; 
 
+        //TODO: Find a way to RNG this, maybe fix it, initial stats
         while (initialMorale < 1 || initialMorale > 100)
         {
             initialMorale = parseInt(scanner, "morale");
@@ -117,11 +120,21 @@ public class Frontend {
         displayTextSlowly("Excellent!!!\n\n", 1000);
        
         //resources
+        //TODO - potentially advise player on how resources work - more resources means less cargo space
         displayTextSlowly("How many resources are you planning to fill your ship with ... \n", 1000);
         displayTextSlowly("Oh ...\n", 1000);
         displayTextSlowly("And just so you know ...\n", 1000);
         displayTextSlowly("more resources means less cargo space ... \n", 1000);
         int initalResourceCount = parseInt(scanner, "initial resouce count");
+
+
+        //TODO - make function calls to backend to set up the player (calls are based on how I believe the backend will be set up)
+
+        //TODO - Add testing class for all this
+
+        //
+
+
 
         //set up the player count
         //List<Event> events = new ArrayList<Event>(); //theoretically there should be a way to fill this with events

@@ -19,6 +19,7 @@ public class GameLoop
             //get input from the user
             String input = Frontend.inputUser(sc);
 
+            //TODO: Make sure to add Javadocs - meaning adding speificc comments about what the method or class
             if(input.equals("end"))
             {
                 gameOver = true;

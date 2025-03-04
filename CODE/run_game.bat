@@ -1,4 +1,8 @@
-@echo off
+@echo off 
+
+echo Open Docker before other tasks
+
+
 set IMAGE_NAME=java-game
 set CONTAINER_NAME=java-game-container
 
