@@ -13,6 +13,8 @@ public class Event {
     //The negative effect on the player's morale and resources respectivly
     private int morale_effect; //keep positive if assuming this effect is negative
     private int resources_effect;
+    private int event_id;
+    private String event_name;
     // private Random random = new Random(); // Possible to add more chance in gameplay 
     private Player player;
 
@@ -23,11 +25,29 @@ public class Event {
      * @param resources_effect The effect on the player's resources (be a positive value that will be subtracted).
      * @param player The player affected by the event.
      */
-    public Event(String description, int morale_effect, int resources_effect, Player player) {
+    public Event(String description, int event_id, String event_name, int morale_effect, int resources_effect, Player player) {
         this.description = description;
         this.morale_effect = morale_effect;
         this.resources_effect = resources_effect;
         this.player = player;
+        this.event_id = event_id;
+        this.event_name = event_name;
+    }
+
+    /**
+     * Gets the event name
+     * @return The event_name.
+     */
+    public String getEventName() {
+        return event_name;
+    }
+
+    /**
+     * Gets the event id.
+     * @return The event_id .
+     */
+    public int getEventID() {
+        return event_id;
     }
 
     /**

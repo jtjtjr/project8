@@ -15,12 +15,12 @@ public class EventTester {
     @BeforeEach
     void setUp() {
         // Create a test event (Player is set to null since it's not being tested)
-        event = new Event("Test Event", 10, 15, null);
+        event = new Event("Test Event", 1, "coyote", 10, 15, null);
         ArrayList<Event> eventList = new ArrayList<>();
        eventList.add(event);
          test_guy = new Player(1, eventList, 5, 10, 10, null);
-        event_2 = new Event("Test Event_2", 6, 7, test_guy);
-        event_3 = new Event("Test Event_2", 0, 7, test_guy);
+        event_2 = new Event("Test Event_2", 2, "animal" , 6, 7, test_guy);
+        event_3 = new Event("Test Event_2", 3, "bruush attack", 0, 7, test_guy);
     }
 
     //Test getDescription() and setDescription() 
@@ -33,6 +33,16 @@ public class EventTester {
     void testSetDescription(){
         event.setDescription("Updated Event");
         assertEquals("Updated Event", event.getDescription());
+    }
+
+    //Test getEventName() and getEventID() 
+    @Test
+    void testGetName() {
+        assertEquals("coyote", event.getEventName());
+    }
+    @Test
+    void testGetID() {
+        assertEquals(1, event.getEventID());
     }
 
 
