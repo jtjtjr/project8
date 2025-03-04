@@ -20,6 +20,9 @@ public class Player {
     private int seedValue; //index for possible events
     private Random random; //for random events
 
+    private Planet currentPlanet;
+    //private Event currentEvent; not too sure how we want to do this yet
+
     //Needs a Default Constructor for Day 1
 
     /**
@@ -38,8 +41,8 @@ public class Player {
         this.survive = true; 
         this.possibleEvents = possibleEvents;// - this still needs to be implemented
 
-        //0 - possibleEvents.size() acting as a random value index, just an idea on how to use an event
-        this.seedValue = new Random().nextInt(possibleEvents.size());
+        //0 - possibleEvents.size() could act as a random value index, just an idea on how to use an event
+        this.seedValue = new Random().nextInt(5); // bound is 5 instead of possibleEvents.size() for now since it errors out otherwise (bound must be >0)
         
         this.random = new Random(this.seedValue);
 
@@ -226,6 +229,9 @@ public class Player {
      * @param crewNum new number of crew members
      */
     public void setCrewNum(int crewNum) {
+        if(crewNum < 0) {
+            throw new IllegalArgumentException("Crew number cannot be negative");
+        }
         this.crewNum = crewNum;
     }
 
@@ -242,6 +248,9 @@ public class Player {
      * @param morale new morale value
      */
     public void setMorale(int morale) {
+        if(morale < 0) {
+            throw new IllegalArgumentException("Morale cannot be negative");
+        }
         this.morale = morale;
     }
 
@@ -258,6 +267,9 @@ public class Player {
      * @param resources new resources value
      */
     public void setResources(int resources) {
+        if(resources < 0) {
+            throw new IllegalArgumentException("Resources cannot be negative");
+        }
         this.resources = resources;
     }
 
@@ -266,7 +278,11 @@ public class Player {
      * @param change amount to change morale by
      */
     public void updateMorale(int change) {
-        morale += change;
+        if(morale + change < 0) {
+            morale = 0;
+        } else {
+            morale += change;
+        }
     }
 
     /**
@@ -295,6 +311,22 @@ public class Player {
         if (crewNum > 0) {
             crewNum--;
         }
+    }
+
+    /**
+     * This sets the current planet that the player is currently on
+     * @param currentPlanet the current planet
+     */
+    public void setCurrentPlanet(Planet currentPlanet) {
+        this.currentPlanet = currentPlanet;
+    }
+
+    /**
+     * This returns the current planet that the player is on
+     * @return current planet
+     */
+    public Planet getCurrentPlanet() {
+        return this.currentPlanet;
     }
 
     @Override
