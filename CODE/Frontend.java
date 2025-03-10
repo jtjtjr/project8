@@ -6,6 +6,9 @@ import java.util.Scanner;
  * This is the Frontend
  */
 public class Frontend {
+    /*
+     * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
+     */
     public static void wait(int milliseconds)
     {
         try {
@@ -15,6 +18,9 @@ public class Frontend {
         }
     }
 
+    /*
+     * This function displays text slowly, simulating a typewriter effect
+     */
     public static void displayTextSlowly(String text)
     {
         for(char c : text.toCharArray())
@@ -24,12 +30,18 @@ public class Frontend {
         }
     }
 
+    /*
+     * Displays text slowly but waits for a certain amount of time after displaying the text
+     */
     public static void displayTextSlowly(String text, int milliseconds)
     {
         displayTextSlowly(text);
         wait(milliseconds);
     }
     
+    /*
+     * This function parses an integer from the scanner, and prompts the user for input until a valid integer is entered
+     */
     public static int parseInt(Scanner scanner, String property)
     {
         int num = 0;
@@ -47,6 +59,9 @@ public class Frontend {
         return num;
     }
 
+    /*
+     * Basic Intro slide for the game
+     */
     public static void introSlide(Scanner scanner) {
         /////// Intro block
         System.out.println("****************************************************");
@@ -139,6 +154,9 @@ public class Frontend {
         /////// END BLOCK
     }
 
+    /*
+     * input gathering function that gets information from user
+     */
     public static int[] resourceStore(Scanner scanner) {
         int startingPoints = 10000;
 
@@ -197,7 +215,7 @@ public class Frontend {
         displayTextSlowly("On a scale of 1 to 100, how do you want your crew to feel about this journey (remember it costs you!): ");
         int initialMorale = -1; 
 
-        while (initialMorale < 1 || initialMorale > 100)
+        while (initialMorale < 30 || initialMorale > 70)
         {
             initialMorale = parseInt(scanner, "morale");
 

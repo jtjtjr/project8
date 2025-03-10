@@ -2,8 +2,14 @@
 
 import java.util.Scanner;
 
+/*
+ * This is the GameLoop where the whole game is run from
+ */
 public class GameLoop
 {
+    /*
+     * main loop where entire game runs
+     */
     public static void main(String[] args) {
 
         //Initialize scanner to be used by all programs

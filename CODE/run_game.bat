@@ -2,6 +2,24 @@
 set IMAGE_NAME=java-game
 set CONTAINER_NAME=java-game-container
 
+echo Checking if Docker Desktop is running...
+tasklist | findstr /I "Docker Desktop" >nul
+if errorlevel 1 (
+    echo Starting Docker Desktop...
+    start "" "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+    
+    echo Waiting for Docker to initialize...
+    timeout /t 10 /nobreak >nul
+    
+    :CHECK_DOCKER
+    docker info >nul 2>&1
+    if errorlevel 1 (
+        echo Docker is still starting, waiting...
+        timeout /t 5 /nobreak >nul
+        goto CHECK_DOCKER
+    )
+)
+
 echo Building Docker image...
 docker build -t %IMAGE_NAME% .
 
