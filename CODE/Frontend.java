@@ -1,18 +1,11 @@
 // package project; // fix this with whole project
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /*
  * This is the Frontend
  */
 public class Frontend {
-    /*
-    * Intro for game
-    */
-
     public static void wait(int milliseconds)
     {
         try {
@@ -55,7 +48,6 @@ public class Frontend {
     }
 
     public static void introSlide(Scanner scanner) {
-
         /////// Intro block
         System.out.println("****************************************************");
         System.out.println("*                                                  *");
@@ -68,67 +60,20 @@ public class Frontend {
         System.out.println("*        Will you make it to Cerberus XVII?        *");
         System.out.println("****************************************************");
         /////// Intro block
-        /// 
-        /// 
+
         /* Now we do the setup */
         System.out.print("USERNAME: ");
-        String username = scanner.nextLine();        
+        String username = scanner.nextLine();   
         displayTextSlowly("Welcome, Captain " + username + "! \n\n");
 
         //get the ship name
         displayTextSlowly("What will you call your ship: ");
-        String shipName = scanner.nextLine(); 
+        String shipName = scanner.nextLine();  
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
+
+        resourceStore(scanner);
+
         
-        //get the number of crew
-        displayTextSlowly("How large is your crew: ");
-        int crewNum = -1; 
-
-        while (crewNum < 1 || crewNum > 15)
-        {
-            crewNum = parseInt(scanner, "crew size");
-
-            if(crewNum < 1) 
-            {
-                displayTextSlowly("Really ... ", 1000);
-                displayTextSlowly("you need SOMEONE to manage the crew!!! \n", 1000);
-            }
-            if(crewNum > 10)
-            {
-                displayTextSlowly("Hmm ... ", 1000);     
-                displayTextSlowly("That\'s a bit too many mouths to feed. \n", 1000);   
-            }       
-        }
-
-        displayTextSlowly("Excellent!!!\n\n", 1000);
-
-        //initial morale
-        displayTextSlowly("On a scale of 1 to 100, how do you feel about this journey!\n");
-        int initialMorale = -1; 
-
-        while (initialMorale < 1 || initialMorale > 100)
-        {
-            initialMorale = parseInt(scanner, "morale");
-
-            if(initialMorale < 30) displayTextSlowly("Oh come on you've got to have more than that! ... \n", 1000);
-            if(initialMorale > 70) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n", 1000);            
-        }
-
-        displayTextSlowly("Excellent!!!\n\n", 1000);
-       
-        //resources
-        displayTextSlowly("How many resources are you planning to fill your ship with ... \n", 1000);
-        displayTextSlowly("Oh ...\n", 1000);
-        displayTextSlowly("And just so you know ...\n", 1000);
-        displayTextSlowly("more resources means less cargo space ... \n", 1000);
-        int initalResourceCount = parseInt(scanner, "initial resouce count");
-
-        //set up the player count
-        //List<Event> events = new ArrayList<Event>(); //theoretically there should be a way to fill this with events
-        //Player player = new Player(0, events, crewNum, initialMorale, initalResourceCount, shipName);
-
-        wait(2000);
-        displayTextSlowly("Upload Complete\n");
 
         // THIS IS NOT FINISHED, JUST SIMULATED FOR TESTING///////////////////////////////////////
         boolean connected = false;
@@ -167,45 +112,9 @@ public class Frontend {
     System.out.print("Input> ");
     String userInput = scanner.nextLine();
     System.out.println("Command Received: " + userInput);
-
-    // Check if user typed "planet" (case insensitive)
-    if (userInput.equalsIgnoreCase("planet")) {
-        queryPlanets();
-    }
-
     return userInput;
     }
-
-    private static final String URL = "jdbc:mysql://localhost:3306/planet_database";
-    private static final String USER = "myuser";
-    private static final String PASSWORD = "mypassword";
     
-    public static void queryPlanets() {
-        try {
-            // Load MySQL JDBC driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
-
-            // Connect to MySQL
-            Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Planet");
-
-            while (rs.next()) {
-                System.out.println("Planet: " + rs.getString("name") + " | Affiliation: " + rs.getString("affiliation"));
-            }
-
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (ClassNotFoundException e) {
-            System.out.println("MySQL JDBC Driver not found!");
-            e.printStackTrace();
-        } catch (SQLException e) {
-            System.out.println("Database connection error!");
-            e.printStackTrace();
-        }
-    }
-
 
     /*
     * This is the Frontend printout for the end of the game
@@ -228,5 +137,127 @@ public class Frontend {
             System.out.println("Well, at least you are replacable");
         }
         /////// END BLOCK
+    }
+
+    public static int[] resourceStore(Scanner scanner) {
+        int startingPoints = 10000;
+
+        System.out.println("*****************************************************************************************************");
+        System.out.println("  ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  _____  ____  ____  ____  ");
+        System.out.println(" (_  _)( )_( )( ___)   / __)(  _  )(  \\/  )(  _ \\ /__\\  ( \\( )( \\/ )  / __)(  _  )(_  _)(  _ \\( ___) ");
+        System.out.println("   )(   ) _ (  )__)   ( (__  )(_)(  )    (  )___//(__)\\  )  (  \\  /   \\__ \\ )(_)(   )(   )   / )__)  ");
+        System.out.println("  (__) (_) (_)(____)   \\___)(_____)(_/\\/\\_)(__) (__)(__)(_)\\_) (__)   (___/(_____) (__) (_)_)(____)  ");
+        System.out.println("*****************************************************************************************************");
+        System.out.println("*   ATTRIBUTE   *   COMPANY POINTS   *   DESCRIPTION                                                *");
+        System.out.println("*****************************************************************************************************");
+        System.out.println("*     MORALE    *       40           *   Happy crew members are going to cost you...                *");
+        System.out.println("*****************************************************************************************************");
+        System.out.println("*     CREW      *       100          *   Bodies cost money!                                         *");
+        System.out.println("*****************************************************************************************************");
+        System.out.println("*   RESOURCES   *       10           *   Gotta eat, gotta fuel (the first planet requires >50 units)*");
+        System.out.println("*****************************************************************************************************");
+        System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
+        System.out.println("*****************************************************************************************************");
+
+        System.err.println("Remaining Balance:" + startingPoints);
+
+        //get the number of crew
+        displayTextSlowly("How large is your crew: ");
+        int crewNum = -1; 
+
+        while (crewNum < 1 || crewNum > 10)
+        {
+            crewNum = parseInt(scanner, "crew size");
+
+            if(crewNum < 1) 
+            {
+                displayTextSlowly("Really ... ", 1000);
+                displayTextSlowly("you need SOMEONE to manage the crew!!! \n", 1000);
+            }
+            if(crewNum > 10)
+            {
+                displayTextSlowly("Hmm ... ", 1000);     
+                displayTextSlowly("That\'s a bit too many mouths to feed. \n", 1000);   
+            }       
+        }
+
+        startingPoints = startingPoints - crewNum * 100;
+
+        System.err.println("Remaining Balance:" + startingPoints);
+        
+        if (startingPoints < 0) {
+            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+            gameEnd(false);
+            return new int[]{0, 0, 0};
+        }
+
+        displayTextSlowly("Excellent!!!\n\n", 1000);
+
+        //initial morale
+        displayTextSlowly("On a scale of 1 to 100, how do you want your crew to feel about this journey (remember it costs you!): ");
+        int initialMorale = -1; 
+
+        while (initialMorale < 1 || initialMorale > 100)
+        {
+            initialMorale = parseInt(scanner, "morale");
+
+            if(initialMorale < 30) displayTextSlowly("Oh come on you've got to have more than that! ... \n", 1000);
+            if(initialMorale > 70) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n", 1000);            
+        }
+
+        startingPoints = startingPoints - initialMorale * 40;
+        
+        System.err.println("Remaining Balance:" + startingPoints);
+
+        if (startingPoints < 0) {
+            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+            gameEnd(false);
+            return new int[]{0, 0, 0};
+        }
+
+        displayTextSlowly("Excellent!!!\n\n", 1000);
+       
+        //resources
+        displayTextSlowly("How many resources are you planning to fill your ship with ... \n", 1000);
+        displayTextSlowly("Oh ...\n", 1000);
+        displayTextSlowly("And just so you know ...\n", 1000);
+        displayTextSlowly("more resources means less cargo space ... \n", 1000);
+        displayTextSlowly("Remaining Cargo Space: 1000 Units (1 Resource takes 1 unit!)");
+        displayTextSlowly("Resources: ");
+        int initialResourceCount = parseInt(scanner, "initial resouce count");
+
+        while (initialResourceCount < 50 || initialResourceCount > 1000) { 
+            
+            initialResourceCount = parseInt(scanner, "resourses");
+
+            if(initialResourceCount < 50) {
+                displayTextSlowly("You will be unable to make it to the next planet ...\n");
+            }
+            if(initialResourceCount > 1000) {
+                displayTextSlowly("You ran out of cargo capacity, dumbass ...\n");
+            }
+        }
+
+        startingPoints = startingPoints - initialResourceCount * 10;
+
+        System.err.println("Remaining Balance:" + startingPoints);
+
+        if (startingPoints < 0) {
+            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+            gameEnd(false);
+            return new int[]{0, 0, 0};
+        }
+
+        displayTextSlowly("Excellent!!!\n\n", 1000);
+
+        /////////// IMPLEMENT SHIP LOGIC HERE ////////////
+
+        wait(2000);
+
+        System.err.println("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount);
+        displayTextSlowly("Upload Complete\n");
+        
+        int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
+        return resourcesAmount;
     }
 }
