@@ -1,18 +1,6 @@
 version: '3.8'
 services:
-  db:
-    image: mysql:latest
-    container_name: planet_db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
-      MYSQL_DATABASE: planet_database
-    ports:
-      - "3306:3306"
-    volumes:
-      - db_data:/var/lib/mysql
+  # Database service removed
 
 volumes:
-  db_data:
+  # Volume definition removed since it's no longer needed

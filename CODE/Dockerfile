@@ -5,11 +5,10 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy your Java source files into the container
-COPY Event.java Player.java Frontend.java GameLoop.java ./
+COPY Frontend.java GameLoop.java ./
 
 # Compile the Java files
-RUN javac Event.java Player.java Frontend.java GameLoop.java
+RUN javac Frontend.java GameLoop.java
 
-
-# Run game
-CMD ["java", "-cp", ".:mysql-connector-java-8.0.xx.jar", "GameLoop"]
+# Run the game
+CMD ["java", "GameLoop"]
