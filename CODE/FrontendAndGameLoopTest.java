@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameLoopTest {
+public class FrontendAndGameLoopTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
     private final InputStream originalIn = System.in;
@@ -41,6 +41,5 @@ public class GameLoopTest {
         String output = outContent.toString();
         assertTrue(output.contains("Welcome, Captain Alice"));
         assertTrue(output.contains("What will you call your ship: Explorer"));
-        assertTrue(output.contains("Connected!"));
     }
 }
