@@ -301,6 +301,10 @@ public class Frontend {
         return resourcesAmount;
     }
 
+    /*
+     * This is the event integration
+     * it does not have the SQL database added yet but just tests multiple types of events and includes the random class
+     */
     public static void runEventsIntegrationTest(Player curr) {
         Random random = new Random(); //We will need to simulate randomness
         int eventNumber = random.nextInt(3) + 1; //between 1 and 3
