@@ -42,8 +42,8 @@ class EventConnector {
             }
 
             //Example usage
-            if(events.get(0).getEventID()==1){
-                System.out.println("Work on getting JUNIT fixed");
+            if(events.get(0).getEventID()==1 && events.get(0).getEventName().equals("Ion Array Failure")){
+                System.out.println("Test 1 completed");
             }
 
             //end the connection
