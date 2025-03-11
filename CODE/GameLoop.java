@@ -24,9 +24,10 @@ public class GameLoop {
 
         while (!gameOver) {
             String input = Frontend.inputUser(scanner);
-            if (input.equals("end")) {
+            if (input.equals("end") || !Frontend.playerStatus()) {
                 gameOver = true;
             }
+            
         }
 
         Frontend.gameEnd(gameOver);
