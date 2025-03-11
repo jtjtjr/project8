@@ -2,32 +2,38 @@
 
 import java.util.Scanner;
 
-public class GameLoop
-{
-    public static void main(String[] args) {
+/*
+ * This is the GameLoop where the whole game is run from
+ */
+public class GameLoop {
+    private final Scanner scanner;
 
-        //Initialize scanner to be used by all programs
-        Scanner sc = new Scanner(System.in);
+    // Constructor for dependency injection
+    public GameLoop(Scanner scanner) {
+        this.scanner = scanner;
+    }
 
-        //run the intro slide
-        Frontend.introSlide(sc);
+    // Default constructor for main
+    public GameLoop() {
+        this(new Scanner(System.in));
+    }
 
+    public void runGame() {
+        Frontend.introSlide(scanner);
         boolean gameOver = false;
 
-        while(!gameOver)
-        {
-            //get input from the user
-            String input = Frontend.inputUser(sc);
-
-            if(input.equals("end"))
-            {
+        while (!gameOver) {
+            String input = Frontend.inputUser(scanner);
+            if (input.equals("end")) {
                 gameOver = true;
             }
         }
-        
-        // This is the main game loop
-        Frontend.gameEnd(gameOver);
 
-        sc.close();
+        Frontend.gameEnd(gameOver);
+    }
+
+    public static void main(String[] args) {
+        GameLoop game = new GameLoop();
+        game.runGame();
     }
 }
