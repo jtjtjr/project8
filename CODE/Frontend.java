@@ -7,9 +7,8 @@ import java.util.Scanner;
  */
 public class Frontend {
     /*
-    * Intro for game
-    */
-
+     * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
+     */
     public static void wait(int milliseconds)
     {
         try {
@@ -19,6 +18,9 @@ public class Frontend {
         }
     }
 
+    /*
+     * This function displays text slowly, simulating a typewriter effect
+     */
     public static void displayTextSlowly(String text)
     {
         for(char c : text.toCharArray())
@@ -28,12 +30,18 @@ public class Frontend {
         }
     }
 
+    /*
+     * Displays text slowly but waits for a certain amount of time after displaying the text
+     */
     public static void displayTextSlowly(String text, int milliseconds)
     {
         displayTextSlowly(text);
         wait(milliseconds);
     }
     
+    /*
+     * This function parses an integer from the scanner, and prompts the user for input until a valid integer is entered
+     */
     public static int parseInt(Scanner scanner, String property)
     {
         int num = 0;
@@ -51,11 +59,10 @@ public class Frontend {
         return num;
     }
 
+    /*
+     * Basic Intro slide for the game
+     */
     public static void introSlide(Scanner scanner) {
-
-        System.out.println("DEBUG: Calling resourceStore");
-        resourceStore(scanner);
-
         /////// Intro block
         System.out.println("****************************************************");
         System.out.println("*                                                  *");
@@ -68,18 +75,18 @@ public class Frontend {
         System.out.println("*        Will you make it to Cerberus XVII?        *");
         System.out.println("****************************************************");
         /////// Intro block
-        
-        resourceStore(scanner);
 
         /* Now we do the setup */
         System.out.print("USERNAME: ");
-        String username = scanner.nextLine();        
+        String username = scanner.nextLine();   
         displayTextSlowly("Welcome, Captain " + username + "! \n\n");
 
         //get the ship name
         displayTextSlowly("What will you call your ship: ");
-        String shipName = scanner.nextLine(); 
+        String shipName = scanner.nextLine();  
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
+
+        resourceStore(scanner);
 
         
 
@@ -147,6 +154,9 @@ public class Frontend {
         /////// END BLOCK
     }
 
+    /*
+     * input gathering function that gets information from user
+     */
     public static int[] resourceStore(Scanner scanner) {
         int startingPoints = 10000;
 
@@ -166,6 +176,8 @@ public class Frontend {
         System.out.println("*****************************************************************************************************");
         System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
         System.out.println("*****************************************************************************************************");
+
+        System.err.println("Remaining Balance:" + startingPoints);
 
         //get the number of crew
         displayTextSlowly("How large is your crew: ");
@@ -188,6 +200,8 @@ public class Frontend {
         }
 
         startingPoints = startingPoints - crewNum * 100;
+
+        System.err.println("Remaining Balance:" + startingPoints);
         
         if (startingPoints < 0) {
             System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
@@ -198,10 +212,10 @@ public class Frontend {
         displayTextSlowly("Excellent!!!\n\n", 1000);
 
         //initial morale
-        displayTextSlowly("On a scale of 1 to 100, how do you want your crew to feel about this journey (remember it costs you!)\n");
+        displayTextSlowly("On a scale of 1 to 100, how do you want your crew to feel about this journey (remember it costs you!): ");
         int initialMorale = -1; 
 
-        while (initialMorale < 1 || initialMorale > 100)
+        while (initialMorale < 30 || initialMorale > 70)
         {
             initialMorale = parseInt(scanner, "morale");
 
@@ -211,6 +225,8 @@ public class Frontend {
 
         startingPoints = startingPoints - initialMorale * 40;
         
+        System.err.println("Remaining Balance:" + startingPoints);
+
         if (startingPoints < 0) {
             System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
@@ -224,6 +240,8 @@ public class Frontend {
         displayTextSlowly("Oh ...\n", 1000);
         displayTextSlowly("And just so you know ...\n", 1000);
         displayTextSlowly("more resources means less cargo space ... \n", 1000);
+        displayTextSlowly("Remaining Cargo Space: 1000 Units (1 Resource takes 1 unit!)");
+        displayTextSlowly("Resources: ");
         int initialResourceCount = parseInt(scanner, "initial resouce count");
 
         while (initialResourceCount < 50 || initialResourceCount > 1000) { 
@@ -238,7 +256,9 @@ public class Frontend {
             }
         }
 
-        startingPoints = startingPoints - initialResourceCount * 100;
+        startingPoints = startingPoints - initialResourceCount * 10;
+
+        System.err.println("Remaining Balance:" + startingPoints);
 
         if (startingPoints < 0) {
             System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
@@ -251,9 +271,11 @@ public class Frontend {
         /////////// IMPLEMENT SHIP LOGIC HERE ////////////
 
         wait(2000);
+
+        System.err.println("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount);
         displayTextSlowly("Upload Complete\n");
         
-        int[] resourcesAmount = {0, 0, 0};
+        int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
         return resourcesAmount;
     }
 }
