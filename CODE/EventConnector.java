@@ -41,10 +41,102 @@ class EventConnector {
                 events.add(event);
             }
 
+            //////NOTE
+            //This is a makeshift way to run tests stince JUNIT is not working
+
+            int total_tests_1 = 4;
+            int total_tests_2 = 4;
+            int test1_passes = 0;
+            String failures_test1 = "";
+            String failures_test2 = "";
+            int test2_passes = 0;
+
+            ////////////////////////////////////////////
             //Example usage
+            // Test 1 of ID =1  
+            //Test the ID and eventName
             if(events.get(0).getEventID()==1 && events.get(0).getEventName().equals("Ion Array Failure")){
-                System.out.println("Test 1 completed");
+                test1_passes++;
             }
+            else{
+                failures_test1 = failures_test1 + "Failed EventID or the Name of the event was wrong\n";
+            }
+
+            //Test 2 check the description
+            if( events.get(0).getDescription().equals("*You hear a loud scrape and the sound of sparks.*\nShit...\n*You hear the high voltage from a transformer.*\nThe Ion Array must have failed.\nWhat should you do to fix it?")){
+                test1_passes++;
+            }
+            else{
+                failures_test1 = failures_test1 + "Failed the desciption check\n";
+            }
+
+            //Test 3 check the resources
+            if(events.get(0).getResourcesEffect()==5){
+                test1_passes++;
+            }
+            else{
+                failures_test1 = failures_test1 + "Failed to get the right resources\n";
+            }
+
+            //Test 4 check the morale
+            if(events.get(0).getMoraleEffect()==3 ){
+                test1_passes++;
+            }
+            else{
+                failures_test1 = failures_test1 + "Failed to get the right morale\n";
+            }
+
+            if (total_tests_1 == test1_passes){
+                System.out.println("Test for the first have passed!");
+            }
+            else{
+                System.out.println("Here are the Failures: "+ failures_test1);
+            }
+
+
+            //////////////////////////////////////////
+            // Test 1 of ID =2  
+            //Test the ID and eventName
+            if(events.get(1).getEventID()==2 && events.get(1).getEventName().equals("Solar Panel Malfunction")){
+                test2_passes++;
+            }
+            else{
+                failures_test2 = failures_test2 + "Failed EventID or the Name of the event was wrong\n";
+            }
+
+            //Test 2 check the description
+            if( events.get(1).getDescription().equals("You notice a strange flickering on the solar panels, and power seems unstable. The crew is getting worried about energy loss.")){
+                test2_passes++;
+            }
+            else{
+                failures_test2 = failures_test2 + "Failed the desciption check\n";
+            }
+
+            //Test 3 check the resources
+            if(events.get(1).getResourcesEffect()==4){
+                test2_passes++;
+            }
+            else{
+                failures_test2 = failures_test2  + "Failed to get the right resources\n";
+            }
+
+            //Test 4 check the morale
+            if(events.get(1).getMoraleEffect()==2 ){
+                test2_passes++;
+            }
+            else{
+                failures_test2 = failures_test2 + "Failed to get the right morale\n";
+            }
+
+            if (total_tests_2 == test2_passes){
+                System.out.println("Test for the second item in the db have passed!");
+            }
+            else{
+                System.out.println("Here are the Failures: "+ failures_test2);
+            }
+
+
+           
 
             //end the connection
             dbCxn.close();
