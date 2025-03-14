@@ -6,21 +6,31 @@ import java.util.List;
  */
 public class Player {
     
-    private Ship ship;
+    private String shipName;
     private int crewNum;
     private int morale;
     private int resources;
-    private int location;
-
+    private Planet currentPlanet;
     private int dayNumber;
     private boolean survive;
 
-    private Planet currentPlanet;
     //private Event currentEvent; not too sure how we want to do this yet
 
-    //Needs a Default Constructor for Day 1
-
     /**
+     * Default Constructor that takes no input yet (testing??)
+     */
+    public Player() {
+        this.dayNumber = 1;
+        this.survive = true;
+
+        this.morale = -1;
+        this.crewNum = -1;
+        this.resources = -1;
+        this.shipName = "";
+        this.currentPlanet = null;
+    }
+
+    /**                 //NEED TO DECIDE WHAT PARAM TO TAKE
      * Constructs a Day object with a specified day number and list of possible events
      *The survival status is initially set to true
      *A seed value is randomly selected based on the size of the possible events list
@@ -29,119 +39,13 @@ public class Player {
      */
     public Player(int dayNumber, int crewNum, int morale, int resources, String shipName) {
         this.dayNumber = dayNumber;
-
-        //needs to be True, in future implementation will need events to alter this function so it will not be private 
-        //but rather protecter or public
         this.survive = true; 
 
         // The Ship portion
         this.crewNum = crewNum;
         this.morale = morale;
         this.resources = resources;
-        this.ship = new Ship(shipName);
-    }
-
-    /**
-     * Inner class representing the Ship.
-     */
-    public class Ship {
-        private String name;
-
-        /**
-         * Constructor for Ship class.
-         * @param name name of the ship
-         */
-        public Ship(String name) {
-            this.name = name;
-        }
-
-        /**
-         * Retrieves the ship's name.
-         * @return ship name
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Sets the ship's name.
-         * @param name new ship name
-         */
-        public void setName(String name) {
-            this.name = name;
-        }
-    }
-
-    /**
-     * enum for what roles each Crew can be
-     */
-    public enum CrewRole {
-        KNIGHT,
-        MAGE,
-        ARCHER;
-
-        public static CrewRole roleID(int ID) {
-            switch (ID) {
-                case 1:
-                    return KNIGHT;
-                case 2:
-                    return MAGE;
-                case 3:
-                    return ARCHER;
-                default:
-                    throw new IllegalArgumentException();
-            }
-        }
-    }
-
-    /**
-     * Crew class with info about the crew, ie. stats and crewRole
-     */
-    public class Crew {
-        protected final CrewRole role;
-        protected int health;
-        protected int strength;
-        protected int intelligence;
-
-        public Crew(int ID) {
-             role = CrewRole.roleID(ID);
-
-            switch (role) {
-                case KNIGHT:
-                    health = 100;
-                    strength = 20;
-                    intelligence = 10;
-                    break;
-                case MAGE:
-                    health = 30;
-                    strength = 50;
-                    intelligence = 50;
-                    break;
-                case ARCHER:
-                    health = 40;
-                    strength = 40;
-                    intelligence = 50;
-                    break;
-            }
-        }
-
-        public int getHealth() { return this.health; }
-
-        public int getStrength() { return this.strength; }
-
-        public int getIntelligence() { return this.intelligence; }
-
-        public CrewRole getRole() { return this.role; }
-        
-        @Override
-        public String toString() {
-            return "Crew{" +
-                    "role=" + role +
-                    ", health=" + health +
-                    ", strength=" + strength +
-                    ", intelligence=" + intelligence +
-                    '}';
-        }
+        this.shipName = shipName;
     }
 
     /**
@@ -150,6 +54,17 @@ public class Player {
      */
     public int getDayNumber() {
         return dayNumber;
+    }
+
+    /**
+     * Changes the day plus one if survival is true
+     * @return true if the day successfuly change forward
+     */
+    public void incrementDay() {
+        if (survive) 
+        {
+            dayNumber++; //move to the next day
+        }
     }
 
     /**
@@ -162,52 +77,28 @@ public class Player {
 
      /**
      * sets the surivial boolean status.
+     * @param survival is the player alive
      * @return The survival boolean
      */
-    public boolean setSurvivalBoolean(boolean survive_change) {
-        survive = survive_change;
+    public boolean setSurvivalBoolean(boolean survival) {
+        survive = survival;
         return survive;
     }
 
     /**
-     * Changes the day plus one if survival is true
-     * @return true if the day successfuly change forward
+     * Get the name of the ship
+     * @return the ship name
      */
-    public boolean nextDay() {
-        if (survive) 
-        {
-            dayNumber++; //move to the next day
-            return true;
-        }
-        //additional functionality 
-        return false; //did not survive
+    public String getShipName() {
+        return shipName;
     }
 
     /**
-     * Retrieves the ship object.
-     * @return the ship
+     * Set the name of the ship
+     * @param shipName name of ship
      */
-    public Ship getShip() {
-        return ship;
-    }
-
-    /**
-     * Retrieves the number of crew members.
-     * @return number of crew members
-     */
-    public int getCrewNum() {
-        return crewNum;
-    }
-
-    /**
-     * Sets the number of crew members.
-     * @param crewNum new number of crew members
-     */
-    public void setCrewNum(int crewNum) {
-        if(crewNum < 0) {
-            throw new IllegalArgumentException("Crew number cannot be negative");
-        }
-        this.crewNum = crewNum;
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
     }
 
     /**
@@ -215,7 +106,7 @@ public class Player {
      * @return morale value
      */
     public int getMorale() {
-        return morale;
+        return this.morale;
     }
 
     /**
@@ -230,6 +121,30 @@ public class Player {
     }
 
     /**
+     * Add to current morale caps at 100
+     * @param morale number of morale added
+     */
+    public void addMorale(int morale) {
+        if (100 - this.morale < morale) {
+            this.morale = 100;
+        } else {
+            this.morale += morale;
+        }
+    }
+
+    /**
+     * Remove to current morale, min of 0
+     * @param morale number of morale lost
+     */
+    public void removeMorale(int morale) {
+        if (this.morale < morale) {
+            this.morale = 0;
+        } else {
+            this.morale -= morale;
+        }
+    }
+
+    /**
      * Retrieves the amount of resources.
      * @return amount of resources
      */
@@ -239,7 +154,7 @@ public class Player {
 
     /**
      * Sets the amount of resources.
-     * @param resources new resources value
+     * @param this.resources new resources value
      */
     public void setResources(int resources) {
         if(resources < 0) {
@@ -249,43 +164,62 @@ public class Player {
     }
 
     /**
-     * Updates morale by a given change amount.
-     * @param change amount to change morale by
+     * Add to current resource
+     * @param resources new resources value
      */
-    public void updateMorale(int change) {
-        if(morale + change < 0) {
-            morale = 0;
-        } else {
-            morale += change;
-        }
+    public void addResources(int resources) {
+        this.resources += resources;
     }
 
     /**
      * Uses specified resources, if available.
-     * @param amount amount of resources to use
+     * @param resources amount of resources to use
      */
-    public void useResources(int amount) {
-        if (resources >= amount) {
-            resources -= amount;
+    public void removeResources(int resources) {
+        if (this.resources >= resources) {
+            this.resources -= resources;
         } else {
             System.out.println("Not enough resources!");
         }
     }
 
     /**
-     * Adds one crew member.
+     * Sets the number of crew members.
+     * @param crewNum new number of crew members
      */
-    public void addCrewMember() {
-        crewNum++;
+    public void setCrewNum(int crewNum) {
+        if(crewNum < 0) {
+            throw new IllegalArgumentException("Crew number cannot be negative");
+        }
+        this.crewNum = crewNum;
     }
 
     /**
-     * Removes one crew member if any are present.
+     * Add crew members.
+     * @param num number of crew added
      */
-    public void removeCrewMember() {
-        if (crewNum > 0) {
-            crewNum--;
+    public void addCrewNum(int num) {
+        this.crewNum += num;
+    }
+
+    /**
+     * Removes crew Members
+     * @param num number of crew remove
+     */
+    public void removeCrewNum(int num) {
+        if (crewNum > num) {
+            crewNum -= num;
+        } else {
+            setSurvivalBoolean(false);
         }
+    }
+
+    /**
+     * Retrieves the number of crew members.
+     * @return number of crew members
+     */
+    public int getCrewNum() {
+        return crewNum;
     }
 
     /**
@@ -304,14 +238,23 @@ public class Player {
         return this.currentPlanet;
     }
 
+
+    /**
+     * Retrieves the seed value
+     * @return the integer seedvalue
+     */
+    public int getSeedValue() {
+        return seedValue;
+    }
+
     @Override
     public String toString() {
         return "Player{" +
-                "ship=" + ship +
+                " shipName=" + shipName +
                 ", crewNum=" + crewNum +
                 ", morale=" + morale +
                 ", resources=" + resources +
                 ", dayNumber=" + dayNumber +
-                '}';
+                " }";
     }
 }
