@@ -394,15 +394,31 @@ public class Frontend {
      */
     public static void travelToNextPlanet() {
         if (currentPlanet != null && currentPlanet.getNextPlanet() != null) {
-            System.out.println("\nTraveling to " + currentPlanet.getNextPlanet().getName() + "...");
+            Planet nextPlanet = currentPlanet.getNextPlanet();
+            
+            // Announce departure
+            System.out.println("\nTraveling to " + nextPlanet.getName() + "...");
             wait(2000);
-            currentPlanet = currentPlanet.getNextPlanet();
-            cur_player.setCurrentPlanet(currentPlanet);
-            displayCurrentPlanet();
+
+            // Trigger the event before reaching the new planet
             currentPlanet.triggerRandomEvent(cur_player);
+
+            // Check if the player survived the event
+            if (!cur_player.getSurvivalBoolean()) {
+                System.out.println("You have died during the journey...");
+                return;
+            }
+
+            // Now officially change the planet and display its info
+            currentPlanet = nextPlanet;
+            cur_player.setCurrentPlanet(currentPlanet);
+            
+            // Announce arrival
+            System.out.println("\nYou have arrived at " + currentPlanet.getName() + "!");
+            displayCurrentPlanet();
+            
         } else if (currentPlanet.isLastPlanet()) {
             System.out.println("You have reached your final destination!");
-            return;
         } else {
             System.out.println("No further planets to travel to.");
         }
