@@ -2,8 +2,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-
 /**
  * Unit tests for the Player class.
  */
@@ -13,8 +11,7 @@ public class PlayerTester {
     @BeforeEach
     void setUp() {
         // TODO: Add Crew and Ship tests
-        ArrayList<Event> eventList = new ArrayList<>();
-        testPlayer = new Player(1, eventList, 5, 10, 10, "Test Ship");
+        testPlayer = new Player(1, 5, 10, 10, "Test Ship");
     }
 
     @Test

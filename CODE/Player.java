@@ -1,6 +1,4 @@
 import java.util.List;
-import java.util.Random;
-import java.util.ArrayList;
 
 /**
  * The Day class represents a single day in Galactic Trail (name of game), 
@@ -15,11 +13,6 @@ public class Player {
     private Planet currentPlanet;
     private int dayNumber;
     private boolean survive;
-
-    // DECIDE IF WE WANT THESE
-    private List<Event> possibleEvents = new  ArrayList<Event>(); //This needs the Event object
-    private int seedValue; //index for possible events
-    private Random random; //for random events
 
     //private Event currentEvent; not too sure how we want to do this yet
 
@@ -43,18 +36,10 @@ public class Player {
      *A seed value is randomly selected based on the size of the possible events list
      * 
      * @param dayNumber The current day number.
-     * @param possibleEvents The list of possible events for the day.
      */
-    public Player(int dayNumber, List<Event> possibleEvents, int crewNum, int morale, int resources, String shipName) {
+    public Player(int dayNumber, int crewNum, int morale, int resources, String shipName) {
         this.dayNumber = dayNumber;
         this.survive = true; 
-
-        this.possibleEvents = possibleEvents;// - this still needs to be implemented
-
-        //0 - possibleEvents.size() could act as a random value index, just an idea on how to use an event
-        this.seedValue = new Random().nextInt(5); // bound is 5 instead of possibleEvents.size() for now since it errors out otherwise (bound must be >0)
-        
-        this.random = new Random(this.seedValue);
 
         // The Ship portion
         this.crewNum = crewNum;
