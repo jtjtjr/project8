@@ -2,12 +2,15 @@
 
 import java.util.Scanner;
 import java.util.Random;
+import java.util.List;
 
 /*
  * This is the Frontend
  */
 public class Frontend {
     static Player cur_player = null;
+    static Planet currentPlanet = null;
+    static List<Planet> planets = null;
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
      */
@@ -101,11 +104,30 @@ public class Frontend {
         
         int[] resourcesAmount = resourceStore(scanner);
 
+        // Load planets
+        planets = PlanetLoader.loadPlanets();
+        if (planets.isEmpty()) {
+            System.out.println("No planets loaded! Exiting.");
+            //return;
+        }
+
+        // Set starting planet
+        for (Planet planet : planets) {
+            if (planet.isStartPlanet()) {
+                currentPlanet = planet;
+                break;
+            }
+        }
+
         //System.out.println("Starting Player-EVent test");
         ////////Intitilize the Player class
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
         cur_player = new Player(1, null, resourcesAmount[0],resourcesAmount[1], resourcesAmount[2],shipName );
+        cur_player.setCurrentPlanet(currentPlanet);
+
+        // Display planet info
+        displayCurrentPlanet();
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
         runEventsIntegrationTest(cur_player);
@@ -351,5 +373,55 @@ public class Frontend {
                 displayTextSlowly("No event occurred. This should not be happening \n");
                 break;
         }
+    }
+
+    // This is the Planet Integration
+
+    /**
+     * Displays the current planet's information.
+     */
+    public static void displayCurrentPlanet() {
+        if (currentPlanet != null) {
+            System.out.println("\nYou are currently at: " + currentPlanet.getName());
+            currentPlanet.displayPlanetInfo();
+        } else {
+            System.out.println("You are lost in space...");
+        }
+    }
+
+    /**
+     * Moves to the next planet.
+     */
+    public static void travelToNextPlanet() {
+        if (currentPlanet != null && currentPlanet.getNextPlanet() != null) {
+            System.out.println("\nTraveling to " + currentPlanet.getNextPlanet().getName() + "...");
+            wait(2000);
+            currentPlanet = currentPlanet.getNextPlanet();
+            cur_player.setCurrentPlanet(currentPlanet);
+            displayCurrentPlanet();
+            currentPlanet.triggerRandomEvent(cur_player);
+        } else if (currentPlanet.isLastPlanet()) {
+            System.out.println("You have reached your final destination!");
+            return;
+        } else {
+            System.out.println("No further planets to travel to.");
+        }
+    }
+
+    /*
+     * Handles user input.
+     */
+    public static String inputUser(Scanner scanner) {
+        System.out.print("Input> ");
+        String userInput = scanner.nextLine();
+        System.out.println("Command Received: " + userInput);
+
+        if (userInput.equalsIgnoreCase("planet")) {
+            displayCurrentPlanet();
+        } else if (userInput.equalsIgnoreCase("travel")) {
+            travelToNextPlanet();
+        }
+
+        return userInput;
     }
 }
