@@ -5,10 +5,13 @@ FROM openjdk:17-jdk-slim
 WORKDIR /app
 
 # Copy your Java source files into the container
-COPY Frontend.java GameLoop.java Player.java Event.java Planet.java ./
+COPY Frontend.java GameLoop.java Player.java Event.java Planet.java PlanetLoader.java ./
+
+# Copy the planets.csv from the parent directory
+COPY ../planets.csv ./ 
 
 # Compile the Java files
-RUN javac Frontend.java GameLoop.java Player.java Event.java Planet.java
+RUN javac Frontend.java GameLoop.java Player.java Event.java Planet.java PlanetLoader.java
 
 # Run the game
 CMD ["java", "GameLoop"]
