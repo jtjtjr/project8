@@ -467,6 +467,6 @@ public class Frontend {
         System.out.println("Morale: " + cur_player.getMorale());
         System.out.println("Resources: " + cur_player.getResources());
         System.out.println("Current Planet: " + cur_player.getCurrentPlanet().getName());
-
+        System.out.println("Day Number: " + cur_player.getDayNumber());
     }
 }
