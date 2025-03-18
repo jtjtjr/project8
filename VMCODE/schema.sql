@@ -1,28 +1,22 @@
--- create the Event table
+-- Ensure the database exists
+CREATE DATABASE IF NOT EXISTS Events;
+USE Events;
+
+-- Create the Event table
 CREATE TABLE IF NOT EXISTS Event (
     id INT AUTO_INCREMENT PRIMARY KEY,
     event_id INT NOT NULL,
     event_name VARCHAR(255) NOT NULL,
     event_description TEXT,
     morale INT,
-    resources INT,
-    responses JSON  -- JSON for responses (removed extra comma)
+    resources INT
 );
 
--- column to index through JSON (alternative approach)
-ALTER TABLE Event ADD COLUMN response_texts TEXT 
-    GENERATED ALWAYS AS (JSON_UNQUOTE(JSON_EXTRACT(responses, '$[0].text'))) STORED;
-
--- index for faster searches (specify key length)
-CREATE INDEX idx_response_texts ON Event(response_texts(255));
-
--- ENTER DATA BELOW
-INSERT INTO Event (event_id, event_name, event_description, morale, resources, responses)
-VALUES (
-    1,
-    'Ion Array Failure',
-    '*You hear a loud scrape and the sound of sparks.*\nShit...\n*You hear the high voltage from a transformer.*\nThe Ion Array must have failed.\nWhat should you do to fix it?',
-    3,
-    5,
-    '[{"number": 1, "text": "power"}, {"number": 3, "text": "restart"}, {"number": 0, "text": "discharge"}, {"number": 10, "text": "wrench"}, {"number": -10, "text": "will"}]'
-);
+-- Insert Data into Event table
+INSERT INTO Event (event_id, event_name, event_description, morale, resources)
+VALUES 
+(1, 'Ion Array Failure', '*You hear a loud scrape and the sound of sparks.*Shit...* You hear the high voltage from a transformer. *The Ion Array must have failed.', 3, 5),
+(2, 'Solar Panel Malfunction', 'You notice a strange flickering on the solar panels, and power seems unstable. The crew is getting worried about energy loss.', 2, 4),
+(3, 'Pirates Attack Your Ship', 'Florian Pirates begin firing on your port side. They are known for taking no prisoners', 4, 5),
+(4, 'Your Crew Mutinys', 'Steven, your first officer, decides that your booze allotments for your crew is not enough. You think Steven is being rediculous the crew already drinks their weight in beer', 1, 1),
+(5, 'Your Tail Gunner Falls Asleep', 'Your tail gunner--dan--falls asleep at the controls and sends a barrage of lazer blasts into your engine   damint!   you say, this is going to be a long day', 1, 2);
