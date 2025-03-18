@@ -199,6 +199,7 @@ public class Planet {
      * Displays the planet's information.
      */
     public void displayPlanetInfo() {
+        System.out.println();
         System.out.println("Planet: " + name);
         System.out.println("Affiliation: " + affiliation);
         System.out.println("Danger Level: " + dangerLevel + "/10");

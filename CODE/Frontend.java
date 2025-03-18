@@ -123,7 +123,7 @@ public class Frontend {
         ////////Intitilize the Player class
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
-        cur_player = new Player(1, null, resourcesAmount[0],resourcesAmount[1], resourcesAmount[2],shipName );
+        cur_player = new Player(1, resourcesAmount[0],resourcesAmount[1], resourcesAmount[2],shipName );
         cur_player.setCurrentPlanet(currentPlanet);
 
         // Display planet info
@@ -381,11 +381,19 @@ public class Frontend {
      * Displays the current planet's information.
      */
     public static void displayCurrentPlanet() {
+        Planet nextPlanet = currentPlanet.getNextPlanet();
+        if (currentPlanet.isStartPlanet()) {
+            displayTextSlowly("\nDrifting in deep space... ");
+            wait(1000);
+            displayTextSlowly("Navigational systems online. ");
+            wait(1500);
+            displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName());
+        }
         if (currentPlanet != null) {
-            System.out.println("\nYou are currently at: " + currentPlanet.getName());
+            displayTextSlowly("\nYou are traveling to: " + currentPlanet.getName());
             currentPlanet.displayPlanetInfo();
         } else {
-            System.out.println("You are lost in space...");
+            displayTextSlowly("You are lost in space...");
         }
     }
 
@@ -395,49 +403,48 @@ public class Frontend {
     public static void travelToNextPlanet() {
         if (currentPlanet != null && currentPlanet.getNextPlanet() != null) {
             Planet nextPlanet = currentPlanet.getNextPlanet();
-            
-            // Announce departure
-            System.out.println("\nTraveling to " + nextPlanet.getName() + "...");
+    
+            // Special case for first travel (coming from deep space)
+            if (currentPlanet.isStartPlanet()) {
+                displayTextSlowly("\nDrifting in deep space... ");
+                wait(1000);
+                displayTextSlowly("Navigational systems online. ");
+                wait(1500);
+                displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName());
+            } else {
+                // Normal departure message for every other travel
+                displayTextSlowly("\nPreparing for departure from " + currentPlanet.getName() + "...");
+                wait(1000);
+                displayTextSlowly("Launching...");
+            }
             wait(2000);
-
-            // Trigger the event before reaching the new planet
+    
+            // Simulate space travel
+            displayTextSlowly("\n** Traveling through space **");
+            wait(1500);
+    
+            // Mid-travel event trigger
+            displayTextSlowly("\n[WARNING] An event has occurred during travel!");
             currentPlanet.triggerRandomEvent(cur_player);
-
+    
             // Check if the player survived the event
             if (!cur_player.getSurvivalBoolean()) {
-                System.out.println("You have died during the journey...");
+                displayTextSlowly("\nYou have perished in space...");
                 return;
             }
-
-            // Now officially change the planet and display its info
+    
+            // Now officially change the planet
             currentPlanet = nextPlanet;
             cur_player.setCurrentPlanet(currentPlanet);
-            
+    
             // Announce arrival
-            System.out.println("\nYou have arrived at " + currentPlanet.getName() + "!");
+            displayTextSlowly("\nYou have safely arrived at " + currentPlanet.getName() + "!");
             displayCurrentPlanet();
             
         } else if (currentPlanet.isLastPlanet()) {
-            System.out.println("You have reached your final destination!");
+            displayTextSlowly("\nYou have reached your final destination!");
         } else {
-            System.out.println("No further planets to travel to.");
+            displayTextSlowly("\nNo further planets to travel to.");
         }
-    }
-
-    /*
-     * Handles user input.
-     */
-    public static String inputUser(Scanner scanner) {
-        System.out.print("Input> ");
-        String userInput = scanner.nextLine();
-        System.out.println("Command Received: " + userInput);
-
-        if (userInput.equalsIgnoreCase("planet")) {
-            displayCurrentPlanet();
-        } else if (userInput.equalsIgnoreCase("travel")) {
-            travelToNextPlanet();
-        }
-
-        return userInput;
-    }
+    }    
 }
