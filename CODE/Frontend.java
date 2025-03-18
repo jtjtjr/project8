@@ -79,16 +79,23 @@ public class Frontend {
      */
     public static void introSlide(Scanner scanner) {
         /////// Intro block
-        System.out.println("****************************************************");
-        System.out.println("*                                                  *");
-        System.out.println("*           WELCOME TO GALACTIC TRAIL              *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*        Will you make it to Cerberus XVII?        *");
-        System.out.println("****************************************************");
+        System.out.println("********************************************************************************************************");
+        System.out.println("*                    _____       _            _   _        _____         _ _                           *");
+        System.out.println("*                   |  __ \\     | |          | | (_)      |_   _|       (_) |                         *");
+        System.out.println("*                   | |  \\/ __ _| | __ _  ___| |_ _  ___    | |_ __ __ _ _| |                         *");
+        System.out.println("*                   | | __ / _` | |/ _` |/ __| __| |/ __|   | | '__/ _` | | |                          *");
+        System.out.println("*                   | |\\_\\ (_| | | (_| | (__| |_| | (__    | | | | (_| | | |                         *");
+        System.out.println("*                    \\____/\\__,_|_|\\__,_|\\___|\\__|_|\\___|   \\_/_|  \\__,_|_|_|                  *");
+        System.out.println("********************************************************************************************************");
+        System.out.println("*                                                                                                      *");
+        System.out.println("*                                      WELCOME TO GALACTIC TRAIL                                       *");
+        System.out.println("*                                                                                                      *");
+        System.out.println("*                                                                                                      *");
+        System.out.println("*                                                                                                      *");
+        System.out.println("*                                                                                                      *");
+        System.out.println("*                                                                                                      *");
+        System.out.println("*                                Will you make it to Cerberus XVII?                                    *");
+        System.out.println("********************************************************************************************************");
         /////// Intro block
 
         /* Now we do the setup */
@@ -131,47 +138,14 @@ public class Frontend {
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
         runEventsIntegrationTest(cur_player);
-        
-        
-
-        // THIS IS NOT FINISHED, JUST SIMULATED FOR TESTING///////////////////////////////////////
-        boolean connected = false;
-        int attempts = 0;
-        while (!connected && attempts < 5) {  // Timeout for if it attempst more tha 5 times
-            System.out.println("Connecting to servers ...");
-            wait(1000);
-            attempts++;
-
-            // correct on the 3rd attempt
-            if (attempts == 3) {
-                connected = true;
-            }
-        }
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
-        if (connected) { // connection checker
-            System.out.println("Connected!");
-        } else {
-            System.out.println("Failed to connect. Try again later.");
-        }
     }
 
     /*
     * This is the Frontend call for the encounter (from the server assumably)
     */
     public static void encounterFrontend(int encounterID) {
-        System.out.println("Oh...");
+        displayTextSlowly("Oh...");
         // backendClass.encounterID; // Uncomment when backend is written
-    }
-
-    /*
-     * Prompt User for input
-     */
-    public static String inputUser(Scanner scanner) {
-        System.out.print("Input> ");
-        String userInput = scanner.nextLine();
-        System.out.println("Command Received: " + userInput);
-        return userInput;
     }
     
 
@@ -192,8 +166,8 @@ public class Frontend {
             System.out.println("*                                                  *");
             System.out.println("****************************************************");
         } else {
-            System.out.println("you died and let the company down.....");
-            System.out.println("Well, at least you are replacable");
+            displayTextSlowly("you died and let the company down.....");
+            displayTextSlowly("Well, at least you are replacable");
         }
         /////// END BLOCK
     }
@@ -205,10 +179,10 @@ public class Frontend {
         int startingPoints = 10000;
 
         System.out.println("*****************************************************************************************************");
-        System.out.println("  ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  _____  ____  ____  ____  ");
-        System.out.println(" (_  _)( )_( )( ___)   / __)(  _  )(  \\/  )(  _ \\ /__\\  ( \\( )( \\/ )  / __)(  _  )(_  _)(  _ \\( ___) ");
-        System.out.println("   )(   ) _ (  )__)   ( (__  )(_)(  )    (  )___//(__)\\  )  (  \\  /   \\__ \\ )(_)(   )(   )   / )__)  ");
-        System.out.println("  (__) (_) (_)(____)   \\___)(_____)(_/\\/\\_)(__) (__)(__)(_)\\_) (__)   (___/(_____) (__) (_)_)(____)  ");
+        System.out.println(" ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  ____  _____  ____  ____ ");
+        System.out.println("(_  _)( )_( )( ___)   / __)(  _  )(  \\/  )(  _ \\ /__\\  ( \\( )( \\/ )  / __)(_  _)(  _  )(  _ \\( ___)");
+        System.out.println("  )(   ) _ (  )__)   ( (__  )(_)(  )    (  )___//(__)\\  )  (  \\  /   \\__ \\  )(   )(_)(  )   / )__) ");
+        System.out.println(" (__) (_) (_)(____)   \\___)(_____)(_/\\/\\_)(__) (__)(__)(_)/\\_) (__)   (___/ (__) (_____)(_)/_)(____)");
         System.out.println("*****************************************************************************************************");
         System.out.println("*   ATTRIBUTE   *   COMPANY POINTS   *   DESCRIPTION                                                *");
         System.out.println("*****************************************************************************************************");
@@ -221,7 +195,7 @@ public class Frontend {
         System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
         System.out.println("*****************************************************************************************************");
 
-        System.err.println("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints);
 
         //get the number of crew
         displayTextSlowly("How large is your crew: ");
@@ -245,10 +219,10 @@ public class Frontend {
 
         startingPoints = startingPoints - crewNum * 100;
 
-        System.err.println("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints);
         
         if (startingPoints < 0) {
-            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
         }
@@ -269,10 +243,10 @@ public class Frontend {
 
         startingPoints = startingPoints - initialMorale * 40;
         
-        System.err.println("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints);
 
         if (startingPoints < 0) {
-            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
         }
@@ -302,10 +276,10 @@ public class Frontend {
 
         startingPoints = startingPoints - initialResourceCount * 10;
 
-        System.err.println("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints);
 
         if (startingPoints < 0) {
-            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
         }
@@ -316,7 +290,7 @@ public class Frontend {
 
         wait(2000);
 
-        System.err.println("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount);
+        displayTextSlowly("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount);
         displayTextSlowly("Upload Complete\n");
         
         int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
