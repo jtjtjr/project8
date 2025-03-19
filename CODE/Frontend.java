@@ -11,6 +11,7 @@ public class Frontend {
     static Player cur_player = null;
     static Planet currentPlanet = null;
     static List<Planet> planets = null;
+    static int currentPoints = 10000;
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
      */
@@ -188,10 +189,43 @@ public class Frontend {
     }
 
     /*
+     * returns whether the current planet has a shop on it or not
+     */
+    public static boolean planetContainsShop(Planet planet) {
+        if(planet == null) {
+            return false;
+        }
+
+        return planet.getAmenities().contains("Market");
+    }
+    
+    /*
+     * returns what the shop of a planet has for sale
+     */
+    public static void shopInventory(Planet planet) {
+        if(planet == null) {
+            //System.out.println("You are lost in space...");
+            return;
+        }
+
+        if(!planetContainsShop(planet)) {
+            //System.out.println("No shop available on this planet.");
+            return;
+        }
+
+        //TODO: Find a way to get the shop inventory of the current planet we are on
+    }
+    
+    /*
      * input gathering function that gets information from user
      */
     public static int[] resourceStore(Scanner scanner) {
-        int startingPoints = 10000;
+
+        if(!planetContainsShop(currentPlanet)) {
+            displayTextSlowly("No shop available on this planet.", 800);
+        }
+
+        currentPlanet.get
 
         System.out.println("*****************************************************************************************************");
         System.out.println("  ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  _____  ____  ____  ____  ");
@@ -210,7 +244,7 @@ public class Frontend {
         System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
         System.out.println("*****************************************************************************************************");
 
-        System.err.println("Remaining Balance:" + startingPoints);
+        System.err.println("Remaining Balance:" + currentPoints);
 
         //get the number of crew
         displayTextSlowly("How large is your crew: ");
@@ -429,11 +463,7 @@ public class Frontend {
             displayPlayerStatus();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
-            if(cur_player.getCurrentPlanet().getAmenities().contains("Market")) {
-                resourceStore(scanner);
-            } else {
-                displayTextSlowly("No shop available on this planet.", 800);
-            }
+            resourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
