@@ -2,7 +2,10 @@
 
 import java.util.Scanner;
 import java.util.Random;
+import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * This is the Frontend
@@ -103,7 +106,7 @@ public class Frontend {
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
 
         
-        int[] resourcesAmount = resourceStore(scanner);
+        int[] resourcesAmount = setUpResourceStore(scanner);
 
         // Load planets
         planets = PlanetLoader.loadPlanets();
@@ -200,9 +203,9 @@ public class Frontend {
     }
     
     /*
-     * returns what the shop of a planet has for sale
+     * returns a dictionary with resources as keys and their pirces as values
      */
-    public static void shopInventory(Planet planet) {
+    public static HashMap<String, Integer> shopInventory(Planet planet) {
         if(planet == null) {
             //System.out.println("You are lost in space...");
             return;
@@ -217,15 +220,9 @@ public class Frontend {
     }
     
     /*
-     * input gathering function that gets information from user
+     * input gathering function that gets information from user (this will now work for the first planet only at the beginning as its a little bit two specific)
      */
-    public static int[] resourceStore(Scanner scanner) {
-
-        if(!planetContainsShop(currentPlanet)) {
-            displayTextSlowly("No shop available on this planet.", 800);
-        }
-
-        currentPlanet.get
+    public static int[] setUpResourceStore(Scanner scanner) {
 
         System.out.println("*****************************************************************************************************");
         System.out.println("  ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  _____  ____  ____  ____  ");
@@ -266,11 +263,11 @@ public class Frontend {
             }       
         }
 
-        startingPoints = startingPoints - crewNum * 100;
+        currentPoints = currentPoints - crewNum * 100;
 
-        System.err.println("Remaining Balance:" + startingPoints);
+        System.err.println("Remaining Balance:" + currentPoints);
         
-        if (startingPoints < 0) {
+        if (currentPoints < 0) {
             System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
@@ -290,11 +287,11 @@ public class Frontend {
             if(initialMorale > 70) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n", 1000);            
         }
 
-        startingPoints = startingPoints - initialMorale * 40;
+        currentPoints = currentPoints - initialMorale * 40;
         
-        System.err.println("Remaining Balance:" + startingPoints);
+        System.err.println("Remaining Balance:" + currentPoints);
 
-        if (startingPoints < 0) {
+        if (currentPoints < 0) {
             System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
@@ -323,11 +320,11 @@ public class Frontend {
             }
         }
 
-        startingPoints = startingPoints - initialResourceCount * 10;
+        currentPoints = currentPoints - initialResourceCount * 10;
 
-        System.err.println("Remaining Balance:" + startingPoints);
+        System.err.println("Remaining Balance:" + currentPoints);
 
-        if (startingPoints < 0) {
+        if (currentPoints < 0) {
             System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
@@ -344,6 +341,44 @@ public class Frontend {
         
         int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
         return resourcesAmount;
+    }
+
+    /*
+     * open the resource store for the current planet
+     */
+    public static int[] standardResourceStore(Scanner scanner)
+    {
+        if(!planetContainsShop(currentPlanet)) {
+            displayTextSlowly("No shop available on this planet.", 800);
+        }
+
+        //the idea is that the resource is the key and the price is the value in this dictioanry
+        Map<String, Integer> inventory = shopInventory(currentPlanet);
+
+        shopInventory(currentPlanet);
+        System.out.println("*****************************************************************************************************");
+        System.out.println("*   ATTRIBUTE   *   COMPANY POINTS   *   DESCRIPTION                                                *");
+        System.out.println("*****************************************************************************************************");
+
+        //display everything available in the shop
+        for(String key : inventory.keySet()) {
+            System.out.println("*     " + key + "    *       " + inventory.get(key) + "           *   " + key + " for sale at " + inventory.get(key) + " points.                *");
+            System.out.println("*****************************************************************************************************");
+        }
+
+        displayTextSlowly("What would you like to purchase today: ");
+        String purchase = scanner.nextLine();
+
+        while(!inventory.containsKey(purchase))
+        {
+            displayTextSlowly("Sorry, we don't have that in stock. \n");
+            purchase = scanner.nextLine();
+            //if the customer changes their mind
+            if(purchase.equals("exit")) {
+                break;
+            }
+        }
+        
     }
 
     /*
@@ -463,7 +498,7 @@ public class Frontend {
             displayPlayerStatus();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
-            resourceStore(scanner);
+            setUpResourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
