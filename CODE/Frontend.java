@@ -303,50 +303,26 @@ public class Frontend {
      */
     public static void runEventsIntegrationTest(Player curr) {
         Random random = new Random(); //We will need to simulate randomness
-        int eventNumber = random.nextInt(3) + 1; //between 1 and 3
-
-        //this is not the way wll do for the final prototype
-        switch (eventNumber) {
-            case 1:
-                displayTextSlowly("\nEvent 1: Fox's ship hit you while chasing Wolf \n");
-                Event event_1 = new Event("Fox's ship hit you while chasing Wolf", 1, "Fox attack" , 4, 99, curr);
-                if ((curr.getResources()-event_1.getResourcesEffect()>=0) &&(curr.getMorale()-event_1.getMoraleEffect()>=0)){
-                    displayTextSlowly("You should have survived and the game should continue \n");
-                }
-                else{
-                    displayTextSlowly("You should be dying and game terminating \n");
-                }
-                event_1.triggerEvent();
-
-                return;
-            case 2:
-                displayTextSlowly("\nEvent 2: Falco Attacked you by accident \n");
-                Event event_2 = new Event("Falco Attacked you by accident", 2, "Eagle attack" , 39, 71, curr);
-                if ((curr.getResources()-event_2.getResourcesEffect())>=0 &&(curr.getMorale()-event_2.getMoraleEffect())>=0){
-                    displayTextSlowly("You should have survived and the game should continue \n");
-                }
-                else{
-                    displayTextSlowly("You should be dying and game terminating \n");
-                }
-                event_2.triggerEvent();
-                return;
-            case 3:
-                displayTextSlowly("\nEvent 3: Wolf shot at you while fox is chasing him \n");
-                Event event_3= new Event("Wolf shot at you while fox is chasing him", 3, "Wolf attack" , 40, 101, curr);
-                if ((curr.getResources()-event_3.getResourcesEffect())>=0 &&(curr.getMorale()-event_3.getMoraleEffect()>=0)){
-                    displayTextSlowly("You should have survived and the game should continue \n");
-                }
-                else{
-                    displayTextSlowly("You should be dying and game terminating \n");
-                }
-                
-                event_3.triggerEvent();
-                
-                return;
-            default:
-                displayTextSlowly("No event occurred. This should not be happening \n");
-                break;
+        int eventNumber = random.nextInt(5) + 1; //between 1 and 3
+        EventSQL eventgetter = new EventSQL(cur_player);
+        //return the event
+        Event chosen =  eventgetter.getEventFromSQL(eventNumber);
+        if (chosen==null){
+            throw new NullPointerException("Issue with getting event by index, chosen returning null");
         }
+
+       
+        displayTextSlowly(chosen.getDescription());
+                
+        if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)){
+            displayTextSlowly("You should have survived and the game should continue \n");
+        }
+        else{
+            displayTextSlowly("You should be dying and game terminating \n");
+        }
+        chosen.triggerEvent();
+
+        return;
     }
 
     // This is the Planet Integration
