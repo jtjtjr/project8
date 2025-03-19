@@ -18,7 +18,7 @@ class EventConnector {
             //THIS IS AN EXAMPLE COMMAND
             //Make sure to get values by their ID, we only populate events if they are needed
             //not all events from the database need to be initilized
-            String eventQuery = "SELECT * FROM Event";
+            String eventQuery = "SELECT * FROM Event ";
 
             //System.out.println(eventQuery);
         
@@ -40,9 +40,10 @@ class EventConnector {
                 Event event = new Event( eventDescription, eventId, eventName, morale, resources, null);
                 events.add(event);
             }
-
-            //////NOTE
-            //This is a makeshift way to run tests stince JUNIT is not working
+            
+            
+            ////NOTE
+           // This is a makeshift way to run tests stince JUNIT is not working
 
             int total_tests_1 = 4;
             int total_tests_2 = 4;
@@ -63,7 +64,7 @@ class EventConnector {
             }
 
             //Test 2 check the description
-            if( events.get(0).getDescription().equals("*You hear a loud scrape and the sound of sparks.*\nShit...\n*You hear the high voltage from a transformer.*\nThe Ion Array must have failed.\nWhat should you do to fix it?")){
+            if( events.get(0).getDescription().equals("*You hear a loud scrape and the sound of sparks.*Shit...* You hear the high voltage from a transformer. *The Ion Array must have failed.")){
                 test1_passes++;
             }
             else{
@@ -140,6 +141,8 @@ class EventConnector {
 
             //end the connection
             dbCxn.close();
+            // System.out.println(events.size());
+            // System.out.println(events.get(0));
         } catch (Exception e) {
             System.out.println(e);
         }

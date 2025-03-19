@@ -238,15 +238,15 @@ public class Player {
         return this.currentPlanet;
     }
 
-
+    ////////////////////////////////////////////////////////
     /**
      * Retrieves the seed value
      * @return the integer seedvalue
      */
-    public int getSeedValue() {
-        return seedValue;
-    }
-
+    //public int getSeedValue() {
+    //    return seedValue;
+    //}
+    ///// COMMENTED OUT BC WE CURRENTLY DO NOT USE SEED /////
     @Override
     public String toString() {
         return "Player{" +
