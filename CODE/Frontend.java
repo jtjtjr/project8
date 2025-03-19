@@ -1,8 +1,8 @@
 // package project; // fix this with whole project
 
-import java.util.Scanner;
-import java.util.Random;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 
 /*
  * This is the Frontend
@@ -84,7 +84,7 @@ public class Frontend {
         System.out.println("*                   |  __ \\     | |          | | (_)      |_   _|       (_) |                         *");
         System.out.println("*                   | |  \\/ __ _| | __ _  ___| |_ _  ___    | |_ __ __ _ _| |                         *");
         System.out.println("*                   | | __ / _` | |/ _` |/ __| __| |/ __|   | | '__/ _` | | |                          *");
-        System.out.println("*                   | |\\_\\ (_| | | (_| | (__| |_| | (__    | | | | (_| | | |                         *");
+        System.out.println("*                   | | \\_\\ (_| | | (_| | (__| |_| | (__    | | | | (_| | | |                         *");
         System.out.println("*                    \\____/\\__,_|_|\\__,_|\\___|\\__|_|\\___|   \\_/_|  \\__,_|_|_|                  *");
         System.out.println("********************************************************************************************************");
         System.out.println("*                                                                                                      *");
