@@ -146,8 +146,7 @@ public class Frontend {
     public static void encounterFrontend(int encounterID) {
         displayTextSlowly("Oh...");
         // backendClass.encounterID; // Uncomment when backend is written
-    }
-    
+    }   
 
     /*
     * This is the Frontend printout for the end of the game
@@ -396,5 +395,62 @@ public class Frontend {
         } else {
             displayTextSlowly("\nNo further planets to travel to.");
         }
-    }    
+    }
+
+    /*
+     * Handles user input.
+     */
+    public static String inputUser(Scanner scanner) {
+        System.out.print("Input> ");
+        String userInput = scanner.nextLine();
+
+        if (userInput.equalsIgnoreCase("planet")) {
+            displayCurrentPlanet();
+        } else if (userInput.equalsIgnoreCase("travel")) {
+            travelToNextPlanet();
+        }
+        else if (userInput.equalsIgnoreCase("status")) {
+            displayPlayerStatus();
+        }
+        else if (userInput.equalsIgnoreCase("shop")) {
+            if(cur_player.getCurrentPlanet().getAmenities().contains("Market")) {
+                resourceStore(scanner);
+            } else {
+                displayTextSlowly("No shop available on this planet.", 800);
+            }
+        }
+        else if (userInput.equalsIgnoreCase("help")) {
+            help();
+        }
+        else if (userInput.equalsIgnoreCase("end")) {
+            System.out.println("Ending game...");
+        }
+        else {
+            displayTextSlowly("Invalid command. Type 'help' for a list of commands.");
+        }
+
+        return userInput;
+    }
+
+    /*
+     * Displays a menu with all the commands that a player can use
+     */
+    public static void help() {
+        // TODO Auto-generated method stub
+        System.out.println("Input Commands: ");
+        System.out.println("planet - Displays the current planet's information.");
+        System.out.println("shop - open the shopping menu if you are currently on a planet");
+        System.out.println("travel - Moves to the next planet.");  
+        System.out.println("status - Displays how you are doing at the moment.");    
+        System.out.println("end - Ends the game.");
+    }
+
+    public static void displayPlayerStatus() {
+        System.out.println("Player Status: ");
+        System.out.println("Num Crew Left: " + cur_player.getCrewNum());
+        System.out.println("Morale: " + cur_player.getMorale());
+        System.out.println("Resources: " + cur_player.getResources());
+        System.out.println("Current Planet: " + cur_player.getCurrentPlanet().getName());
+        System.out.println("Day Number: " + cur_player.getDayNumber());
+    }
 }

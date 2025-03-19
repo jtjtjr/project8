@@ -24,6 +24,7 @@ public class GameLoop {
 
         while (!gameOver) {
             String input = Frontend.inputUser(scanner);
+
             //added a player status check to see if they are dead
             if (input.equals("end") || !Frontend.playerStatus()) {
                 gameOver = true;
