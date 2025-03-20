@@ -1,4 +1,8 @@
 import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +14,6 @@ public class PlayerTester {
 
     @BeforeEach
     void setUp() {
-        // TODO: Add Crew and Ship tests
         testPlayer = new Player(1, 5, 10, 10, "Test Ship");
     }
 
@@ -20,14 +23,14 @@ public class PlayerTester {
         assertEquals(5, testPlayer.getCrewNum());
         assertEquals(10, testPlayer.getMorale());
         assertEquals(10, testPlayer.getResources());
-        assertEquals("Test Ship", testPlayer.getShip().getName());
+        assertEquals("Test Ship", testPlayer.getShipName());
     }
 
     @Test
     void testMorale() {
-        testPlayer.updateMorale(5);
+        testPlayer.addMorale(5);
         assertEquals(15, testPlayer.getMorale());
-        testPlayer.updateMorale(-3);
+        testPlayer.addMorale(-3);
         assertEquals(12, testPlayer.getMorale());
         assertThrows(IllegalArgumentException.class, () -> testPlayer.setMorale(-5));
         testPlayer.setMorale(20);
@@ -48,12 +51,35 @@ public class PlayerTester {
         assertEquals(8, testPlayer.getCrewNum());
         assertThrows(IllegalArgumentException.class, () -> testPlayer.setCrewNum(-5));
         testPlayer.setCrewNum(0);
-        testPlayer.addCrewMember();
+        testPlayer.addCrewNum(1);
         assertEquals(1, testPlayer.getCrewNum());
-        testPlayer.removeCrewMember();
-        assertEquals(0, testPlayer.getCrewNum());
-        testPlayer.removeCrewMember();
-        assertEquals(0, testPlayer.getCrewNum());
+        testPlayer.removeCrewNum(1);
+        assertEquals(false, testPlayer.getSurvivalBoolean());
+    }
+
+    @Test
+    void testCurrentPlanet() {
+        List<String> amenities = new ArrayList<>();
+        amenities.add("Test Amenity");
+        Planet planet = new Planet("Test Planet", "Test Affiliation", 5, 2, 3, amenities, 1);
+        testPlayer.setCurrentPlanet(planet);
+        assertEquals(planet, testPlayer.getCurrentPlanet());
+    }
+
+    @Test
+    void testSetShipName() {
+        testPlayer.setShipName("New Ship");
+        assertEquals("New Ship", testPlayer.getShipName());
+        testPlayer.setShipName("");
+        assertEquals("", testPlayer.getShipName());
+        testPlayer.setShipName("A\na");
+        assertEquals("A\na", testPlayer.getShipName());
+    }
+
+    @Test
+    void testToString() {
+        String expected = "Player{ shipName=Test Ship, crewNum=5, morale=10, resources=10, dayNumber=1 }";
+        assertEquals(expected, testPlayer.toString());
     }
 
 }
