@@ -146,7 +146,17 @@ public class Frontend {
     public static void encounterFrontend(int encounterID) {
         displayTextSlowly("Oh...");
         // backendClass.encounterID; // Uncomment when backend is written
-    }   
+    }
+    
+    /*
+     * Prompt User for input
+     */
+    public static String inputUser(Scanner scanner) {
+        System.out.print("Input> ");
+        String userInput = scanner.nextLine();
+        System.out.println("Command Received: " + userInput);
+        return userInput;
+    }
 
     /*
     * This is the Frontend printout for the end of the game

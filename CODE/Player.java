@@ -1,4 +1,3 @@
-import java.util.List;
 
 /**
  * The Day class represents a single day in Galactic Trail (name of game), 
@@ -14,6 +13,13 @@ public class Player {
     private int dayNumber;
     private boolean survive;
 
+    //POTENTIAL IMPLEMENTS
+    private int fuel;
+    private Pace pace;
+
+    //CARGO?
+
+
     //private Event currentEvent; not too sure how we want to do this yet
 
     /**
@@ -28,6 +34,10 @@ public class Player {
         this.resources = -1;
         this.shipName = "";
         this.currentPlanet = null;
+
+        //CHANGE: added to just not cause error
+        this.pace = Pace.SLOW;
+        this.fuel = -1;
     }
 
     /**                 //NEED TO DECIDE WHAT PARAM TO TAKE
@@ -46,6 +56,71 @@ public class Player {
         this.morale = morale;
         this.resources = resources;
         this.shipName = shipName;
+
+        //CHANGE: added to just not cause error
+        this.pace = Pace.SLOW;
+        this.fuel = -1;
+    }
+
+    /**
+     * Sets the pace of the game between 3 options, kind of like the difficulty of the game
+     */
+    public enum Pace {
+        SLOW, NORMAL, FAST;
+    }
+
+    /**
+     * Sets the pace if the game
+     * @param pace 1,2, or 3 for now (changable)
+     */
+    public void setPace(int pace) {
+        this.pace = switch (pace) {
+            case 1 -> Pace.SLOW;
+            case 2 -> Pace.NORMAL;
+            case 3 -> Pace.FAST;
+            default -> throw new IllegalArgumentException("Invaid option for pace");
+        };
+    }
+
+    /**
+     * If dead (or not) resets the game
+     */
+    public void reset() {
+        this.dayNumber = 1;
+        setSurvivalBoolean(true);
+        this.morale = -1;
+        this.crewNum = -1;
+        this.resources = -1;
+    }
+
+    /** 
+     * Display the current infomation for player(day,crew,...to be added)
+     */
+    public void display() {
+        //TODO: Display slowly
+        System.out.println("Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale);
+    }
+
+    /**
+     * The next day of the game
+     * Consumes resource, increment day, ...
+     */
+    public void nextDay() {
+        if (!this.survive) 
+            return;
+        incrementDay();
+
+        if (this.resources <= 0) //Is Resources food?
+            this.crewNum -= 1;
+
+        if (this.crewNum <= 0)
+            setSurvivalBoolean(false);
+
+        this.resources -= switch (this.pace) {
+            case SLOW -> 1;
+            case NORMAL -> 2;
+            case FAST -> 3;
+        };
     }
 
     /**
@@ -78,11 +153,9 @@ public class Player {
      /**
      * sets the surivial boolean status.
      * @param survival is the player alive
-     * @return The survival boolean
      */
-    public boolean setSurvivalBoolean(boolean survival) {
-        survive = survival;
-        return survive;
+    public void setSurvivalBoolean(boolean survival) {
+        this.survive = survival;
     }
 
     /**
@@ -98,6 +171,7 @@ public class Player {
      * @param shipName name of ship
      */
     public void setShipName(String shipName) {
+        //TODO Sting null if null shipName
         this.shipName = shipName;
     }
 
@@ -168,6 +242,7 @@ public class Player {
      * @param resources new resources value
      */
     public void addResources(int resources) {
+        //TODO cannot go over 1000
         this.resources += resources;
     }
 
