@@ -31,6 +31,8 @@ public class EventSQL {
         try {
             Event event = null;
 
+            Class.forName("com.mysql.cj.jdbc.Driver"); 
+
             // Establish a connection to the database - from Devtech 2
             // Make sure to have a terminal up for this
             Connection dbCxn = DriverManager.getConnection(
