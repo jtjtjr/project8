@@ -81,11 +81,11 @@ public class Frontend {
         /////// Intro block
         System.out.println("********************************************************************************************************");
         System.out.println("*                    _____       _            _   _        _____         _ _                           *");
-        System.out.println("*                   |  __ \\     | |          | | (_)      |_   _|       (_) |                         *");
-        System.out.println("*                   | |  \\/ __ _| | __ _  ___| |_ _  ___    | |_ __ __ _ _| |                         *");
+        System.out.println("*                   |  __ \\     | |          | | (_)      |_   _|       (_) |                          *");
+        System.out.println("*                   | |  \\/ __ _| | __ _  ___| |_ _  ___    | |_ __ __ _ _| |                          *");
         System.out.println("*                   | | __ / _` | |/ _` |/ __| __| |/ __|   | | '__/ _` | | |                          *");
-        System.out.println("*                   | | \\_\\ (_| | | (_| | (__| |_| | (__    | | | | (_| | | |                         *");
-        System.out.println("*                    \\____/\\__,_|_|\\__,_|\\___|\\__|_|\\___|   \\_/_|  \\__,_|_|_|                  *");
+        System.out.println("*                   | | \\_\\ (_| | | (_| | (__| |_| | (__    | | | | (_| | | |                          *");
+        System.out.println("*                    \\____/\\__,_|_|\\__,_|\\___|\\__|_|\\___|   \\_/_|  \\__,_|_|_|                          *");
         System.out.println("********************************************************************************************************");
         System.out.println("*                                                                                                      *");
         System.out.println("*                                      WELCOME TO GALACTIC TRAIL                                       *");
@@ -194,7 +194,7 @@ public class Frontend {
         System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
         System.out.println("*****************************************************************************************************");
 
-        displayTextSlowly("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
         //get the number of crew
         displayTextSlowly("How large is your crew: ");
@@ -218,7 +218,7 @@ public class Frontend {
 
         startingPoints = startingPoints - crewNum * 100;
 
-        displayTextSlowly("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
         
         if (startingPoints < 0) {
             displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
@@ -242,7 +242,7 @@ public class Frontend {
 
         startingPoints = startingPoints - initialMorale * 40;
         
-        displayTextSlowly("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
         if (startingPoints < 0) {
             displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
@@ -275,7 +275,7 @@ public class Frontend {
 
         startingPoints = startingPoints - initialResourceCount * 10;
 
-        displayTextSlowly("Remaining Balance:" + startingPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
         if (startingPoints < 0) {
             displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
@@ -289,7 +289,12 @@ public class Frontend {
 
         wait(2000);
 
-        displayTextSlowly("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount);
+        displayTextSlowly("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount + "\n");
+
+        displayTextSlowly("Launching\n                                         \n                                         \n3                                         \n2                                         \n1                                         \n\n");
+
+        frontendUXElements.shipArt1();
+
         displayTextSlowly("Upload Complete\n");
         
         int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
@@ -341,6 +346,7 @@ public class Frontend {
         if (currentPlanet != null) {
             displayTextSlowly("\nYou are traveling to: " + currentPlanet.getName());
             currentPlanet.displayPlanetInfo();
+            frontendUXElements.shipArtPlanet1();
         } else {
             displayTextSlowly("You are lost in space...");
         }
