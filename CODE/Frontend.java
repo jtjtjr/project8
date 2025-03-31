@@ -355,7 +355,6 @@ public class Frontend {
         //the idea is that the resource is the key and the price is the value in this dictioanry
         Map<String, Integer> inventory = shopInventory(currentPlanet);
 
-        shopInventory(currentPlanet);
         System.out.println("*****************************************************************************************************");
         System.out.println("*   ATTRIBUTE   *   COMPANY POINTS   *   DESCRIPTION                                                *");
         System.out.println("*****************************************************************************************************");

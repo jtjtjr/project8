@@ -5,7 +5,10 @@ import java.util.HashMap;
  */
 public class Shop {
     
+    //TODO: Update USE TUPLE FOR PRICE AND DESCRIPTION
     public HashMap<String, Integer> shopItems; //contains the items in the shop and their prices
+
+    //TODO INCLUDE A receipt because this will be opened retardless and its gonna need one 
 
     /*
      * Default constructor that initializes the shop with no items.
@@ -53,4 +56,20 @@ public class Shop {
     public void removeShopItem(String item) {
         this.shopItems.remove(item);
     }
+
+    /**
+     * TODO: Display Shop
+     */
+    public void displayStore() {
+        //TODO
+    }
+
+    //below are methods for interacting with the shop when it is open
+
+    /**
+     * TODO: Buy Item
+     */
+    
+
+
 }
