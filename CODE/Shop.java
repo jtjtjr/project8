@@ -180,4 +180,19 @@ public class Shop {
         }
     }
 
+    /**
+     * Returns the total cost of the items in the receipt.
+     */
+    public int getTotalReceiptCost()
+    {
+        int grandTotal = 0;
+        for (String key : this.receipt.keySet()) {
+            int quantity = this.receipt.get(key);
+            int unitPrice = this.shopItems.get(key).getPrice();
+            int totalCost = quantity * unitPrice;
+            grandTotal += totalCost;
+        }
+        return grandTotal;
+    }
+    
 }

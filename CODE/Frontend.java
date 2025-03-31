@@ -270,8 +270,19 @@ public class Frontend {
                     shop.printContentsOfReceipt();
                 } 
                 else if(input.equals("complete purchase")) {
-                    //TODO implement the purchase logic
+                    int totalCost = shop.getTotalReceiptCost();
 
+                    //validate the number of points the player has
+                    if(totalCost > currentPoints) {
+                        System.out.println("You do not have enough points to complete this purchase.");
+                        continue;
+                    } 
+
+                    //first subtract the number of points from the player
+                    currentPoints -= totalCost;
+                        
+                    //TODO: implement the logic to add the items to the player inventory
+                    
                     //clear the receipt
                     shop.clearReceipt();
                 } 
