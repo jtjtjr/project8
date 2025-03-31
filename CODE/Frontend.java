@@ -203,7 +203,7 @@ public class Frontend {
     }
     
     /*
-     * returns a dictionary with resources as keys and their pirces as values
+     * TODO: returns a dictionary with resources as keys and their pirces as values
      */
     public static HashMap<String, Integer> shopInventory(Planet planet) {
         if(planet == null) {
