@@ -294,10 +294,6 @@ public class Frontend {
                     System.out.println("Command not recognized.");
                 }
             }
-
-
-
-            
         } else {
             displayTextSlowly("You are not at a shop, you cannot buy items here!");
         }
