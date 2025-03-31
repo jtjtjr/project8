@@ -201,24 +201,109 @@ public class Frontend {
 
         return planet.getAmenities().contains("Market");
     }
-    
-    /*
-     * TODO: returns a dictionary with resources as keys and their pirces as values
+        
+
+    /**
+     * Given a shop object we setup based on the planet
      */
-    public static HashMap<String, Integer> shopInventory(Planet planet) {
-        if(planet == null) {
-            //System.out.println("You are lost in space...");
-            return;
-        }
-
-        if(!planetContainsShop(planet)) {
-            //System.out.println("No shop available on this planet.");
-            return;
-        }
-
-        //TODO: Find a way to get the shop inventory of the current planet we are on
+    public static void setUpShop(Shop shop) {
+        // TODO Auto-generated method stub
+        System.out.println("Setting up shop ...");
+        wait(1000);
+        System.out.println("Shop is ready!");
     }
-    
+    /**
+     * This function opens the shop if the current planet has a shop on it
+    */
+    public static void openPlanetResourceStore(Scanner scanner) {
+        if(planetContainsShop(currentPlanet)) {
+            Shop shop = new Shop();
+            setUpShop(shop);
+
+            shop.displayStore();
+            displayTextSlowly("\n What would you like to buy? \n", 1000);
+
+            String input = "";
+
+            while(true) {
+                input = scanner.nextLine();
+                
+                if(input.equals("exit")) {
+                    displayTextSlowly("Goodbye!");
+                    break;
+                }
+                else if(input.equals("help")) {
+                    System.out.println("\nAvailable commands: ");
+                    System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
+                    System.out.println("remove <item> <count> - leave the shop.");
+                    System.out.println("review - see what is on your list.");
+                    System.out.println("complete purchase - buy all the items on your list.");
+                    System.out.println("show - show the items available in the shop.");
+                    System.out.println("exit - leave shop.\n");
+                }
+                else if(input.startsWith("buy")) {
+                    String[] parts = input.split(" ");
+                    if(parts.length == 3) {
+                        String item = parts[1];
+                        int count = Integer.parseInt(parts[2]);
+                        if(shop.shopItems.containsKey(item)) {
+                            shop.addItemToReceipt(item, count);
+                        } else {
+                            System.out.println("Item not found in shop.");
+                        }
+                    } else {
+                        System.out.println("Invalid command format. Use: buy <item> <count>");
+                    }
+                } 
+                else if(input.startsWith("remove")) {
+                    String[] parts = input.split(" ");
+                    if(parts.length == 3) {
+                        String item = parts[1];
+                        int count = Integer.parseInt(parts[2]);
+                        shop.removeItemFromReceipt(item, count);
+                        System.out.println("Removed " + count + " " + item + "(s) from your list.");
+                    } else {
+                        System.out.println("Invalid command format. Use: remove <item> <count>");
+                    }
+                } 
+                else if(input.equals("review")) {
+                    shop.printContentsOfReceipt();
+                } 
+                else if(input.equals("complete purchase")) {
+                    //TODO implement the purchase logic
+
+                    //clear the receipt
+                    shop.clearReceipt();
+                } 
+                else if(input.equals("show")) {
+                    shop.displayStore();
+                } 
+                else if(input.equals("exit")) {
+                    displayTextSlowly("Goodbye!");
+                    break;
+                } 
+                else if(input.equals("help")) {
+                    System.out.println("\nAvailable commands: ");
+                    System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
+                    System.out.println("remove <item> <count> - leave the shop.");
+                    System.out.println("review - see what is on your list.");
+                    System.out.println("complete purchase - buy all the items on your list.");
+                    System.out.println("show - show the items available in the shop.");
+                    System.out.println("exit - leave shop.\n");
+                else {
+                    System.out.println("Command not recognized.");
+                }
+            }
+
+
+
+            
+        } else {
+            displayTextSlowly("You are not at a shop, you cannot buy items here!");
+        }
+        
+    }
+
     /*
      * input gathering function that gets information from user (this will now work for the first planet only at the beginning as its a little bit two specific)
      */
@@ -341,35 +426,6 @@ public class Frontend {
         
         int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
         return resourcesAmount;
-    }
-
-    /*
-     * open the resource store for the current planet
-     */
-    public static int[] standardResourceStore(Scanner scanner)
-    {
-        if(!planetContainsShop(currentPlanet)) {
-            displayTextSlowly("No shop available on this planet.", 800);
-        }
-
-        //the idea is that the resource is the key and the price is the value in this dictioanry
-        Map<String, Integer> inventory = shopInventory(currentPlanet);
-
-        
-
-        displayTextSlowly("What would you like to purchase today: ");
-        String purchase = scanner.nextLine();
-
-        while(!inventory.containsKey(purchase))
-        {
-            displayTextSlowly("Sorry, we don't have that in stock. \n");
-            purchase = scanner.nextLine();
-            //if the customer changes their mind
-            if(purchase.equals("exit")) {
-                break;
-            }
-        }
-        
     }
 
     /*

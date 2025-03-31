@@ -95,7 +95,7 @@ public class Shop {
      * @param item The item to be added.
      * @param numItems The number of items to be added.
      */
-    public void buyItem(String item, int numItems) {
+    public void addItemToReceipt(String item, int numItems) {
         if (this.shopItems.containsKey(item)) {
             this.receipt.put(item, shopItems.get(item).getPrice());
         } else {
@@ -109,7 +109,7 @@ public class Shop {
      * @param item The item to be removed.
      * @param numItems The number of items to be removed.
      */
-    public void removeSingleItemFromReceipt(String item, int numItems) {
+    public void removeItemFromReceipt(String item, int numItems) {
         // Check if the item exists in the receipt and remove it
         // If the item exists, reduce the quantity or remove it if quantity is zero
         if (this.receipt.containsKey(item)) 
