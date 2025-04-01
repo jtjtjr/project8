@@ -36,7 +36,7 @@ public class EventSQL {
             // Establish a connection to the database - from Devtech 2
             // Make sure to have a terminal up for this
             Connection dbCxn = DriverManager.getConnection(
-                "jdbc:mysql://localhost:60000/Events", "root", "1"
+                "jdbc:mysql://host.docker.internal:60000/Events", "root", "1"
             );
 
             String eventQuery = "SELECT * FROM Event WHERE event_id =" + i + ";";
