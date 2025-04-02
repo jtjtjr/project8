@@ -1,4 +1,3 @@
-import java.util.List;
 
 /**
  * The Day class represents a single day in Galactic Trail (name of game), 
@@ -14,6 +13,15 @@ public class Player {
     private int dayNumber;
     private boolean survive;
 
+    private Ship ship;
+
+    //POTENTIAL IMPLEMENTS
+    private int fuel;
+    private Pace pace;
+
+    //CARGO?
+
+
     //private Event currentEvent; not too sure how we want to do this yet
 
     /**
@@ -28,9 +36,14 @@ public class Player {
         this.resources = -1;
         this.shipName = "";
         this.currentPlanet = null;
+
+        //CHANGE: added to just not cause error
+        this.pace = Pace.SLOW;
+        this.fuel = -1;
+
     }
 
-    /**                 //NEED TO DECIDE WHAT PARAM TO TAKE
+    /** 
      * Constructs a Day object with a specified day number and list of possible events
      *The survival status is initially set to true
      *A seed value is randomly selected based on the size of the possible events list
@@ -46,6 +59,108 @@ public class Player {
         this.morale = morale;
         this.resources = resources;
         this.shipName = shipName;
+
+        //CHANGE: added to just not cause error
+        this.pace = Pace.SLOW;
+        this.fuel = -1;
+    }
+
+    /**
+     * Ship class that determines the difficulty of the game
+     * sets the resources burned depending on day according to pace
+     */
+    public class Ship {
+        private int resourceCost;
+        private String shipName;
+
+        public Ship(Pace pace) {
+
+            switch(pace) {
+                case SLOW:
+                    this.resourceCost = 100;
+                    this.shipName = "SS Driftwing";
+                    break;
+                case NORMAL:
+                    this.resourceCost = 120;
+                    this.shipName = "SS StarBorne";
+                    break;
+                case FAST:
+                    this.resourceCost = 130;
+                    this.shipName = "SS Nove Viper";
+                    break;
+            }
+
+        }
+
+        public int resourceCost() {
+            return this.resourceCost;
+        }
+
+        public String shipName() {
+            return this.shipName;
+        }
+    }
+
+    /**
+     * Sets the pace of the game between 3 options, kind of like the difficulty of the game
+     */
+    public enum Pace {
+        SLOW, NORMAL, FAST;
+    }
+
+    private void createShip() {
+        this.ship = new Ship(this.pace);
+    }
+
+    /**
+     * Sets the pace if the game
+     * @param pace 1,2, or 3 for now (changable)
+     */
+    public void setPace(int pace) {
+        this.pace = switch (pace) {
+            case 1 -> Pace.SLOW;
+            case 2 -> Pace.NORMAL;
+            case 3 -> Pace.FAST;
+            default -> throw new IllegalArgumentException("Invaid option for pace");
+        };
+        createShip();
+    }
+
+    /**
+     * If dead (or not) resets the game
+     */
+    public void reset() {
+        this.dayNumber = 1;
+        setSurvivalBoolean(true);
+        this.morale = -1;
+        this.crewNum = -1;
+        this.resources = -1;
+    }
+
+    /** 
+     * Display the current infomation for player(day,crew,...to be added)
+     */
+    public void display() {
+        System.out.println("Ship: " + this.ship.shipName() + ",Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale);
+    }
+
+    /**
+     * The next day of the game
+     * Consumes resource, increment day, ...
+     */
+    public void nextDay() {
+        if (!this.survive) 
+            return;
+        
+        incrementDay();
+
+        if (this.resources <= 0)
+            this.crewNum -= 1;
+
+        if (this.crewNum <= 0)
+            setSurvivalBoolean(false);
+
+        this.resources -= this.ship.resourceCost();
     }
 
     /**
@@ -61,9 +176,12 @@ public class Player {
      * @return true if the day successfuly change forward
      */
     public void incrementDay() {
-        if (survive) 
-        {
-            dayNumber++; //move to the next day
+        if (survive) {
+            this.dayNumber += switch (this.pace) {
+                case SLOW -> 3;
+                case NORMAL -> 2;
+                case FAST -> 1;
+            };
         }
     }
 
@@ -78,11 +196,9 @@ public class Player {
      /**
      * sets the surivial boolean status.
      * @param survival is the player alive
-     * @return The survival boolean
      */
-    public boolean setSurvivalBoolean(boolean survival) {
-        survive = survival;
-        return survive;
+    public void setSurvivalBoolean(boolean survival) {
+        this.survive = survival;
     }
 
     /**
@@ -98,6 +214,7 @@ public class Player {
      * @param shipName name of ship
      */
     public void setShipName(String shipName) {
+        //TODO Sting null if null shipName
         this.shipName = shipName;
     }
 
@@ -168,6 +285,7 @@ public class Player {
      * @param resources new resources value
      */
     public void addResources(int resources) {
+        //TODO cannot go over 1000
         this.resources += resources;
     }
 
