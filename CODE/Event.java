@@ -8,8 +8,6 @@ import java.util.Random;
 public class Event {
     private String description;
 
-    private int crew_effect; //- needs implementation once crew is finalized as a data struct
-
     //The negative effect on the player's morale and resources respectivly
     private int morale_effect; //keep positive if assuming this effect is negative
     private int resources_effect;
@@ -112,6 +110,7 @@ public class Event {
             player.setSurvivalBoolean(false);
         } else {
             player.setResources(player.getResources() - resources_effect);
+            player.incrementDay();
         }
 
         if ((player.getMorale() - morale_effect) < 0) {
@@ -119,6 +118,7 @@ public class Event {
             player.setSurvivalBoolean(false);
         } else {
             player.setMorale(player.getMorale() - morale_effect);
+            player.incrementDay();
         }
     }
 
