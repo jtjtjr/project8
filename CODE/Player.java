@@ -40,11 +40,12 @@ public class Player {
         //CHANGE: added to just not cause error
         this.pace = Pace.SLOW;
         this.fuel = -1;
+        createShip();
 
     }
 
     /** 
-     * Constructs a Day object with a specified day number and list of possible events
+     * Constructs a Player object with a specified day number and list of possible events
      *The survival status is initially set to true
      *A seed value is randomly selected based on the size of the possible events list
      * 
@@ -63,6 +64,7 @@ public class Player {
         //CHANGE: added to just not cause error
         this.pace = Pace.SLOW;
         this.fuel = -1;
+        createShip();
     }
 
     /**
@@ -86,7 +88,7 @@ public class Player {
                     break;
                 case FAST:
                     this.resourceCost = 130;
-                    this.shipName = "SS Nove Viper";
+                    this.shipName = "SS Nova Viper";
                     break;
             }
 
@@ -141,7 +143,7 @@ public class Player {
      * Display the current infomation for player(day,crew,...to be added)
      */
     public void display() {
-        System.out.println("Ship: " + this.ship.shipName() + ",Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale);
+        System.out.println("Ship: " + this.ship.shipName() + ", Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale);
     }
 
     /**
