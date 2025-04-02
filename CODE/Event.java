@@ -101,6 +101,7 @@ public class Event {
      */
     public void triggerEvent() {
         System.out.println("Event: " + description);
+        Boolean nofail = true;
         
         if (!player.getSurvivalBoolean()) {
             throw new IllegalArgumentException("Player should be alive for the event to work");
@@ -108,16 +109,22 @@ public class Event {
 
         if ((player.getResources() - resources_effect) < 0) {
             player.setSurvivalBoolean(false);
+            nofail = false;
         } else {
             player.setResources(player.getResources() - resources_effect);
-            player.incrementDay();
+            
         }
 
         if ((player.getMorale() - morale_effect) < 0) {
             // Assume morale below zero kills the player? Prone to change.
             player.setSurvivalBoolean(false);
+            nofail = false;
         } else {
             player.setMorale(player.getMorale() - morale_effect);
+           // player.incrementDay();
+        }
+
+        if (nofail==true){
             player.incrementDay();
         }
     }
