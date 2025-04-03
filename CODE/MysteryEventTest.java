@@ -49,9 +49,6 @@ public class MysteryEventTest {
                 default:
                     fail("Unexpected event type: " + eventType);   
             }
-
-            
         }
     }
-    
 }
