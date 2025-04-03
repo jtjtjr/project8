@@ -11,6 +11,7 @@ public class Frontend {
     static Player cur_player = null;
     static Planet currentPlanet = null;
     static List<Planet> planets = null;
+    static Random rand = new Random();
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
      */
@@ -387,6 +388,12 @@ public class Frontend {
                 displayTextSlowly("\nYou have perished in space...");
                 return;
             }
+
+            // Randomly trigger a (less consequential) mystery event 30% of the time after main event
+            if(rand.nextInt(10) < 3) {
+                MysteryEvent mysteryEvent = new MysteryEvent(cur_player, rand);
+                mysteryEvent.triggerMysteryEvent();
+            } 
     
             // Now officially change the planet
             currentPlanet = nextPlanet;
