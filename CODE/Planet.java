@@ -19,6 +19,7 @@ public class Planet {
     private Planet nextPlanet;      //The next planet that will be traveled
     private boolean firstPlanet;     //The planet that they came from
     private boolean lastPlanet;      //The destination
+    private boolean hardMode = false;
 
     /**
      * Constructs a new Planet with the given attributes.
@@ -30,7 +31,7 @@ public class Planet {
      * @param dangerLevel  A rating from 1 to 10 indicating how dangerous this planet is.
      * @param amenities    A list of services available on this planet (e.g., refueling, market).
      */
-    public Planet(String name, String affiliation, int healthPerDay, int crewPerDay, int dangerLevel, List<String> amenities, int atmosphere) {
+    public Planet(String name, String affiliation, int healthPerDay, int crewPerDay, int dangerLevel, List<String> amenities, int atmosphere, boolean hardMode) {
         this.name = name;
         this.affiliation = affiliation;
         this.healthPerDay = healthPerDay;
@@ -42,6 +43,7 @@ public class Planet {
         this.atmosphere = atmosphere;
         this.firstPlanet = false;
         this.lastPlanet = false;
+        this.hardMode = hardMode;
 
     }
 
@@ -142,9 +144,16 @@ public class Planet {
             Event randomEvent = events.get(new Random().nextInt(events.size()));
             randomEvent.triggerEvent();
             System.out.println("Event triggered on " + name + ": " + randomEvent.getDescription());
+    
+            if (hardMode) {
+                System.out.println("[Hard Mode] Turbulence detected! A second event is occurring.");
+                Event secondEvent = events.get(new Random().nextInt(events.size()));
+                secondEvent.triggerEvent();
+                System.out.println("Second Event on " + name + ": " + secondEvent.getDescription());
+            }
         }
     }
-
+    
     /**
      * This set the next planet in the order of the determined path
      * @param next the next planet in the path
@@ -193,6 +202,10 @@ public class Planet {
      */
     public boolean isLastPlanet() {
         return this.lastPlanet;
+    }
+
+    public void setHardMode(boolean mode) {
+        this.hardMode = mode;
     }
 
     /**
