@@ -78,25 +78,7 @@ public class Frontend {
      * Basic Intro slide for the game
      */
     public static void introSlide(Scanner scanner) {
-        /////// Intro block
-        System.out.println("********************************************************************************************************");
-        System.out.println("*                    _____       _            _   _        _____         _ _                           *");
-        System.out.println("*                   |  __ \\     | |          | | (_)      |_   _|       (_) |                          *");
-        System.out.println("*                   | |  \\/ __ _| | __ _  ___| |_ _  ___    | |_ __ __ _ _| |                          *");
-        System.out.println("*                   | | __ / _` | |/ _` |/ __| __| |/ __|   | | '__/ _` | | |                          *");
-        System.out.println("*                   | | \\_\\ (_| | | (_| | (__| |_| | (__    | | | | (_| | | |                          *");
-        System.out.println("*                    \\____/\\__,_|_|\\__,_|\\___|\\__|_|\\___|   \\_/_|  \\__,_|_|_|                          *");
-        System.out.println("********************************************************************************************************");
-        System.out.println("*                                                                                                      *");
-        System.out.println("*                                      WELCOME TO GALACTIC TRAIL                                       *");
-        System.out.println("*                                                                                                      *");
-        System.out.println("*                                                                                                      *");
-        System.out.println("*                                                                                                      *");
-        System.out.println("*                                                                                                      *");
-        System.out.println("*                                                                                                      *");
-        System.out.println("*                                Will you make it to Cerberus XVII?                                    *");
-        System.out.println("********************************************************************************************************");
-        /////// Intro block
+        frontendUXElements.startScreen();
 
         /* Now we do the setup */
         System.out.print("USERNAME: ");
@@ -154,16 +136,7 @@ public class Frontend {
     public static void gameEnd(boolean atCerberus17) {
         /////// END BLOCK
         if (atCerberus17 == true) {
-            System.out.println("****************************************************");
-            System.out.println("*                                                  *");
-            System.out.println("*        Well Done on making it alive...           *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("****************************************************");
+            frontendUXElements.endScreen();
         } else {
             displayTextSlowly("you died and let the company down.....");
             displayTextSlowly("Well, at least you are replacable");
@@ -430,6 +403,8 @@ public class Frontend {
         }
         else if (userInput.equalsIgnoreCase("end")) {
             System.out.println("Ending game...");
+        } else if (userInput.equalsIgnoreCase("tutorial")) {
+            tutorial.tutorialOperator(scanner);
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.");
@@ -442,13 +417,7 @@ public class Frontend {
      * Displays a menu with all the commands that a player can use
      */
     public static void help() {
-        // TODO Auto-generated method stub
-        System.out.println("Input Commands: ");
-        System.out.println("planet - Displays the current planet's information.");
-        System.out.println("shop - open the shopping menu if you are currently on a planet");
-        System.out.println("travel - Moves to the next planet.");  
-        System.out.println("status - Displays how you are doing at the moment.");    
-        System.out.println("end - Ends the game.");
+        frontendUXElements.helpElements();
     }
 
     public static void displayPlayerStatus() {
