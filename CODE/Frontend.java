@@ -1,11 +1,8 @@
 // package project; // fix this with whole project
 
-import java.util.Scanner;
-import java.util.Random;
-import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
 
 /*
  * This is the Frontend
@@ -82,18 +79,7 @@ public class Frontend {
      * Basic Intro slide for the game
      */
     public static void introSlide(Scanner scanner) {
-        /////// Intro block
-        System.out.println("****************************************************");
-        System.out.println("*                                                  *");
-        System.out.println("*           WELCOME TO GALACTIC TRAIL              *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*                                                  *");
-        System.out.println("*        Will you make it to Cerberus XVII?        *");
-        System.out.println("****************************************************");
-        /////// Intro block
+        frontendUXElements.startScreen();
 
         /* Now we do the setup */
         System.out.print("USERNAME: ");
@@ -127,7 +113,7 @@ public class Frontend {
         ////////Intitilize the Player class
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
-        cur_player = new Player(1, null, resourcesAmount[0],resourcesAmount[1], resourcesAmount[2],shipName );
+        cur_player = new Player(1, resourcesAmount[0],resourcesAmount[1], resourcesAmount[2],shipName );
         cur_player.setCurrentPlanet(currentPlanet);
 
         // Display planet info
@@ -135,36 +121,13 @@ public class Frontend {
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
         runEventsIntegrationTest(cur_player);
-        
-        
-
-        // THIS IS NOT FINISHED, JUST SIMULATED FOR TESTING///////////////////////////////////////
-        boolean connected = false;
-        int attempts = 0;
-        while (!connected && attempts < 5) {  // Timeout for if it attempst more tha 5 times
-            System.out.println("Connecting to servers ...");
-            wait(1000);
-            attempts++;
-
-            // correct on the 3rd attempt
-            if (attempts == 3) {
-                connected = true;
-            }
-        }
-        ////////////////////////////////////////////////////////////////////////////////////////////
-
-        if (connected) { // connection checker
-            System.out.println("Connected!");
-        } else {
-            System.out.println("Failed to connect. Try again later.");
-        }
     }
 
     /*
     * This is the Frontend call for the encounter (from the server assumably)
     */
     public static void encounterFrontend(int encounterID) {
-        System.out.println("Oh...");
+        displayTextSlowly("Oh...");
         // backendClass.encounterID; // Uncomment when backend is written
     }   
 
@@ -174,19 +137,10 @@ public class Frontend {
     public static void gameEnd(boolean atCerberus17) {
         /////// END BLOCK
         if (atCerberus17 == true) {
-            System.out.println("****************************************************");
-            System.out.println("*                                                  *");
-            System.out.println("*        Well Done on making it alive...           *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("*                                                  *");
-            System.out.println("****************************************************");
+            frontendUXElements.endScreen();
         } else {
-            System.out.println("you died and let the company down.....");
-            System.out.println("Well, at least you are replacable");
+            displayTextSlowly("you died and let the company down.....");
+            displayTextSlowly("Well, at least you are replacable");
         }
         /////// END BLOCK
     }
@@ -317,10 +271,10 @@ public class Frontend {
     public static int[] setUpResourceStore(Scanner scanner) {
 
         System.out.println("*****************************************************************************************************");
-        System.out.println("  ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  _____  ____  ____  ____  ");
-        System.out.println(" (_  _)( )_( )( ___)   / __)(  _  )(  \\/  )(  _ \\ /__\\  ( \\( )( \\/ )  / __)(  _  )(_  _)(  _ \\( ___) ");
-        System.out.println("   )(   ) _ (  )__)   ( (__  )(_)(  )    (  )___//(__)\\  )  (  \\  /   \\__ \\ )(_)(   )(   )   / )__)  ");
-        System.out.println("  (__) (_) (_)(____)   \\___)(_____)(_/\\/\\_)(__) (__)(__)(_)\\_) (__)   (___/(_____) (__) (_)_)(____)  ");
+        System.out.println(" ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  ____  _____  ____  ____ ");
+        System.out.println("(_  _)( )_( )( ___)   / __)(  _  )(  \\/  )(  _ \\ /__\\  ( \\( )( \\/ )  / __)(_  _)(  _  )(  _ \\( ___)");
+        System.out.println("  )(   ) _ (  )__)   ( (__  )(_)(  )    (  )___//(__)\\  )  (  \\  /   \\__ \\  )(   )(_)(  )   / )__) ");
+        System.out.println(" (__) (_) (_)(____)   \\___)(_____)(_/\\/\\_)(__) (__)(__)(_)/\\_) (__)   (___/ (__) (_____)(_)/_)(____)");
         System.out.println("*****************************************************************************************************");
         System.out.println("*   ATTRIBUTE   *   COMPANY POINTS   *   DESCRIPTION                                                *");
         System.out.println("*****************************************************************************************************");
@@ -333,7 +287,7 @@ public class Frontend {
         System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
         System.out.println("*****************************************************************************************************");
 
-        System.err.println("Remaining Balance:" + currentPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
         //get the number of crew
         displayTextSlowly("How large is your crew: ");
@@ -357,10 +311,10 @@ public class Frontend {
 
         currentPoints = currentPoints - crewNum * 100;
 
-        System.err.println("Remaining Balance:" + currentPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
         
-        if (currentPoints < 0) {
-            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+        if (startingPoints < 0) {
+            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
         }
@@ -381,10 +335,10 @@ public class Frontend {
 
         currentPoints = currentPoints - initialMorale * 40;
         
-        System.err.println("Remaining Balance:" + currentPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
-        if (currentPoints < 0) {
-            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+        if (startingPoints < 0) {
+            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
         }
@@ -414,10 +368,10 @@ public class Frontend {
 
         currentPoints = currentPoints - initialResourceCount * 10;
 
-        System.err.println("Remaining Balance:" + currentPoints);
+        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
-        if (currentPoints < 0) {
-            System.out.println("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
+        if (startingPoints < 0) {
+            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
             gameEnd(false);
             return new int[]{0, 0, 0};
         }
@@ -428,7 +382,12 @@ public class Frontend {
 
         wait(2000);
 
-        System.err.println("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount);
+        displayTextSlowly("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount + "\n");
+
+        displayTextSlowly("Launching\n                                         \n                                         \n3                                         \n2                                         \n1                                         \n\n");
+
+        frontendUXElements.shipArt1();
+
         displayTextSlowly("Upload Complete\n");
         
         int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
@@ -441,50 +400,26 @@ public class Frontend {
      */
     public static void runEventsIntegrationTest(Player curr) {
         Random random = new Random(); //We will need to simulate randomness
-        int eventNumber = random.nextInt(3) + 1; //between 1 and 3
-
-        //this is not the way wll do for the final prototype
-        switch (eventNumber) {
-            case 1:
-                displayTextSlowly("\nEvent 1: Fox's ship hit you while chasing Wolf \n");
-                Event event_1 = new Event("Fox's ship hit you while chasing Wolf", 1, "Fox attack" , 4, 99, curr);
-                if ((curr.getResources()-event_1.getResourcesEffect()>=0) &&(curr.getMorale()-event_1.getMoraleEffect()>=0)){
-                    displayTextSlowly("You should have survived and the game should continue \n");
-                }
-                else{
-                    displayTextSlowly("You should be dying and game terminating \n");
-                }
-                event_1.triggerEvent();
-
-                return;
-            case 2:
-                displayTextSlowly("\nEvent 2: Falco Attacked you by accident \n");
-                Event event_2 = new Event("Falco Attacked you by accident", 2, "Eagle attack" , 39, 71, curr);
-                if ((curr.getResources()-event_2.getResourcesEffect())>=0 &&(curr.getMorale()-event_2.getMoraleEffect())>=0){
-                    displayTextSlowly("You should have survived and the game should continue \n");
-                }
-                else{
-                    displayTextSlowly("You should be dying and game terminating \n");
-                }
-                event_2.triggerEvent();
-                return;
-            case 3:
-                displayTextSlowly("\nEvent 3: Wolf shot at you while fox is chasing him \n");
-                Event event_3= new Event("Wolf shot at you while fox is chasing him", 3, "Wolf attack" , 40, 101, curr);
-                if ((curr.getResources()-event_3.getResourcesEffect())>=0 &&(curr.getMorale()-event_3.getMoraleEffect()>=0)){
-                    displayTextSlowly("You should have survived and the game should continue \n");
-                }
-                else{
-                    displayTextSlowly("You should be dying and game terminating \n");
-                }
-                
-                event_3.triggerEvent();
-                
-                return;
-            default:
-                displayTextSlowly("No event occurred. This should not be happening \n");
-                break;
+        int eventNumber = random.nextInt(5) + 1; //between 1 and 3
+        EventSQL eventgetter = new EventSQL(cur_player);
+        //return the event
+        Event chosen =  eventgetter.getEventFromSQL(eventNumber);
+        if (chosen==null){
+            throw new NullPointerException("Issue with getting event by index, chosen returning null");
         }
+
+       
+        displayTextSlowly(chosen.getDescription());
+                
+        if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)){
+            displayTextSlowly("You should have survived and the game should continue \n");
+        }
+        else{
+            displayTextSlowly("You should be dying and game terminating \n");
+        }
+        chosen.triggerEvent();
+
+        return;
     }
 
     // This is the Planet Integration
@@ -493,11 +428,20 @@ public class Frontend {
      * Displays the current planet's information.
      */
     public static void displayCurrentPlanet() {
+        Planet nextPlanet = currentPlanet.getNextPlanet();
+        if (currentPlanet.isStartPlanet()) {
+            displayTextSlowly("\nDrifting in deep space... ");
+            wait(1000);
+            displayTextSlowly("Navigational systems online. ");
+            wait(1500);
+            displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName());
+        }
         if (currentPlanet != null) {
-            System.out.println("\nYou are currently at: " + currentPlanet.getName());
+            displayTextSlowly("\nYou are traveling to: " + currentPlanet.getName());
             currentPlanet.displayPlanetInfo();
+            frontendUXElements.shipArtPlanet1();
         } else {
-            System.out.println("You are lost in space...");
+            displayTextSlowly("You are lost in space...");
         }
     }
 
@@ -507,32 +451,48 @@ public class Frontend {
     public static void travelToNextPlanet() {
         if (currentPlanet != null && currentPlanet.getNextPlanet() != null) {
             Planet nextPlanet = currentPlanet.getNextPlanet();
-            
-            // Announce departure
-            System.out.println("\nTraveling to " + nextPlanet.getName() + "...");
+    
+            // Special case for first travel (coming from deep space)
+            if (currentPlanet.isStartPlanet()) {
+                displayTextSlowly("\nDrifting in deep space... ");
+                wait(1000);
+                displayTextSlowly("Navigational systems online. ");
+                wait(1500);
+                displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName());
+            } else {
+                // Normal departure message for every other travel
+                displayTextSlowly("\nPreparing for departure from " + currentPlanet.getName() + "...");
+                wait(1000);
+                displayTextSlowly("Launching...");
+            }
             wait(2000);
-
-            // Trigger the event before reaching the new planet
+    
+            // Simulate space travel
+            displayTextSlowly("\n** Traveling through space **");
+            wait(1500);
+    
+            // Mid-travel event trigger
+            displayTextSlowly("\n[WARNING] An event has occurred during travel!");
             currentPlanet.triggerRandomEvent(cur_player);
-
+    
             // Check if the player survived the event
             if (!cur_player.getSurvivalBoolean()) {
-                System.out.println("You have died during the journey...");
+                displayTextSlowly("\nYou have perished in space...");
                 return;
             }
-
-            // Now officially change the planet and display its info
+    
+            // Now officially change the planet
             currentPlanet = nextPlanet;
             cur_player.setCurrentPlanet(currentPlanet);
-            
+    
             // Announce arrival
-            System.out.println("\nYou have arrived at " + currentPlanet.getName() + "!");
+            displayTextSlowly("\nYou have safely arrived at " + currentPlanet.getName() + "!");
             displayCurrentPlanet();
             
         } else if (currentPlanet.isLastPlanet()) {
-            System.out.println("You have reached your final destination!");
+            displayTextSlowly("\nYou have reached your final destination!");
         } else {
-            System.out.println("No further planets to travel to.");
+            displayTextSlowly("\nNo further planets to travel to.");
         }
     }
 
@@ -559,6 +519,8 @@ public class Frontend {
         }
         else if (userInput.equalsIgnoreCase("end")) {
             System.out.println("Ending game...");
+        } else if (userInput.equalsIgnoreCase("tutorial")) {
+            tutorial.tutorialOperator(scanner);
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.");
@@ -571,13 +533,7 @@ public class Frontend {
      * Displays a menu with all the commands that a player can use
      */
     public static void help() {
-        // TODO Auto-generated method stub
-        System.out.println("Input Commands: ");
-        System.out.println("planet - Displays the current planet's information.");
-        System.out.println("shop - open the shopping menu if you are currently on a planet");
-        System.out.println("travel - Moves to the next planet.");  
-        System.out.println("status - Displays how you are doing at the moment.");    
-        System.out.println("end - Ends the game.");
+        frontendUXElements.helpElements();
     }
 
     public static void displayPlayerStatus() {

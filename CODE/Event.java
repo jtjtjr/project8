@@ -8,8 +8,6 @@ import java.util.Random;
 public class Event {
     private String description;
 
-    private int crew_effect; //- needs implementation once crew is finalized as a data struct
-
     //The negative effect on the player's morale and resources respectivly
     private int morale_effect; //keep positive if assuming this effect is negative
     private int resources_effect;
@@ -103,6 +101,7 @@ public class Event {
      */
     public void triggerEvent() {
         System.out.println("Event: " + description);
+        Boolean nofail = true;
         
         if (!player.getSurvivalBoolean()) {
             throw new IllegalArgumentException("Player should be alive for the event to work");
@@ -110,15 +109,23 @@ public class Event {
 
         if ((player.getResources() - resources_effect) < 0) {
             player.setSurvivalBoolean(false);
+            nofail = false;
         } else {
             player.setResources(player.getResources() - resources_effect);
+            
         }
 
         if ((player.getMorale() - morale_effect) < 0) {
             // Assume morale below zero kills the player? Prone to change.
             player.setSurvivalBoolean(false);
+            nofail = false;
         } else {
             player.setMorale(player.getMorale() - morale_effect);
+           // player.incrementDay();
+        }
+
+        if (nofail==true){
+            player.incrementDay();
         }
     }
 
