@@ -29,10 +29,10 @@ INSERT INTO Planet (name, affiliation, health_per_day, crew_per_day) VALUES
 -- Create the Event table
 CREATE TABLE IF NOT EXISTS PlanetLore (
     planet_name TEXT NOT NULL, 
-    lore TEXT NOT NULL
+    planet_lore TEXT NOT NULL
 );
 
-INSERT INTO PlanetLore (planet_name, lore) VALUES 
+INSERT INTO PlanetLore (planet_name, planet_lore) VALUES 
 ('Bucephalus', 'A yellow gas giant, Bucephalus hosts the Greasy Bolt Diner, a pirate-run platform. Jessa "One-Eye" Korran serves Bolt Burgers—synth-meat fried in oil—and guards salvaged purifiers. Storms jolt the sails, and deals sour without a blaster.'),
 ('Norman''s Rock', 'An airless gray rock, this Company mine was a failing startup until the buyout, but salaries fell, hours grew, and accidents worsened. Miners tried to unionize years ago, but with no off-world aid and food exports cut, it collapsed fast. A lost iridium vein taunts them, yet the Company won’t dig. The Rusty Pick saloon gouges traders, and exiled guards rule the desperate.'),
 ('Atlas Station', 'A void-bound lab, Atlas Station hunts graviton anomalies to crack FTL travel. Dr. Elara Voss’s team stares at Norman’s Rock, decoding spacetime’s warp. Asteroids and breaches test them, but the data rewrites physics.'),
