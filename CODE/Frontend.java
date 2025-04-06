@@ -281,9 +281,9 @@ public class Frontend {
                     //first subtract the number of points from the player
                     currentPoints -= totalCost;
                         
-                    //TODO: implement the logic to add the items to the player inventory
-                    
-                    //clear the receipt
+                    //add items to inventory and clear the receipt
+                    cur_player.addResources(shop.getShopItemsAsResources());
+                    //clear the receipt as you are theoretically done with it
                     shop.clearReceipt();
                 } 
                 else if(input.equals("show")) {

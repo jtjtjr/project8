@@ -195,4 +195,16 @@ public class Shop {
         return grandTotal;
     }
     
+    /**
+     * Returns the items in the shop as resources
+     */
+    public int getShopItemsAsResources() {
+        int total = 0;
+        for (String key : this.shopItems.keySet()) {
+            total += this.receipt.get(key);
+        }
+
+        //returns the total number of resources in the shop
+        return total;
+    }
 }
