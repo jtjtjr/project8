@@ -11,6 +11,7 @@ public class Frontend {
     static Player cur_player = null;
     static Planet currentPlanet = null;
     static List<Planet> planets = null;
+    static int currentPoints = 10000;
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
      */
@@ -91,7 +92,7 @@ public class Frontend {
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
 
         
-        int[] resourcesAmount = resourceStore(scanner);
+        int[] resourcesAmount = setUpResourceStore(scanner);
 
         // Load planets
         planets = PlanetLoader.loadPlanets();
@@ -145,10 +146,129 @@ public class Frontend {
     }
 
     /*
-     * input gathering function that gets information from user
+     * returns whether the current planet has a shop on it or not
      */
-    public static int[] resourceStore(Scanner scanner) {
-        int startingPoints = 10000;
+    public static boolean planetContainsShop(Planet planet) {
+        if(planet == null) {
+            return false;
+        }
+
+        return planet.getAmenities().contains("Market");
+    }
+        
+
+    /**
+     * Given a shop object we setup based on the planet
+     */
+    public static void setUpShop(Shop shop) {
+        // TODO Auto-generated method stub
+        System.out.println("Setting up shop ...");
+        wait(1000);
+        System.out.println("Shop is ready!");
+    }
+    /**
+     * This function opens the shop if the current planet has a shop on it
+    */
+    public static void openPlanetResourceStore(Scanner scanner) {
+        if(planetContainsShop(currentPlanet)) {
+            Shop shop = new Shop();
+            setUpShop(shop);
+
+            shop.displayStore();
+            displayTextSlowly("\n What would you like to buy? \n", 1000);
+
+            String input = "";
+
+            while(true) {
+                input = scanner.nextLine();
+                
+                if(input.equals("exit")) {
+                    displayTextSlowly("Goodbye!");
+                    break;
+                }
+                else if(input.equals("help")) {
+                    System.out.println("\nAvailable commands: ");
+                    System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
+                    System.out.println("remove <item> <count> - leave the shop.");
+                    System.out.println("review - see what is on your list.");
+                    System.out.println("complete purchase - buy all the items on your list.");
+                    System.out.println("show - show the items available in the shop.");
+                    System.out.println("exit - leave shop.\n");
+                }
+                else if(input.startsWith("buy")) {
+                    String[] parts = input.split(" ");
+                    if(parts.length == 3) {
+                        String item = parts[1];
+                        int count = Integer.parseInt(parts[2]);
+                        if(shop.shopItems.containsKey(item)) {
+                            shop.addItemToReceipt(item, count);
+                        } else {
+                            System.out.println("Item not found in shop.");
+                        }
+                    } else {
+                        System.out.println("Invalid command format. Use: buy <item> <count>");
+                    }
+                } 
+                else if(input.startsWith("remove")) {
+                    String[] parts = input.split(" ");
+                    if(parts.length == 3) {
+                        String item = parts[1];
+                        int count = Integer.parseInt(parts[2]);
+                        shop.removeItemFromReceipt(item, count);
+                        System.out.println("Removed " + count + " " + item + "(s) from your list.");
+                    } else {
+                        System.out.println("Invalid command format. Use: remove <item> <count>");
+                    }
+                } 
+                else if(input.equals("review")) {
+                    shop.printContentsOfReceipt();
+                } 
+                else if(input.equals("complete purchase")) {
+                    int totalCost = shop.getTotalReceiptCost();
+
+                    //validate the number of points the player has
+                    if(totalCost > currentPoints) {
+                        System.out.println("You do not have enough points to complete this purchase.");
+                        continue;
+                    } 
+
+                    //first subtract the number of points from the player
+                    currentPoints -= totalCost;
+                        
+                    //add items to inventory and clear the receipt
+                    cur_player.addResources(shop.getShopItemsAsResources());
+                    //clear the receipt as you are theoretically done with it
+                    shop.clearReceipt();
+                } 
+                else if(input.equals("show")) {
+                    shop.displayStore();
+                } 
+                else if(input.equals("exit")) {
+                    displayTextSlowly("Goodbye!");
+                    break;
+                } 
+                else if(input.equals("help")) {
+                    System.out.println("\nAvailable commands: ");
+                    System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
+                    System.out.println("remove <item> <count> - leave the shop.");
+                    System.out.println("review - see what is on your list.");
+                    System.out.println("complete purchase - buy all the items on your list.");
+                    System.out.println("show - show the items available in the shop.");
+                    System.out.println("exit - leave shop.\n");
+                else {
+                    System.out.println("Command not recognized.");
+                }
+            }
+        } else {
+            displayTextSlowly("You are not at a shop, you cannot buy items here!");
+        }
+        
+    }
+
+    /*
+     * input gathering function that gets information from user (this will now work for the first planet only at the beginning as its a little bit two specific)
+     */
+    public static int[] setUpResourceStore(Scanner scanner) {
 
         System.out.println("*****************************************************************************************************");
         System.out.println(" ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  ____  _____  ____  ____ ");
@@ -189,7 +309,7 @@ public class Frontend {
             }       
         }
 
-        startingPoints = startingPoints - crewNum * 100;
+        currentPoints = currentPoints - crewNum * 100;
 
         displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
         
@@ -213,7 +333,7 @@ public class Frontend {
             if(initialMorale > 70) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n", 1000);            
         }
 
-        startingPoints = startingPoints - initialMorale * 40;
+        currentPoints = currentPoints - initialMorale * 40;
         
         displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
@@ -246,7 +366,7 @@ public class Frontend {
             }
         }
 
-        startingPoints = startingPoints - initialResourceCount * 10;
+        currentPoints = currentPoints - initialResourceCount * 10;
 
         displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
 
@@ -392,11 +512,7 @@ public class Frontend {
             displayPlayerStatus();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
-            if(cur_player.getCurrentPlanet().getAmenities().contains("Market")) {
-                resourceStore(scanner);
-            } else {
-                displayTextSlowly("No shop available on this planet.", 800);
-            }
+            setUpResourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
