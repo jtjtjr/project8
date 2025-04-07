@@ -11,6 +11,8 @@ public class Frontend {
     static Player cur_player = null;
     static Planet currentPlanet = null;
     static List<Planet> planets = null;
+    static List<Planet> visitedPlanets = null; 
+
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
      */
@@ -363,6 +365,7 @@ public class Frontend {
     
             // Now officially change the planet
             currentPlanet = nextPlanet;
+            visitedPlanets.add(currentPlanet); // Add the planet to the visited list
             cur_player.setCurrentPlanet(currentPlanet);
     
             // Announce arrival
@@ -405,6 +408,28 @@ public class Frontend {
             System.out.println("Ending game...");
         } else if (userInput.equalsIgnoreCase("tutorial")) {
             tutorial.tutorialOperator(scanner);
+        }
+        else if (userInput.equalsIgnoreCase("lore")) {
+            displayTextSlowly("These are the planets you have currently visited (type \'exit\' to leave): ");
+            for(int i = 0; i < visitedPlanets.size(); i++) {
+                displayTextSlowly("\t " + visitedPlanets.get(i).getName() + "\n");
+            }
+
+            LoreSQL loregetter = new LoreSQL(cur_player);
+            while(true) {
+                System.out.print("Lore> ");
+                String loreInput = scanner.nextLine();
+                if (loreInput.equalsIgnoreCase("exit")) {
+                    break;
+                }
+
+                String lore = loregetter.getLoreFromSQL(loreInput);
+                if (lore != null) {
+                    displayTextSlowly(lore);
+                } else {
+                    displayTextSlowly("Lore not found for " + loreInput + ". Please try again.");
+                }
+            }
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.");

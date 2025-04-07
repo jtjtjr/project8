@@ -5,10 +5,7 @@ import java.sql.*;
  */
 public class LoreSQL {
 
-    private String command;
-    private Player player;
-
-    /**
+   /**
      * Constructs an LoreSQL object with the given player.
      *
      * @param player the Player object associated with this EventSQL instance
@@ -24,7 +21,7 @@ public class LoreSQL {
      * @param name the name of the planet to receive lore for
      * @return the Lore object corresponding to the given planet name, or null if not found
      */
-    public String getEventFromSQL(String planetName) {
+    public String getLoreFromSQL(String planetName) {
         try {
             String planetLore = null;
 
