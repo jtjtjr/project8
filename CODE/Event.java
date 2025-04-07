@@ -128,6 +128,27 @@ public class Event {
             player.incrementDay();
         }
     }
+    /**
+     * Sacrifice a players crew memeber, this can include the player themselves - if the player
+     * safricses themselves the game ends. If the player sacrifises the crew further resources are gained for the player
+     * @return
+     */
+    public int sacrifice(){
+        if(player.getCrewNum()>=1){
+            //TODO add specific flags?
+            player.setResources(player.getResources()+25);
+            player.setMorale(player.getMorale()+5);
+            player.removeCrewNum(1);
+            return player.getCrewNum();
+        }
+        else if(player.getCrewNum()==0){
+            return -1;
+        }
+        else{
+            return -2;
+        }
+        //return 0;
+    }
 
     /** Returns a string representation of the event.
      * @return A formatted string describing the event and its effects.

@@ -120,7 +120,7 @@ public class Frontend {
         displayCurrentPlanet();
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
-        runEventsIntegrationTest(cur_player);
+        runEvents(cur_player);
     }
 
     /*
@@ -398,7 +398,7 @@ public class Frontend {
      * This is the event integration
      * it does not have the SQL database added yet but just tests multiple types of events and includes the random class
      */
-    public static void runEventsIntegrationTest(Player curr) {
+    public static void runEvents(Player curr) {
         Random random = new Random(); //We will need to simulate randomness
         int eventNumber = random.nextInt(5) + 1; //between 1 and 3
         EventSQL eventgetter = new EventSQL(cur_player);
@@ -412,7 +412,10 @@ public class Frontend {
         displayTextSlowly(chosen.getDescription());
                 
         if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)){
-            displayTextSlowly("You should have survived and the game should continue \n");
+           // displayTextSlowly("You should have survived and the game should continue \n");
+           displayTextSlowly("Do you wish to sacrifice your crewmates? This includes yourself but you should not do that");
+           displayTextSlowly(cur_player.getCrewNum() + " Crew Members in your Crew - if this is zero you can only sacrifice yourself\n press 1 to sacrifice 0 to not");
+           
         }
         else{
             displayTextSlowly("You should be dying and game terminating \n");
