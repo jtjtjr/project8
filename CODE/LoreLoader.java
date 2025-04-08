@@ -17,7 +17,7 @@ public class LoreLoader {
      * 
      * @return List of lore strings
      */
-    public static List<String> loadLore() {
+    public static Map<String, String> loadLore() {
         List<String> loreList = new ArrayList<>();
         Map<String, String> loreMap = new HashMap<>();
 
@@ -44,7 +44,7 @@ public class LoreLoader {
             System.err.println("Error reading file: " + e.getMessage());
         }
 
-        return loreList;
+        return loreMap; // Return the map of lore
     }
 
     /**
@@ -53,15 +53,17 @@ public class LoreLoader {
      * @param visitedPlanets List of planet indices that have been visited
      * @return List of lore strings corresponding to visited planets
      */
-    public static List<String> getFilteredLoreList(List<Integer> visitedPlanets) {
-        List<String> filteredLoreList = new ArrayList<>();
-        List<String> loreList = loadLore();
+    public static Map<String, String> getFilteredLoreList(List<String> visitedPlanets) {
+        Map<String, String> filteredLoreList = new HashMap<>(); // Use a map to store filtered lore
+        Map<String, String> loreList = loadLore();
 
         for (int i = 0; i < visitedPlanets.size(); i++) {
-            int planetIndex = visitedPlanets.get(i);
-            if (planetIndex >= 0 && planetIndex < loreList.size()) {
-                filteredLoreList.add(loreList.get(planetIndex));
+            String planetName= visitedPlanets.get(0); // Convert char to int
+            if(visitedPlanets.get(i).equals(planetName)) {
+                continue; // Skip if the planet is not visited
             }
+            filteredLoreList.put(planetName, loreList.get(i)); // Add lore for the visited planet
+            
         }
 
         return filteredLoreList;
@@ -71,12 +73,13 @@ public class LoreLoader {
      * Get individual planet lore by planet name.
      */
     public static String getLoreByPlanetName(String planetName) {
-        List<String> loreList = loadLore();
-        for (String lore : loreList) {
-            if (lore.contains(planetName)) {
-                return lore;
+        Map<String, String> loreList = loadLore();
+        for (Map.Entry<String, String> entry : loreList.entrySet()) {
+            if (entry.getKey().equalsIgnoreCase(planetName)) {
+                return entry.getValue(); // Return the lore for the given planet name
             }
         }
-        return null; // Return null if no lore found for the given planet name
-
+       
+        return null; // If no lore found for the given planet name, return null or an empty string
+    }
 }
