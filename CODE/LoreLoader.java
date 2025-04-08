@@ -14,6 +14,8 @@ public class LoreLoader {
 
     /**
      * Parses the lore.csv file and returns a list of Lore objects.
+     * 
+     * @return List of lore strings
      */
     public static List<String> loadLore() {
         List<String> loreList = new ArrayList<>();
@@ -44,4 +46,37 @@ public class LoreLoader {
 
         return loreList;
     }
+
+    /**
+     * Given the planets that we currently have visited, filter the lore list to only include those planets.
+     * 
+     * @param visitedPlanets List of planet indices that have been visited
+     * @return List of lore strings corresponding to visited planets
+     */
+    public static List<String> getFilteredLoreList(List<Integer> visitedPlanets) {
+        List<String> filteredLoreList = new ArrayList<>();
+        List<String> loreList = loadLore();
+
+        for (int i = 0; i < visitedPlanets.size(); i++) {
+            int planetIndex = visitedPlanets.get(i);
+            if (planetIndex >= 0 && planetIndex < loreList.size()) {
+                filteredLoreList.add(loreList.get(planetIndex));
+            }
+        }
+
+        return filteredLoreList;
+    }
+
+    /**
+     * Get individual planet lore by planet name.
+     */
+    public static String getLoreByPlanetName(String planetName) {
+        List<String> loreList = loadLore();
+        for (String lore : loreList) {
+            if (lore.contains(planetName)) {
+                return lore;
+            }
+        }
+        return null; // Return null if no lore found for the given planet name
+
 }

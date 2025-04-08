@@ -526,12 +526,12 @@ public class Frontend {
             tutorial.tutorialOperator(scanner);
         }
         else if (userInput.equalsIgnoreCase("lore")) {
+            //display the planets that we have visited
             displayTextSlowly("These are the planets you have currently visited (type \'exit\' to leave): ");
             for(int i = 0; i < visitedPlanets.size(); i++) {
                 displayTextSlowly("\t " + visitedPlanets.get(i).getName() + "\n");
             }
 
-            LoreSQL loregetter = new LoreSQL(cur_player);
             while(true) {
                 System.out.print("Lore> ");
                 String loreInput = scanner.nextLine();
@@ -539,7 +539,7 @@ public class Frontend {
                     break;
                 }
 
-                String lore = loregetter.getLoreFromSQL(loreInput);
+                String lore = LoreLoader.getLoreByPlanetName(loreInput);
                 if (lore != null) {
                     displayTextSlowly(lore);
                 } else {
