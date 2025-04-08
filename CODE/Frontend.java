@@ -255,7 +255,7 @@ public class Frontend {
                     System.out.println("complete purchase - buy all the items on your list.");
                     System.out.println("show - show the items available in the shop.");
                     System.out.println("exit - leave shop.\n");
-                else {
+                } else {
                     System.out.println("Command not recognized.");
                 }
             }
@@ -269,6 +269,8 @@ public class Frontend {
      * input gathering function that gets information from user (this will now work for the first planet only at the beginning as its a little bit two specific)
      */
     public static int[] setUpResourceStore(Scanner scanner) {
+
+        int startingPoints = 8000;
 
         System.out.println("*****************************************************************************************************");
         System.out.println(" ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  ____  _____  ____  ____ ");
