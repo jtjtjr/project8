@@ -105,12 +105,12 @@ public class CompanyStore {
                 if(crewNum < 1) 
                 {
                     displayTextSlowly("Really ... ", 1000);
-                    displayTextSlowly("you need SOMEONE to manage the crew!!! \n", 1000);
+                    displayTextSlowly("you need SOMEONE to manage the crew!!! \n\nCrew: ", 1000);
                 }
                 if(crewNum > 10)
                 {
                     displayTextSlowly("Hmm ... ", 1000);     
-                    displayTextSlowly("That\'s a bit too many mouths to feed. \n", 1000);   
+                    displayTextSlowly("That\'s a bit too many mouths to feed. \n\nCrew: ", 1000);   
                 }       
             }
     
@@ -134,8 +134,8 @@ public class CompanyStore {
             {
                 initialMorale = parseInt(scanner, "morale");
     
-                if(initialMorale < 0) displayTextSlowly("Oh come on you've got to have more than that! ... \n", 1000);
-                if(initialMorale > 100) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n", 1000);            
+                if(initialMorale < 0) displayTextSlowly("Oh come on you've got to have more than that! ... \n\nMorale: ", 1000);
+                if(initialMorale > 100) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n\nMorale: ", 1000);            
             }
     
             currentPoints = currentPoints - initialMorale * 40;
@@ -161,10 +161,10 @@ public class CompanyStore {
                 initialResourceCount = parseInt(scanner, "resourses");
     
                 if(initialResourceCount < 50) {
-                    displayTextSlowly("You will be unable to make it to the next planet ...\n");
+                    displayTextSlowly("You will be unable to make it to the next planet ...\n\nResources: ");
                 }
                 if(initialResourceCount > 1000) {
-                    displayTextSlowly("You ran out of cargo capacity, dumbass ...\n");
+                    displayTextSlowly("You ran out of cargo capacity, dumbass ...\n\nResources: ");
                 }
             }
     
