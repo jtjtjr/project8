@@ -71,7 +71,7 @@ public class Frontend {
      * this method waits for a user to page to the next information
      */
     public static void next(Scanner s) {
-        Frontend.displayTextSlowly("Press enter to continue . . . . . . . . . . . . . . . . .\n \n");
+        Frontend.displayTextSlowly("Press enter to continue>");
         s.nextLine();
         frontendUXElements.newSlideScene();
     }
@@ -113,7 +113,7 @@ public class Frontend {
         String shipName = scanner.nextLine();  
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
 
-        frontendUXElements.newSlideScene();
+        next(scanner);
 
         // Load planets
         planets = PlanetLoader.loadPlanets();
@@ -139,12 +139,23 @@ public class Frontend {
 
         frontendUXElements.newSlideScene();
 
+        System.out.println("--------------------------- Legend: CARGO = {} SUPPLY = [] Crew = >:| ------------------------------\n\n\n");
+        ShipDisplayer.emptyShipDisplay();
+        displayTextSlowly("This is your ship, it will act as your home base\n");
+        next(scanner);
+
+        frontendUXElements.newSlideScene();
+
         // Display planet info
         displayCurrentPlanet();
 
         frontendUXElements.fiadorXdisp();
 
-        wait(7000);
+        wait(3000);
+
+        displayTextSlowly("*I need to travel to Fiador or I am going to run out of resources*\n\n");
+
+        next(scanner);
 
         frontendUXElements.newSlideScene();
 
@@ -154,6 +165,14 @@ public class Frontend {
         cur_player.setResources(resourcesAmount[2]);
         cur_player.setShipName(shipName);
         cur_player.nextDay();
+
+        frontendUXElements.newSlideScene();
+
+        System.out.println("--------------------------- Legend: CARGO = {} SUPPLY = [] Crew = >:| ------------------------------\n\n\n");
+        ShipDisplayer.shipDisplayerBuilder();
+        next(scanner);
+
+        frontendUXElements.newSlideScene();
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
         runEvents(cur_player, scanner);
