@@ -1,9 +1,9 @@
 
-public class ShipDisplayer {
+public class ShipDisplayer extends Frontend{
     
     public void shipDisplayerBuilder(){
-        int C = Player.getCrewNum; // FIX THIS TO RETRIEVE FROM PLAYER CREW
-        int R = Player.getResources; // FIX THIS TO RETRIEVE FROM PLAYER RESOURCE
+        int C = cur_player.getCrewNum(); // FIX THIS TO RETRIEVE FROM PLAYER CREW
+        int R = Player.getResources(); // FIX THIS TO RETRIEVE FROM PLAYER RESOURCE
         
         int crewNumber = C;
         int cargoNumber = Math.floorDiv(R, 31);

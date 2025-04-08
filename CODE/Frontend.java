@@ -11,7 +11,9 @@ public class Frontend {
     static Player cur_player = null;
     static Planet currentPlanet = null;
     static List<Planet> planets = null;
+    static List<Planet> visitedPlanets = null; 
     static int currentPoints = 10000;
+    
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
      */
@@ -66,6 +68,15 @@ public class Frontend {
     }
 
     /*
+     * this method waits for a user to page to the next information
+     */
+    public static void next(Scanner s) {
+        Frontend.displayTextSlowly("Press enter to continue . . . . . . . . . . . . . . . . .\n \n");
+        s.nextLine();
+        frontendUXElements.newSlideScene();
+    }
+
+    /*
      * status of player ie are they alive or not?
      * @return The survival boolean
      */
@@ -79,6 +90,17 @@ public class Frontend {
      * Basic Intro slide for the game
      */
     public static void introSlide(Scanner scanner) {
+        frontendUXElements.newSlideScene();
+        displayTextSlowly("Would you like a tutorial, press y for yes: ");
+        String input = scanner.nextLine();
+        
+        if (input.contains("y")) {
+            frontendUXElements.newSlideScene();
+            tutorial.tutorialOperator(scanner);
+        }
+
+        frontendUXElements.newSlideScene();
+
         frontendUXElements.startScreen();
 
         /* Now we do the setup */
@@ -91,8 +113,7 @@ public class Frontend {
         String shipName = scanner.nextLine();  
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
 
-        
-        int[] resourcesAmount = setUpResourceStore(scanner);
+        frontendUXElements.newSlideScene();
 
         // Load planets
         planets = PlanetLoader.loadPlanets();
@@ -113,11 +134,26 @@ public class Frontend {
         ////////Intitilize the Player class
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
-        cur_player = new Player(1, resourcesAmount[0],resourcesAmount[1], resourcesAmount[2],shipName );
+        cur_player = new Player( 0, 0, 0, 0, null);
         cur_player.setCurrentPlanet(currentPlanet);
+
+        frontendUXElements.newSlideScene();
 
         // Display planet info
         displayCurrentPlanet();
+
+        frontendUXElements.fiadorXdisp();
+
+        wait(7000);
+
+        frontendUXElements.newSlideScene();
+
+        int[] resourcesAmount = CompanyStore.StoreFrontCompany(scanner, 0, true); ////////////////////////////CHANGE THIS TO PASS IN PLAYER MONEY
+        cur_player.setCrewNum(resourcesAmount[0]);
+        cur_player.setMorale(resourcesAmount[1]);
+        cur_player.setResources(resourcesAmount[2]);
+        cur_player.setShipName(shipName);
+        cur_player.nextDay();
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
         runEvents(cur_player, scanner);
@@ -166,6 +202,7 @@ public class Frontend {
         wait(1000);
         System.out.println("Shop is ready!");
     }
+    
     /**
      * This function opens the shop if the current planet has a shop on it
     */
@@ -266,137 +303,6 @@ public class Frontend {
     }
 
     /*
-     * input gathering function that gets information from user (this will now work for the first planet only at the beginning as its a little bit two specific)
-     */
-    public static int[] setUpResourceStore(Scanner scanner) {
-
-        int startingPoints = 8000;
-
-        System.out.println("*****************************************************************************************************");
-        System.out.println(" ____  _   _  ____     ___  _____  __  __  ____   __    _  _  _  _    ___  ____  _____  ____  ____ ");
-        System.out.println("(_  _)( )_( )( ___)   / __)(  _  )(  \\/  )(  _ \\ /__\\  ( \\( )( \\/ )  / __)(_  _)(  _  )(  _ \\( ___)");
-        System.out.println("  )(   ) _ (  )__)   ( (__  )(_)(  )    (  )___//(__)\\  )  (  \\  /   \\__ \\  )(   )(_)(  )   / )__) ");
-        System.out.println(" (__) (_) (_)(____)   \\___)(_____)(_/\\/\\_)(__) (__)(__)(_)/\\_) (__)   (___/ (__) (_____)(_)/_)(____)");
-        System.out.println("*****************************************************************************************************");
-        System.out.println("*   ATTRIBUTE   *   COMPANY POINTS   *   DESCRIPTION                                                *");
-        System.out.println("*****************************************************************************************************");
-        System.out.println("*     MORALE    *       40           *   Happy crew members are going to cost you...                *");
-        System.out.println("*****************************************************************************************************");
-        System.out.println("*     CREW      *       100          *   Bodies cost money!                                         *");
-        System.out.println("*****************************************************************************************************");
-        System.out.println("*   RESOURCES   *       10           *   Gotta eat, gotta fuel (the first planet requires >50 units)*");
-        System.out.println("*****************************************************************************************************");
-        System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
-        System.out.println("*****************************************************************************************************");
-
-        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
-
-        //get the number of crew
-        displayTextSlowly("How large is your crew: ");
-        int crewNum = -1; 
-
-        while (crewNum < 1 || crewNum > 10)
-        {
-            crewNum = parseInt(scanner, "crew size");
-
-            if(crewNum < 1) 
-            {
-                displayTextSlowly("Really ... ", 1000);
-                displayTextSlowly("you need SOMEONE to manage the crew!!! \n", 1000);
-            }
-            if(crewNum > 10)
-            {
-                displayTextSlowly("Hmm ... ", 1000);     
-                displayTextSlowly("That\'s a bit too many mouths to feed. \n", 1000);   
-            }       
-        }
-
-        currentPoints = currentPoints - crewNum * 100;
-
-        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
-        
-        if (startingPoints < 0) {
-            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
-            gameEnd(false);
-            return new int[]{0, 0, 0};
-        }
-
-        displayTextSlowly("Excellent!!!\n\n", 1000);
-
-        //initial morale
-        displayTextSlowly("On a scale of 1 to 100, how do you want your crew to feel about this journey (remember it costs you!): ");
-        int initialMorale = -1; 
-
-        while (initialMorale < 30 || initialMorale > 70)
-        {
-            initialMorale = parseInt(scanner, "morale");
-
-            if(initialMorale < 30) displayTextSlowly("Oh come on you've got to have more than that! ... \n", 1000);
-            if(initialMorale > 70) displayTextSlowly("Woahhh OK, let's dial it down a little! ... \n", 1000);            
-        }
-
-        currentPoints = currentPoints - initialMorale * 40;
-        
-        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
-
-        if (startingPoints < 0) {
-            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
-            gameEnd(false);
-            return new int[]{0, 0, 0};
-        }
-
-        displayTextSlowly("Excellent!!!\n\n", 1000);
-       
-        //resources
-        displayTextSlowly("How many resources are you planning to fill your ship with ... \n", 1000);
-        displayTextSlowly("Oh ...\n", 1000);
-        displayTextSlowly("And just so you know ...\n", 1000);
-        displayTextSlowly("more resources means less cargo space ... \n", 1000);
-        displayTextSlowly("Remaining Cargo Space: 1000 Units (1 Resource takes 1 unit!)");
-        displayTextSlowly("Resources: ");
-        int initialResourceCount = parseInt(scanner, "initial resouce count");
-
-        while (initialResourceCount < 50 || initialResourceCount > 1000) { 
-            
-            initialResourceCount = parseInt(scanner, "resourses");
-
-            if(initialResourceCount < 50) {
-                displayTextSlowly("You will be unable to make it to the next planet ...\n");
-            }
-            if(initialResourceCount > 1000) {
-                displayTextSlowly("You ran out of cargo capacity, dumbass ...\n");
-            }
-        }
-
-        currentPoints = currentPoints - initialResourceCount * 10;
-
-        displayTextSlowly("Remaining Balance:" + startingPoints + "\n\n");
-
-        if (startingPoints < 0) {
-            displayTextSlowly("THE COMPANY DOES NOT APPROVE OF OVERDRAFTS");
-            gameEnd(false);
-            return new int[]{0, 0, 0};
-        }
-
-        displayTextSlowly("Excellent!!!\n\n", 1000);
-
-        /////////// IMPLEMENT SHIP LOGIC HERE ////////////
-
-        wait(2000);
-
-        displayTextSlowly("Player Data: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount + "\n");
-
-        displayTextSlowly("Launching\n                                         \n                                         \n3                                         \n2                                         \n1                                         \n\n");
-
-        frontendUXElements.shipArt1();
-
-        displayTextSlowly("Upload Complete\n");
-        
-        int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount};
-        return resourcesAmount;
-    }
-
-    /*
      * This is the event integration
      * it does not have the SQL database added yet but just tests multiple types of events and includes the random class
      */
@@ -487,7 +393,6 @@ public class Frontend {
         if (currentPlanet != null) {
             displayTextSlowly("\nYou are traveling to: " + currentPlanet.getName());
             currentPlanet.displayPlanetInfo();
-            frontendUXElements.shipArtPlanet1();
         } else {
             displayTextSlowly("You are lost in space...");
         }
@@ -531,6 +436,7 @@ public class Frontend {
     
             // Now officially change the planet
             currentPlanet = nextPlanet;
+            visitedPlanets.add(currentPlanet); // Add the planet to the visited list
             cur_player.setCurrentPlanet(currentPlanet);
     
             // Announce arrival
@@ -560,7 +466,6 @@ public class Frontend {
             displayPlayerStatus();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
-            setUpResourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
@@ -569,6 +474,28 @@ public class Frontend {
             System.out.println("Ending game...");
         } else if (userInput.equalsIgnoreCase("tutorial")) {
             tutorial.tutorialOperator(scanner);
+        }
+        else if (userInput.equalsIgnoreCase("lore")) {
+            //display the planets that we have visited
+            displayTextSlowly("These are the planets you have currently visited (type \'exit\' to leave): ");
+            for(int i = 0; i < visitedPlanets.size(); i++) {
+                displayTextSlowly("\t " + visitedPlanets.get(i).getName() + "\n");
+            }
+
+            while(true) {
+                System.out.print("Lore> ");
+                String loreInput = scanner.nextLine();
+                if (loreInput.equalsIgnoreCase("exit")) {
+                    break;
+                }
+
+                String lore = LoreLoader.getLoreByPlanetName(loreInput);
+                if (lore != null) {
+                    displayTextSlowly(lore);
+                } else {
+                    displayTextSlowly("Lore not found for " + loreInput + ". Please try again.");
+                }
+            }
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.");
@@ -584,6 +511,9 @@ public class Frontend {
         frontendUXElements.helpElements();
     }
 
+    /**
+     * Player staus displayer, probably should be removed
+     */
     public static void displayPlayerStatus() {
         System.out.println("Player Status: ");
         System.out.println("Num Crew Left: " + cur_player.getCrewNum());
