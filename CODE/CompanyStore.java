@@ -82,12 +82,12 @@ public class CompanyStore {
         int initialMorale = -1;
         int initialResourceCount = -1;
 
-
+        currentPoints = startingPoints;
 
         while (!userApproved) {
             frontendUXElements.companyStore();
 
-            if (currentPoints == 0) {
+            if (currentPoints != startingPoints) {
                 currentPoints = startingPoints;
             }
 
