@@ -1,9 +1,9 @@
 
 public class ShipDisplayer extends Frontend{
     
-    public void shipDisplayerBuilder(){
+    public static void shipDisplayerBuilder() {
         int C = cur_player.getCrewNum(); // FIX THIS TO RETRIEVE FROM PLAYER CREW
-        int R = Player.getResources(); // FIX THIS TO RETRIEVE FROM PLAYER RESOURCE
+        int R = cur_player.getResources(); // FIX THIS TO RETRIEVE FROM PLAYER RESOURCE
         
         int crewNumber = C;
         int cargoNumber = Math.floorDiv(R, 31);
@@ -86,8 +86,6 @@ public class ShipDisplayer extends Frontend{
         crewNumber -= 3;
         i = 0;
 
-        System.out.println("\n\n\n" + crewNumber + "\n\n\n\n");
-
         if (crewNumber >= 3) {
             while (i < crewNumber && i < 3) {
                 crewLine2 += ">:| ";
@@ -136,14 +134,13 @@ public class ShipDisplayer extends Frontend{
         String cargoLine3 = "                    ....:...:-=+-:@@@@@-" + cargoBay3 + "|" + crewLine3 + "*@@%.                  ";
         String cargoLine4 = "                                     :@-" + cargoBay4 + "|" + crewLine4 + "*@@%.                  ";
 
-        System.out.println("Legend: CARGO = ██ SUPPLY = [] Crew = >:|  ");
         System.out.println("                                                            ..  ..                                  ");
-        System.out.println("                                                             -.  :.                                 ");
-        System.out.println("                                                      .... .. -.  .:                                 ");
-        System.out.println("                                                  .--..:+   .  :   .:                                ");
-        System.out.println("                                                 :-+*%%.        =.   :.                              ");
+        System.out.println("                                 .                           -.  :.                                 ");
+        System.out.println("                 .                                    .... .. -.  .:                                 ");
+        System.out.println("                                                  .--..:+   .  :   .:                  *             ");
+        System.out.println("                               *                 :-+*%%.        =.   :.                              ");
         System.out.println("                                                 ...*@*..       .-.   :.                             ");
-        System.out.println("                                     .++++++++++++*@@@@@*=::-+++++*++++++++++++++=.                  ");
+        System.out.println("                                     .++++++++++++*@@@@@*=::-+++++*++++++++++++++=.          .       ");
         System.out.println("             ....               .%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#++-.              ");
         System.out.println("           .:-=++*#%%@@%#+--===:.%@@@@@@%%%%%%%%%%%%%%%%%%%%%%%%M%%%%%%%%%%%%%@@@#+++++=..          ");
         System.out.println("                                .====+@-=======CARGO BAY========[] CREW AREA  *@@#+++++++++-.       ");
@@ -152,6 +149,25 @@ public class ShipDisplayer extends Frontend{
         System.out.println(cargoLine3);
         System.out.println(cargoLine4);
         System.out.println("                                     :@-......................................*@@%.                  ");
-        System.out.println("                                                                                                    ");
+        System.out.println("                                                                                                    \n\n\n\n\n\n\n\n");
+    }
+
+    public static void emptyShipDisplay() {
+        System.out.println("                                                            ..  ..                                  ");
+        System.out.println("                                 .                           -.  :.                                 ");
+        System.out.println("                 .                                    .... .. -.  .:                                 ");
+        System.out.println("                                                  .--..:+   .  :   .:                  *             ");
+        System.out.println("                               *                 :-+*%%.        =.   :.                              ");
+        System.out.println("                                                 ...*@*..       .-.   :.                             ");
+        System.out.println("                                     .++++++++++++*@@@@@*=::-+++++*++++++++++++++=.          .       ");
+        System.out.println("             ....               .%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@#++-.              ");
+        System.out.println("           .:-=++*#%%@@%#+--===:.%@@@@@@%%%%%%%%%%%%%%%%%%%%%%%%M%%%%%%%%%%%%%@@@#+++++=..          ");
+        System.out.println("                                .====+@-=======CARGO BAY========[] CREW AREA  *@@#+++++++++-.       ");
+        System.out.println("                                     :@-                         | >:|        *@@#++++++++++++=.    ");
+        System.out.println("         :*%@@@@@@*-*#%@@%=.     :@@@@@-                         |            *@@%.");
+        System.out.println("                    ....:...:-=+-:@@@@@-                         |            *@@%.");
+        System.out.println("                                     :@-                         |            *@@%.");
+        System.out.println("                                     :@-......................................*@@%.                  ");
+        System.out.println("                                                                                                    \n\n\n\n\n\n\n\n");
     }
 }
