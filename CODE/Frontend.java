@@ -120,7 +120,7 @@ public class Frontend {
         displayCurrentPlanet();
 
         //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
-        runEvents(cur_player);
+        runEvents(cur_player, scanner);
     }
 
     /*
@@ -400,9 +400,9 @@ public class Frontend {
      * This is the event integration
      * it does not have the SQL database added yet but just tests multiple types of events and includes the random class
      */
-    public static void runEvents(Player curr) {
+    public static void runEvents(Player curr, Scanner scannerEvent) {
         Random random = new Random(); //We will need to simulate randomness
-        int eventNumber = random.nextInt(5) + 1; //between 1 and 3
+        int eventNumber = random.nextInt(5) + 1; 
         EventSQL eventgetter = new EventSQL(cur_player);
         //return the event
         Event chosen =  eventgetter.getEventFromSQL(eventNumber);
@@ -411,12 +411,55 @@ public class Frontend {
         }
 
        
-        displayTextSlowly(chosen.getDescription());
+        displayTextSlowly(chosen.getDescription() + '\n');
                 
         if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)){
            // displayTextSlowly("You should have survived and the game should continue \n");
-           displayTextSlowly("Do you wish to sacrifice your crewmates? This includes yourself but you should not do that");
-           displayTextSlowly(cur_player.getCrewNum() + " Crew Members in your Crew - if this is zero you can only sacrifice yourself\n press 1 to sacrifice 0 to not");
+           displayTextSlowly("You have lost " + chosen.getResourcesEffect() + " resources and " +chosen.getMoraleEffect() +" morale\n" );
+           displayTextSlowly("Good news, killing... I mean SACRIFICING your crew will give your resources and sometimes a boost in morale\n");
+           displayTextSlowly("Do you wish to sacrifice your crewmates? This includes yourself but you should try not do that" +'\n');
+           displayTextSlowly(cur_player.getCrewNum() + " Crew Members in your Crew - if this is zero crew then you can only sacrifice yourself\npress 1 to sacrifice 0 to not\n");
+ 
+          // System.out.print("Input for crew> ");
+           int userChoice = -1; 
+           int sacNum = -2;
+           while (true) {
+               System.out.print("Enter 0 for no sacrifice or 1 to sacrifice: ");
+               
+               if (scannerEvent.hasNextInt()) {
+                   userChoice = scannerEvent.nextInt();
+                   
+                   if (userChoice == 0 ) {
+                        //chosen.sacrifice();
+                         break; 
+                   } 
+                   else if(userChoice == 1){
+                         sacNum = chosen.sacrifice();
+                         if (sacNum == -1){
+                            displayTextSlowly("\nYou accidently sacrificed yourself?\n");
+                         }
+                         else if (sacNum==0){
+                            displayTextSlowly("\nResources went up but you killed a good friend among your crew, dropping morale\n");
+                            displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew\n");
+                         }
+                         else if (sacNum==1){
+                            displayTextSlowly("\nResources went up and you killed an annoying person among your crew, increasing morale\n");
+                            displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew\n");
+                         }
+                         else{
+                            System.out.println("Unexpected behavior - error to be added");
+                         }
+                         break; 
+                   }
+                   else {
+                       System.out.println("Invalid input. Please enter 0 or 1.");
+                   }
+               } else {
+                   System.out.println("Invalid input. Please enter a number (0 or 1).");
+                   scannerEvent.next(); 
+               }
+           }
+            displayTextSlowly("\n");
            
         }
         else{
