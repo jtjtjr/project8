@@ -88,6 +88,14 @@ public class EventTester {
 
     }
 
+    @Test
+    void testSacrifice() {
+        assertEquals(10, test_guy.getResources());
+        event_2.sacrifice();
+        assertEquals(60, event.getResourcesEffect());
+    }
+
+
     // Test toString() 
     @Test
     void testToString() {

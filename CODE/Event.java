@@ -100,7 +100,7 @@ public class Event {
      * @throws IllegalArgumentException If the player is already dead before the event occurs.
      */
     public void triggerEvent() {
-        System.out.println("Event: " + description);
+       // System.out.println("Event: " + description);
         Boolean nofail = true;
         
         if (!player.getSurvivalBoolean()) {
@@ -127,6 +127,35 @@ public class Event {
         if (nofail==true){
             player.incrementDay();
         }
+    }
+    /**
+     * Sacrifice a players crew memeber, this can include the player themselves - if the player
+     * safricses themselves the game ends. If the player sacrifises the crew further resources are gained for the player
+     * @return -2 is more of a error check, -1 means the player died, 1- means the morale went up and 0 means morale went down
+     */
+    public int sacrifice(){
+        if(player.getCrewNum()>=1){
+            //TODO add specific flags?
+            player.setResources(player.getResources()+25);
+            Random rand = new Random();
+            int randomInt = rand.nextInt(2);
+            if (randomInt==0){
+                player.setMorale(player.getMorale()-5);
+            }
+            else{
+                player.setMorale(player.getMorale()+5);
+            }
+            player.removeCrewNum(1);
+            return randomInt;
+        }
+        else if(player.getCrewNum()==0){
+            player.setSurvivalBoolean(false);
+            return -1;
+        }
+        else{
+            return -2;
+        }
+        //return 0;
     }
 
     /** Returns a string representation of the event.
