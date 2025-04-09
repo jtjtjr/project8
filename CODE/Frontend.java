@@ -1,5 +1,6 @@
 // package project; // fix this with whole project
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,7 +12,7 @@ public class Frontend {
     static Player cur_player = null;
     static Planet currentPlanet = null;
     static List<Planet> planets = null;
-    static List<Planet> visitedPlanets = null; 
+    static List<Planet> visitedPlanets = new ArrayList<>(); 
     static int currentPoints = 10000;
     
     /*
@@ -119,19 +120,13 @@ public class Frontend {
         planets = PlanetLoader.loadPlanets();
         if (planets.isEmpty()) {
             System.out.println("No planets loaded! Exiting.");
-            //return;
+            return;
         }
 
-        // Set starting planet
-        for (Planet planet : planets) {
-            if (planet.isStartPlanet()) {
-                currentPlanet = planet;
-                break;
-            }
-        }
+        currentPlanet = planets.get(0);
 
-        //System.out.println("Starting Player-EVent test");
-        ////////Intitilize the Player class
+        visitedPlanets.add(currentPlanet);
+
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
         cur_player = new Player( 0, 0, 0, 0, null);
@@ -142,20 +137,19 @@ public class Frontend {
         System.out.println("--------------------------- Legend: CARGO = {} SUPPLY = [] Crew = >:| ------------------------------\n\n\n");
         ShipDisplayer.emptyShipDisplay();
         displayTextSlowly("This is your ship, it will act as your home base\n");
+        
+        next(scanner);
+        
+        frontendUXElements.newSlideScene();
+
+        displayTextSlowly("*I need to travel to Fiador or I am going to run out of resources*\n\n");
+
         next(scanner);
 
         frontendUXElements.newSlideScene();
 
         // Display planet info
-        displayCurrentPlanet();
-
-        frontendUXElements.fiadorXdisp();
-
-        wait(3000);
-
-        displayTextSlowly("*I need to travel to Fiador or I am going to run out of resources*\n\n");
-
-        next(scanner);
+        displayCurrentPlanet(scanner);
 
         frontendUXElements.newSlideScene();
 
@@ -243,13 +237,7 @@ public class Frontend {
                     break;
                 }
                 else if(input.equals("help")) {
-                    System.out.println("\nAvailable commands: ");
-                    System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
-                    System.out.println("remove <item> <count> - leave the shop.");
-                    System.out.println("review - see what is on your list.");
-                    System.out.println("complete purchase - buy all the items on your list.");
-                    System.out.println("show - show the items available in the shop.");
-                    System.out.println("exit - leave shop.\n");
+                    frontendUXElements.availableCommands();
                 }
                 else if(input.startsWith("buy")) {
                     String[] parts = input.split(" ");
@@ -304,13 +292,7 @@ public class Frontend {
                     break;
                 } 
                 else if(input.equals("help")) {
-                    System.out.println("\nAvailable commands: ");
-                    System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
-                    System.out.println("remove <item> <count> - leave the shop.");
-                    System.out.println("review - see what is on your list.");
-                    System.out.println("complete purchase - buy all the items on your list.");
-                    System.out.println("show - show the items available in the shop.");
-                    System.out.println("exit - leave shop.\n");
+                    frontendUXElements.availableCommands();
                 } else {
                     System.out.println("Command not recognized.");
                 }
@@ -400,18 +382,44 @@ public class Frontend {
     /**
      * Displays the current planet's information.
      */
-    public static void displayCurrentPlanet() {
+    public static void displayCurrentPlanet(Scanner s) {
         Planet nextPlanet = currentPlanet.getNextPlanet();
         if (currentPlanet.isStartPlanet()) {
             displayTextSlowly("\nDrifting in deep space... ");
             wait(1000);
             displayTextSlowly("Navigational systems online. ");
             wait(1500);
-            displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName());
+            displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName()+ "\n\n\n");
         }
         if (currentPlanet != null) {
-            displayTextSlowly("\nYou are traveling to: " + currentPlanet.getName());
+            displayTextSlowly("\nYou are traveling to: " + currentPlanet.getName() + "\n\n\n\n");
+            next(s);
+            if (currentPlanet.getName().equalsIgnoreCase("Fiador X")) {
+                frontendUXElements.fiadorXdisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Bucephalus")) {
+                frontendUXElements.brucephalusPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Norman's Rock")) {
+                frontendUXElements.normansPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Atlas Station")) {
+                frontendUXElements.atlasPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Ezekiel's Salvation")) {
+                frontendUXElements.ezekielPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Mu 6")) {
+                frontendUXElements.mu6PlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Orion's Bane")) {
+                frontendUXElements.orionsPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Technon 9")) {
+                frontendUXElements.technonPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Astros Militarum")) {
+                frontendUXElements.astrosPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Unknown J76G432")) {
+                frontendUXElements.unknownPlanetDisp();
+            } else if (currentPlanet.getName().equalsIgnoreCase("Cerberus XVII")) {
+                frontendUXElements.cerberusPlanetDisp();
+            }
+            
             currentPlanet.displayPlanetInfo();
+            next(s);
         } else {
             displayTextSlowly("You are lost in space...");
         }
@@ -420,12 +428,12 @@ public class Frontend {
     /**
      * Moves to the next planet.
      */
-    public static void travelToNextPlanet() {
+    public static void travelToNextPlanet(Scanner scanner) {
         if (currentPlanet != null && currentPlanet.getNextPlanet() != null) {
             Planet nextPlanet = currentPlanet.getNextPlanet();
     
             // Special case for first travel (coming from deep space)
-            if (currentPlanet.isStartPlanet()) {
+            if (nextPlanet.isStartPlanet()) {
                 displayTextSlowly("\nDrifting in deep space... ");
                 wait(1000);
                 displayTextSlowly("Navigational systems online. ");
@@ -435,16 +443,16 @@ public class Frontend {
                 // Normal departure message for every other travel
                 displayTextSlowly("\nPreparing for departure from " + currentPlanet.getName() + "...");
                 wait(1000);
-                displayTextSlowly("Launching...");
+                displayTextSlowly("Launching...\n\n");
             }
             wait(2000);
     
             // Simulate space travel
-            displayTextSlowly("\n** Traveling through space **");
+            displayTextSlowly("\n\n\n\n** Traveling through space **\n\n\n\n\n");
             wait(1500);
     
             // Mid-travel event trigger
-            displayTextSlowly("\n[WARNING] An event has occurred during travel!");
+            displayTextSlowly("\n\n[WARNING] An event has occurred during travel!\n");
             currentPlanet.triggerRandomEvent(cur_player);
     
             // Check if the player survived the event
@@ -459,8 +467,7 @@ public class Frontend {
             cur_player.setCurrentPlanet(currentPlanet);
     
             // Announce arrival
-            displayTextSlowly("\nYou have safely arrived at " + currentPlanet.getName() + "!");
-            displayCurrentPlanet();
+            displayCurrentPlanet(scanner);
             
         } else if (currentPlanet.isLastPlanet()) {
             displayTextSlowly("\nYou have reached your final destination!");
@@ -477,9 +484,10 @@ public class Frontend {
         String userInput = scanner.nextLine();
 
         if (userInput.equalsIgnoreCase("planet")) {
-            displayCurrentPlanet();
+            displayCurrentPlanet(scanner);
         } else if (userInput.equalsIgnoreCase("travel")) {
-            travelToNextPlanet();
+            frontendUXElements.newSlideScene();
+            travelToNextPlanet(scanner);
         }
         else if (userInput.equalsIgnoreCase("status")) {
             displayPlayerStatus();
