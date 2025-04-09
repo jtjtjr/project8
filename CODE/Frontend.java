@@ -303,9 +303,13 @@ public class Frontend {
         
     }
 
-    /*
-     * This is the event integration
-     * it does not have the SQL database added yet but just tests multiple types of events and includes the random class
+    /**
+     * Runs a random event that affects the player's resources and morale.
+     * Player can choose to sacrifice crew members to reduce losses.
+     * 
+     * @param curr The current player
+     * @param scannerEvent Scanner for player input
+     * @throws NullPointerException If event loading fails
      */
     public static void runEvents(Player curr, Scanner scannerEvent) {
         Random random = new Random(); //We will need to simulate randomness
