@@ -66,10 +66,15 @@ public class CompanyStore {
     public static int[] StoreFrontCompany(Scanner scanner, int currentPoints, Boolean firstPass) {
         if (firstPass) {
             displayTextSlowly("Do you need a tutorial for the shop - press y for yes: ");
+            String userInput = scanner.nextLine();
+
             
-            if (scanner.nextLine().equalsIgnoreCase("y")) {
+            if (userInput.equalsIgnoreCase("y")) {
                 frontendUXElements.newSlideScene();
                 tutorial.shopTutorial(scanner);
+            } else if (userInput.equalsIgnoreCase("dev")) {
+                int[] resourcesAmount = {10, 100, 1000, 9999999}; 
+                return resourcesAmount;
             }
         }
         
