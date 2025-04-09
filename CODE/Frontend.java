@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -117,20 +118,33 @@ public class Frontend {
         next(scanner);
 
         // Load planets
-        planets = PlanetLoader.loadPlanets();
-        if (planets.isEmpty()) {
-            System.out.println("No planets loaded! Exiting.");
+        Map<String, List<Planet>> paths = PlanetLoader.loadEasyAndHardPaths();
+        if (paths.isEmpty()) {
+            System.out.println("No paths found. Exiting.");
             return;
         }
 
-        currentPlanet = planets.get(0);
+        displayTextSlowly("Select your difficulty (1 for Easy, 2 for Hard): ");
+        int difficulty = parseInt(scanner, "difficulty");
 
+        if (difficulty == 2) {
+            displayTextSlowly("You chose HARD mode. Buckle up...\n\n");
+            planets = paths.get("hard");
+            cur_player = new Player(0, 0, 0, 0, null);
+            cur_player.setHardMode(true);
+        } else {
+            displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n");
+            planets = paths.get("easy");
+            cur_player = new Player(0, 0, 0, 0, null);
+            cur_player.setHardMode(false);
+        }
+
+        currentPlanet = planets.get(0);
+        cur_player.setCurrentPlanet(currentPlanet);
         visitedPlanets.add(currentPlanet);
 
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
-        cur_player = new Player( 0, 0, 0, 0, null);
-        cur_player.setCurrentPlanet(currentPlanet);
 
         frontendUXElements.newSlideScene();
 

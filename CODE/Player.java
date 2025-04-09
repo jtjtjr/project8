@@ -12,6 +12,7 @@ public class Player {
     private Planet currentPlanet;
     private int dayNumber;
     private boolean survive;
+    private boolean hardMode = false;
 
     private Ship ship;
 
@@ -357,6 +358,22 @@ public class Player {
     public Planet getCurrentPlanet() {
         return this.currentPlanet;
     }
+
+    /**
+     * This mode that the player is using
+     */
+    public void setHardMode(boolean mode) {
+        this.hardMode = mode;
+    }
+    
+    /**
+     * This returns the current mode that the player is using
+     * @return current mode
+     */
+    public boolean isHardMode() {
+        return this.hardMode;
+    }
+    
 
     ////////////////////////////////////////////////////////
     /**
