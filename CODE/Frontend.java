@@ -348,6 +348,7 @@ public class Frontend {
                          sacNum = chosen.sacrifice();
                          if (sacNum == -1){
                             displayTextSlowly("\nYou accidently sacrificed yourself?\n");
+                            curr.setSurvivalBoolean(false);
                          }
                          else if (sacNum==0){
                             displayTextSlowly("\nResources went up but you killed a good friend among your crew, dropping morale\n");
