@@ -5,6 +5,7 @@
  */
 public class Player {
     
+    private String userName;
     private String shipName;
     private int crewNum;
     private int morale;
@@ -15,57 +16,45 @@ public class Player {
     private boolean hardMode = false;
 
     private Ship ship;
-
-    //POTENTIAL IMPLEMENTS
-    private int fuel;
     private Pace pace;
-
-    //CARGO?
-
-
-    //private Event currentEvent; not too sure how we want to do this yet
+    private int money;
 
     /**
-     * Default Constructor that takes no input yet (testing??)
+     * Default Constructor that takes no input yet
+     * This is only for testing purposes
      */
     public Player() {
+        this.userName = "TestBob";
         this.dayNumber = 1;
         this.survive = true;
-
         this.morale = -1;
         this.crewNum = -1;
         this.resources = -1;
         this.shipName = "";
         this.currentPlanet = null;
-
-        //CHANGE: added to just not cause error
         this.pace = Pace.SLOW;
-        this.fuel = -1;
+        this.money = -1;
         createShip();
-
     }
 
-    /** 
+    /**         CHANGE
      * Constructs a Player object with a specified day number and list of possible events
      *The survival status is initially set to true
      *A seed value is randomly selected based on the size of the possible events list
      * 
      * @param dayNumber The current day number.
      */
-    public Player(int dayNumber, int crewNum, int morale, int resources, String shipName) {
-        this.dayNumber = dayNumber;
+    public Player(String userName, int crewNum, int morale, int resources, String shipName) {
+        this.userName = userName;
+        this.dayNumber = 1;
         this.survive = true; 
-
-        // The Ship portion
         this.crewNum = crewNum;
         this.morale = morale;
         this.resources = resources;
         this.shipName = shipName;
-
-        //CHANGE: added to just not cause error
         this.pace = Pace.SLOW;
-        this.fuel = -1;
         createShip();
+        this.money = 0;
     }
 
     /**
@@ -74,22 +63,22 @@ public class Player {
      */
     public class Ship {
         private int resourceCost;
-        private String shipName;
+        private String shipType;
 
         public Ship(Pace pace) {
 
             switch(pace) {
                 case SLOW:
-                    this.resourceCost = 100;
-                    this.shipName = "SS Driftwing";
+                    this.resourceCost = 20 + 10*crewNum;
+                    this.shipType = "SS Driftwing";
                     break;
                 case NORMAL:
-                    this.resourceCost = 120;
-                    this.shipName = "SS StarBorne";
+                    this.resourceCost = 25 + 13*crewNum;
+                    this.shipType = "SS StarBorne";
                     break;
                 case FAST:
-                    this.resourceCost = 130;
-                    this.shipName = "SS Nova Viper";
+                    this.resourceCost = 30 + 15*crewNum;
+                    this.shipType = "SS Nova Viper";
                     break;
             }
 
@@ -99,8 +88,8 @@ public class Player {
             return this.resourceCost;
         }
 
-        public String shipName() {
-            return this.shipName;
+        public String shipType() {
+            return this.shipType;
         }
     }
 
@@ -144,12 +133,29 @@ public class Player {
      * Display the current infomation for player(day,crew,...to be added)
      */
     public void display() {
-        System.out.println("Ship: " + this.ship.shipName() + ", Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale);
+        Frontend.displayTextSlowly("Ship: " + this.shipName + ", Ship Type:" + this.ship.shipType() + ", Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale + "\n");
+        if (this.crewNum == 1) {
+            Frontend.displayTextSlowly("WARNING: Only 1 crew member left!\n");
+        }
+        if (this.morale <= 5 && this.morale > 0) {
+            Frontend.displayTextSlowly("WARNING: Low team morale!\n");
+        }
+        if (this.resources <= 100 && this.resources > 0) {
+            Frontend.displayTextSlowly("WARNING: Low resources left!\n");
+        }
+        if (this.morale <= 0) {
+            Frontend.displayTextSlowly("WARNING: No team morale!\n");
+        }
+        if (this.resources <= 0) {
+            Frontend.displayTextSlowly("WARNING: No resources left!\n");
+        }
     }
 
     /**
      * The next day of the game
      * Consumes resource, increment day, ...
+     * 
+     * This is what should be called as game progess
      */
     public void nextDay() {
         if (!this.survive) 
@@ -189,6 +195,34 @@ public class Player {
     }
 
     /**
+     * Set the money that player has
+     * @param money int value of money
+     */
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    /**
+     * Get the current money that player has
+     * @return current money
+     */
+    public int getMoney() {
+        return this.money;
+    }
+
+    /**
+     * Spend money method
+     * @param money money deducted CHECKS if player has enough
+     */
+    public void removeMoney(int money) {
+        if (this.money >= money) {
+            this.money -= money;
+        } else {
+            System.out.println("NOT ENOUGH MONEY: BACKEND");
+        }
+    }
+
+    /**
      * Retrieves the surivial boolean status.
      * @return The survival boolean
      */
@@ -217,7 +251,7 @@ public class Player {
      * @param shipName name of ship
      */
     public void setShipName(String shipName) {
-        //TODO Sting null if null shipName
+        
         this.shipName = shipName;
     }
 
@@ -288,8 +322,12 @@ public class Player {
      * @param resources new resources value
      */
     public void addResources(int resources) {
-        //TODO cannot go over 1000
-        this.resources += resources;
+        if ((this.resources+resources) <= 1000) {
+            this.resources += resources;
+        }
+        else {
+            this.resources = 1000;
+        }
     }
 
     /**
@@ -377,21 +415,19 @@ public class Player {
 
     ////////////////////////////////////////////////////////
     /**
-     * Retrieves the seed value
-     * @return the integer seedvalue
+     * toString of player
+     * @return String of some information in player class
      */
-    //public int getSeedValue() {
-    //    return seedValue;
-    //}
-    ///// COMMENTED OUT BC WE CURRENTLY DO NOT USE SEED /////
     @Override
     public String toString() {
         return "Player{" +
-                " shipName=" + shipName +
-                ", crewNum=" + crewNum +
-                ", morale=" + morale +
-                ", resources=" + resources +
-                ", dayNumber=" + dayNumber +
+                " shipName=" + this.shipName +
+                ", shipType=" + this.ship.shipType() +
+                ", crewNum=" + this.crewNum +
+                ", morale=" + this.morale +
+                ", resources=" + this.resources +
+                ", dayNumber=" + this.dayNumber +
+                ", resourceConsumed=" + this.ship.resourceCost() +
                 " }";
     }
 }
