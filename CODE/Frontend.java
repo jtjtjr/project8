@@ -114,7 +114,11 @@ public class Frontend {
         String shipName = scanner.nextLine();  
         displayTextSlowly("Excellent Name!!!\n\n", 1000);
 
+        //Steve - Moved initialization for player class earlier to set ship type when game begins
+        cur_player = new Player( username, 0, 0, 0, shipName);
         next(scanner);
+
+        //set ship type - FAST, MED, SLOW
 
         // Load planets
         planets = PlanetLoader.loadPlanets();
@@ -129,7 +133,7 @@ public class Frontend {
 
         //I recommend testing with Crew: 4 Morale: 50 Resources: 100
         //to pass all events do Crew: 4 Morale: 50 Resources: 105
-        cur_player = new Player( 0, 0, 0, 0, null);
+
         cur_player.setCurrentPlanet(currentPlanet);
 
         frontendUXElements.newSlideScene();
@@ -192,6 +196,31 @@ public class Frontend {
             displayTextSlowly("Well, at least you are replacable");
         }
         /////// END BLOCK
+    }
+
+    public static void setUpShipType(Scanner scanner) {
+        //Ship Type stuff - SLOW, MED, FAST
+        displayTextSlowly("The current ship model is set to SS Driftwing. Type the corresponding number for the ship you would like.\n");
+        displayTextSlowly("[1]SS Driftwing: Slow pace ship. Travels slow but consumes very little resources per day.\n", 500);
+        displayTextSlowly("[2]SS StarBorne: Median pace ship. Travels average and consumes average resources per day.\n", 500);
+        displayTextSlowly("[3]SS Nova Viper: Fast pace ship. Travels fast but consumes a lot of resources per day.\n", 500);
+        String shipType = scanner.nextLine();
+
+        if (shipType.equals("1")) {
+            displayTextSlowly("Great! This is recommended for most people.");
+            displayTextSlowly("Ship Info:\n");
+            displayTextSlowly("Ship Name: " + cur_player.getShipName() + ", Ship Type: SS Driftwing, Description: Slow pace ship. Travels slow but consumes very little resources per day\n");
+        } else if (shipType.equals("2")) {
+            displayTextSlowly("Good Choice! A solid balance between speed and resource consumption.\n");
+            displayTextSlowly("Loading new ship...!\n");
+            cur_player.setPace(2);
+            displayTextSlowly("New Ship has been set!\n");
+            displayTextSlowly("Ship Info:\n");
+            displayTextSlowly("Ship Name: " + cur_player.getShipName() + ", Ship Type: SS StarBorne, Description: Travels average and consumes average resources per day.\n");
+        } else if (shipType.equals("3")) {
+            displayTextSlowly("Bold Decision! Speed comes at a price.\n");
+            displayTextSlowly()
+        }
     }
 
     /*
