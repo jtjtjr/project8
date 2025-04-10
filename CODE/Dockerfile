@@ -12,11 +12,11 @@ COPY *.java ./
 RUN mkdir -p lib
 COPY mysql-connector-j-9.2.0/mysql-connector-j-9.2.0.jar ./lib/
 
-# Copy the planets.csv from the parent directory
-COPY ../planets.csv ./ 
+# Copy the planets.csv and lore.csv from the parent directory
+COPY ../planets.csv ../lore.csv ./ 
 
 # Compile the Java files
-RUN javac -cp .:lib/mysql-connector-j-9.2.0.jar Frontend.java GameLoop.java Player.java Event.java Planet.java PlanetLoader.java EventSQL.java EventConnector.java frontendUXElements.java
+RUN javac -cp .:lib/mysql-connector-j-9.2.0.jar Frontend.java GameLoop.java Player.java Event.java Planet.java PlanetLoader.java EventSQL.java EventConnector.java frontendUXElements.java LoreLoader.java Shop.java tutorial.java ShipDisplayer.java CompanyStore.java
 
 # Run the game
 CMD ["java",  "-cp", ".:lib/mysql-connector-j-9.2.0.jar","GameLoop"]

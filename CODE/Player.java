@@ -1,4 +1,3 @@
-import java.util.List;
 
 /**
  * The Day class represents a single day in Galactic Trail (name of game), 
@@ -6,6 +5,7 @@ import java.util.List;
  */
 public class Player {
     
+    private String userName;
     private String shipName;
     private int crewNum;
     private int morale;
@@ -13,39 +13,163 @@ public class Player {
     private Planet currentPlanet;
     private int dayNumber;
     private boolean survive;
+    private boolean hardMode = false;
 
-    //private Event currentEvent; not too sure how we want to do this yet
+    private Ship ship;
+    private Pace pace;
+    private int money;
 
     /**
-     * Default Constructor that takes no input yet (testing??)
+     * Default Constructor that takes no input yet
+     * This is only for testing purposes
      */
     public Player() {
+        this.userName = "TestBob";
         this.dayNumber = 1;
         this.survive = true;
-
         this.morale = -1;
         this.crewNum = -1;
         this.resources = -1;
         this.shipName = "";
         this.currentPlanet = null;
+        this.pace = Pace.SLOW;
+        this.money = -1;
+        createShip();
     }
 
-    /**                 //NEED TO DECIDE WHAT PARAM TO TAKE
-     * Constructs a Day object with a specified day number and list of possible events
+    /**         CHANGE
+     * Constructs a Player object with a specified day number and list of possible events
      *The survival status is initially set to true
      *A seed value is randomly selected based on the size of the possible events list
      * 
      * @param dayNumber The current day number.
      */
-    public Player(int dayNumber, int crewNum, int morale, int resources, String shipName) {
-        this.dayNumber = dayNumber;
+    public Player(String userName, int crewNum, int morale, int resources, String shipName) {
+        this.userName = userName;
+        this.dayNumber = 1;
         this.survive = true; 
-
-        // The Ship portion
         this.crewNum = crewNum;
         this.morale = morale;
         this.resources = resources;
         this.shipName = shipName;
+        this.pace = Pace.SLOW;
+        createShip();
+        this.money = 0;
+    }
+
+    /**
+     * Ship class that determines the difficulty of the game
+     * sets the resources burned depending on day according to pace
+     */
+    public class Ship {
+        private int resourceCost;
+        private String shipType;
+
+        public Ship(Pace pace) {
+
+            switch(pace) {
+                case SLOW:
+                    this.resourceCost = 20 + 10*crewNum;
+                    this.shipType = "SS Driftwing";
+                    break;
+                case NORMAL:
+                    this.resourceCost = 25 + 13*crewNum;
+                    this.shipType = "SS StarBorne";
+                    break;
+                case FAST:
+                    this.resourceCost = 30 + 15*crewNum;
+                    this.shipType = "SS Nova Viper";
+                    break;
+            }
+
+        }
+
+        public int resourceCost() {
+            return this.resourceCost;
+        }
+
+        public String shipType() {
+            return this.shipType;
+        }
+    }
+
+    /**
+     * Sets the pace of the game between 3 options, kind of like the difficulty of the game
+     */
+    public enum Pace {
+        SLOW, NORMAL, FAST;
+    }
+
+    private void createShip() {
+        this.ship = new Ship(this.pace);
+    }
+
+    /**
+     * Sets the pace if the game
+     * @param pace 1,2, or 3 for now (changable)
+     */
+    public void setPace(int pace) {
+        this.pace = switch (pace) {
+            case 1 -> Pace.SLOW;
+            case 2 -> Pace.NORMAL;
+            case 3 -> Pace.FAST;
+            default -> throw new IllegalArgumentException("Invaid option for pace");
+        };
+        createShip();
+    }
+
+    /**
+     * If dead (or not) resets the game
+     */
+    public void reset() {
+        this.dayNumber = 1;
+        setSurvivalBoolean(true);
+        this.morale = -1;
+        this.crewNum = -1;
+        this.resources = -1;
+    }
+
+    /** 
+     * Display the current infomation for player(day,crew,...to be added)
+     */
+    public void display() {
+        Frontend.displayTextSlowly("Ship: " + this.shipName + ", Ship Type:" + this.ship.shipType() + ", Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale + "\n");
+        if (this.crewNum == 1) {
+            Frontend.displayTextSlowly("WARNING: Only 1 crew member left!\n");
+        }
+        if (this.morale <= 5 && this.morale > 0) {
+            Frontend.displayTextSlowly("WARNING: Low team morale!\n");
+        }
+        if (this.resources <= 100 && this.resources > 0) {
+            Frontend.displayTextSlowly("WARNING: Low resources left!\n");
+        }
+        if (this.morale <= 0) {
+            Frontend.displayTextSlowly("WARNING: No team morale!\n");
+        }
+        if (this.resources <= 0) {
+            Frontend.displayTextSlowly("WARNING: No resources left!\n");
+        }
+    }
+
+    /**
+     * The next day of the game
+     * Consumes resource, increment day, ...
+     * 
+     * This is what should be called as game progess
+     */
+    public void nextDay() {
+        if (!this.survive) 
+            return;
+        
+        incrementDay();
+
+        if (this.resources <= 0)
+            this.crewNum -= 1;
+
+        if (this.crewNum <= 0)
+            setSurvivalBoolean(false);
+
+        this.resources -= this.ship.resourceCost();
     }
 
     /**
@@ -61,9 +185,40 @@ public class Player {
      * @return true if the day successfuly change forward
      */
     public void incrementDay() {
-        if (survive) 
-        {
-            dayNumber++; //move to the next day
+        if (survive) {
+            this.dayNumber += switch (this.pace) {
+                case SLOW -> 3;
+                case NORMAL -> 2;
+                case FAST -> 1;
+            };
+        }
+    }
+
+    /**
+     * Set the money that player has
+     * @param money int value of money
+     */
+    public void setMoney(int money) {
+        this.money = money;
+    }
+
+    /**
+     * Get the current money that player has
+     * @return current money
+     */
+    public int getMoney() {
+        return this.money;
+    }
+
+    /**
+     * Spend money method
+     * @param money money deducted CHECKS if player has enough
+     */
+    public void removeMoney(int money) {
+        if (this.money >= money) {
+            this.money -= money;
+        } else {
+            System.out.println("NOT ENOUGH MONEY: BACKEND");
         }
     }
 
@@ -78,11 +233,9 @@ public class Player {
      /**
      * sets the surivial boolean status.
      * @param survival is the player alive
-     * @return The survival boolean
      */
-    public boolean setSurvivalBoolean(boolean survival) {
-        survive = survival;
-        return survive;
+    public void setSurvivalBoolean(boolean survival) {
+        this.survive = survival;
     }
 
     /**
@@ -98,6 +251,7 @@ public class Player {
      * @param shipName name of ship
      */
     public void setShipName(String shipName) {
+        
         this.shipName = shipName;
     }
 
@@ -168,7 +322,12 @@ public class Player {
      * @param resources new resources value
      */
     public void addResources(int resources) {
-        this.resources += resources;
+        if ((this.resources+resources) <= 1000) {
+            this.resources += resources;
+        }
+        else {
+            this.resources = 1000;
+        }
     }
 
     /**
@@ -238,23 +397,37 @@ public class Player {
         return this.currentPlanet;
     }
 
+    /**
+     * This mode that the player is using
+     */
+    public void setHardMode(boolean mode) {
+        this.hardMode = mode;
+    }
+    
+    /**
+     * This returns the current mode that the player is using
+     * @return current mode
+     */
+    public boolean isHardMode() {
+        return this.hardMode;
+    }
+    
+
     ////////////////////////////////////////////////////////
     /**
-     * Retrieves the seed value
-     * @return the integer seedvalue
+     * toString of player
+     * @return String of some information in player class
      */
-    //public int getSeedValue() {
-    //    return seedValue;
-    //}
-    ///// COMMENTED OUT BC WE CURRENTLY DO NOT USE SEED /////
     @Override
     public String toString() {
         return "Player{" +
-                " shipName=" + shipName +
-                ", crewNum=" + crewNum +
-                ", morale=" + morale +
-                ", resources=" + resources +
-                ", dayNumber=" + dayNumber +
+                " shipName=" + this.shipName +
+                ", shipType=" + this.ship.shipType() +
+                ", crewNum=" + this.crewNum +
+                ", morale=" + this.morale +
+                ", resources=" + this.resources +
+                ", dayNumber=" + this.dayNumber +
+                ", resourceConsumed=" + this.ship.resourceCost() +
                 " }";
     }
 }
