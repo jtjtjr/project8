@@ -76,4 +76,63 @@ public class PlanetLoader {
         }
         return planets;
     }
+
+    public static Map<String, List<Planet>> loadEasyAndHardPaths() {
+        List<Planet> allPlanets = loadPlanets();
+        List<Planet> easyPath = new ArrayList<>();
+        List<Planet> hardPath = new ArrayList<>();
+    
+        if (allPlanets.isEmpty()) return Map.of();
+    
+        Planet end = allPlanets.get(allPlanets.size() - 1);
+        Planet easyStart = null;
+        Planet hardStart = null;
+    
+        // Find custom start planets
+        for (Planet planet : allPlanets) {
+            if (planet.getName().equals("Fiador X")) {
+                hardStart = planet;
+            } else if (planet.getName().equals("Bucephalus")) {
+                easyStart = planet;
+            }
+        }
+    
+        if (easyStart == null || hardStart == null) {
+            throw new IllegalStateException("Missing defined start planets");
+        }
+    
+        easyPath.add(easyStart);
+        hardPath.add(hardStart);
+    
+        // Fill rest of the paths excluding both start and end
+        for (Planet planet : allPlanets) {
+            if (planet == easyStart || planet == hardStart || planet == end) continue;
+    
+            int idx = allPlanets.indexOf(planet);
+            if (idx % 2 == 0) {
+                easyPath.add(planet);
+            } else {
+                hardPath.add(planet);
+            }
+        }
+    
+        easyPath.add(end);
+        hardPath.add(end);
+    
+        linkPath(easyPath);
+        linkPath(hardPath);
+    
+        Map<String, List<Planet>> paths = new HashMap<>();
+        paths.put("easy", easyPath);
+        paths.put("hard", hardPath);
+        return paths;
+    }    
+            
+    private static void linkPath(List<Planet> path) {
+        for (int i = 0; i < path.size() - 1; i++) {
+            path.get(i).setNextPlanet(path.get(i + 1)); // manually override the nextPlanet in the CSV
+        }
+        path.get(0).setStartingPlanet();
+        path.get(path.size() - 1).setLastPlanet();
+    }    
 }

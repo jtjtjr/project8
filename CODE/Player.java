@@ -13,6 +13,8 @@ public class Player {
     private Planet currentPlanet;
     private int dayNumber;
     private boolean survive;
+    private boolean hardMode = false;
+
     private Ship ship;
     private Pace pace;
     private int money;
@@ -395,6 +397,23 @@ public class Player {
         return this.currentPlanet;
     }
 
+    /**
+     * This mode that the player is using
+     */
+    public void setHardMode(boolean mode) {
+        this.hardMode = mode;
+    }
+    
+    /**
+     * This returns the current mode that the player is using
+     * @return current mode
+     */
+    public boolean isHardMode() {
+        return this.hardMode;
+    }
+    
+
+    ////////////////////////////////////////////////////////
     /**
      * toString of player
      * @return String of some information in player class
