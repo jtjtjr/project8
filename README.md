@@ -14,19 +14,23 @@ Impossible for the public as of now, as we use a CSL VM for the MySQL server.
 
 For us:
 
-Download source code, extract it
+Make sure Java 17+ is installed
+
+Download source code from repository, extract it
 
 Download [Java database connector jar file (version 9.2.0)](https://dev.mysql.com/downloads/connector/j/?os=26), put in CODE folder
 
-Open command shell, do:
+Open command shell, cd into Project_08 directory and do:
 ssh -L localhost:60000:localhost:60000 (last name)@cs506x08.cs.wisc.edu
 (this allows you to connect to the VM with the MySQL server)
 
 Make sure Docker Desktop is running
 
-Open .bat file (.sh for Mac/Linux)
+Open run_game.bat file (run_game.sh for Mac/Linux)
 
 Enjoy!
+
+Note: When prompted for a store tutorial, input "dev" to skip past the shop and give yourself infinite stuff.
 
 ## Visuals
 
