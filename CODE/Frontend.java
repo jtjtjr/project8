@@ -15,6 +15,8 @@ public class Frontend {
     static List<Planet> planets = null;
     static List<Planet> visitedPlanets = new ArrayList<>(); 
     static int currentPoints = 10000;
+    static int textTimer = 30;
+    static int forceWait = 2000;
     
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
@@ -36,7 +38,7 @@ public class Frontend {
         for(char c : text.toCharArray())
         {
             System.out.print(c);
-            wait(30);
+            wait(textTimer);
         }
     }
 
@@ -98,7 +100,10 @@ public class Frontend {
         
         if (input.contains("y")) {
             frontendUXElements.newSlideScene();
-            tutorial.tutorialOperator(scanner);
+            Tutorial.tutorialOperator(scanner);
+        } else if (input.equalsIgnoreCase("dev")) {
+            forceWait = 0;
+            textTimer = 0;
         }
 
         frontendUXElements.newSlideScene();
@@ -113,7 +118,7 @@ public class Frontend {
         //get the ship name
         displayTextSlowly("What will you call your ship: ");
         String shipName = scanner.nextLine();  
-        displayTextSlowly("Excellent Name!!!\n\n", 1000);
+        displayTextSlowly("Excellent Name!!!\n\n", forceWait);
 
         //Steve - Moved initialization for player class earlier to set ship type when game begins
         cur_player = new Player( username, 0, 0, 0, shipName);
@@ -188,9 +193,26 @@ public class Frontend {
         ShipDisplayer.shipDisplayerBuilder();
         next(scanner);
 
+        //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
+
+        int playerCrewNumber = cur_player.getCrewNum();
+        
+        displayTextSlowly("Would you like an event tutorial [y]es/[n]?\n\n\nInput> ");
+        Boolean validUserInput = false;
+        while (!validUserInput) { // event tutorial loop
+            String userEventTutorialInput = scanner.nextLine();
+            if (userEventTutorialInput.equalsIgnoreCase("y")) {
+                validUserInput = true;
+                Tutorial.eventTutorial(scanner, playerCrewNumber);
+            } else if (!userEventTutorialInput.equalsIgnoreCase("n")) {
+                displayTextSlowly("Didnt quite get that, come again...\n\n\nInput>");
+            } else {
+                validUserInput = true;
+            }
+        }
+        
         frontendUXElements.newSlideScene();
 
-        //Place your testing for Planet, Event and Player here through METHOD CALL ONLY
         runEvents(cur_player, scanner);
     }
 
@@ -271,7 +293,7 @@ public class Frontend {
      * Given a shop object we setup based on the planet
      */
     public static void setUpShop(Shop shop) {
-        // TODO Auto-generated method stub
+
         System.out.println("Setting up shop ...");
         wait(1000);
         System.out.println("Shop is ready!");
@@ -280,13 +302,14 @@ public class Frontend {
     /**
      * This function opens the shop if the current planet has a shop on it
     */
+    @SuppressWarnings("Unused")
     public static void openPlanetResourceStore(Scanner scanner) {
         if(planetContainsShop(currentPlanet)) {
             Shop shop = new Shop();
             setUpShop(shop);
 
             shop.displayStore();
-            displayTextSlowly("\n What would you like to buy? \n", 1000);
+            displayTextSlowly("\n What would you like to buy? \n", forceWait);
 
             String input = "";
 
@@ -297,6 +320,7 @@ public class Frontend {
                     displayTextSlowly("Goodbye!");
                     break;
                 }
+                
                 else if(input.equals("help")) {
                     frontendUXElements.availableCommands();
                 }
@@ -372,52 +396,66 @@ public class Frontend {
      * @param scannerEvent Scanner for player input
      * @throws NullPointerException If event loading fails
      */
+    @SuppressWarnings({ "java:S1301", "Unused", "java:S1126" })
     public static void runEvents(Player curr, Scanner scannerEvent) {
+        
         Random random = new Random(); //We will need to simulate randomness
         int eventNumber = random.nextInt(5) + 1; 
         EventSQL eventgetter = new EventSQL(cur_player);
         //return the event
         Event chosen =  eventgetter.getEventFromSQL(eventNumber);
         if (chosen==null){
-            throw new NullPointerException("Issue with getting event by index, chosen returning null");
+            throw new NullPointerException("Issue with getting event by index, chosen returning null\n\n\n");
         }
 
+        frontendUXElements.warning();
        
-        displayTextSlowly(chosen.getDescription() + '\n');
+        displayTextSlowly(chosen.getDescription() + "\n\n\n");
                 
         if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)){
            // displayTextSlowly("You should have survived and the game should continue \n");
-           displayTextSlowly("You have lost " + chosen.getResourcesEffect() + " resources and " +chosen.getMoraleEffect() +" morale\n" );
-           displayTextSlowly("Good news, killing... I mean SACRIFICING your crew will give your resources and sometimes a boost in morale\n");
-           displayTextSlowly("Do you wish to sacrifice your crewmates? This includes yourself but you should try not do that" +'\n');
-           displayTextSlowly(cur_player.getCrewNum() + " Crew Members in your Crew - if this is zero crew then you can only sacrifice yourself\npress 1 to sacrifice 0 to not\n");
- 
-          // System.out.print("Input for crew> ");
+           displayTextSlowly("\n\n\n*You have lost " + chosen.getResourcesEffect() + " resources and " +chosen.getMoraleEffect() +" morale*\n\n\n" );
+
+           displayTextSlowly("Now... how will you go about responding to this event...\n\n\n");
+           next(scannerEvent);
+
+           // System.out.print("Input for crew> ");
            int userChoice = -1; 
            int sacNum = -2;
            while (true) {
-               System.out.print("Enter 0 for no sacrifice or 1 to sacrifice: ");
+
+               frontendUXElements.sacrifice();
+               System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Sacrifice them' to sacrifice.\n\n\nInput> ");
+
+               String userSacrifice = scannerEvent.nextLine();
                
-               if (scannerEvent.hasNextInt()) {
-                   userChoice = scannerEvent.nextInt();
-                   
-                   if (userChoice == 0 ) {
-                        //chosen.sacrifice();
+               if (userSacrifice.equalsIgnoreCase("no") || userSacrifice.equalsIgnoreCase("sacrifice them")) {
+                    if (userSacrifice.equalsIgnoreCase("no")) {
+                        Random sacrificeMessage = new Random();
+                        int randomValue = sacrificeMessage.nextInt();
+                        if (randomValue % 2 == 0) {
+                            displayTextSlowly("\n\n\nProbably best that you did that...\n\n\n");
+                        } else {
+                            displayTextSlowly("\n\n\nDamn...\n\n\nthe company has gone soft over the past centuries\n\n\n");
+                        }
+                        next(scannerEvent);
                          break; 
-                   } 
-                   else if(userChoice == 1){
+                   } else if(userSacrifice.equalsIgnoreCase("sacrifice them")){
                          sacNum = chosen.sacrifice();
                          if (sacNum == -1){
-                            displayTextSlowly("\nYou accidently sacrificed yourself?\n");
+                            displayTextSlowly("\nYou accidently sacrificed yourself?\n\n\n");
                             curr.setSurvivalBoolean(false);
+                            next(scannerEvent);
                          }
                          else if (sacNum==0){
-                            displayTextSlowly("\nResources went up but you killed a good friend among your crew, dropping morale\n");
-                            displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew\n");
+                            displayTextSlowly("\nResources went up but you killed a good friend among your crew, dropping morale\n\n\n");
+                            displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew...\n\n\n");
+                            next(scannerEvent);
                          }
                          else if (sacNum==1){
-                            displayTextSlowly("\nResources went up and you killed an annoying person among your crew, increasing morale\n");
-                            displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew\n");
+                            displayTextSlowly("\nResources went up and you killed an annoying person among your crew, increasing morale\n\n\n");
+                            displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew...\n\n\n");
+                            next(scannerEvent);
                          }
                          else{
                             System.out.println("Unexpected behavior - error to be added");
@@ -428,9 +466,11 @@ public class Frontend {
                        System.out.println("Invalid input. Please enter 0 or 1.");
                    }
                } else {
-                   System.out.println("Invalid input. Please enter a number (0 or 1).");
+                   displayTextSlowly("Invalid input. State clearly if you would like to sacrifice them.\n\n\nInput> ");
                    scannerEvent.next(); 
                }
+
+
            }
             displayTextSlowly("\n");
            
@@ -448,13 +488,14 @@ public class Frontend {
     /**
      * Displays the current planet's information.
      */
+    @SuppressWarnings("Unused")
     public static void displayCurrentPlanet(Scanner s) {
         Planet nextPlanet = currentPlanet.getNextPlanet();
         if (currentPlanet.isStartPlanet()) {
             displayTextSlowly("\nDrifting in deep space... ");
-            wait(1000);
+            wait(forceWait);
             displayTextSlowly("Navigational systems online. ");
-            wait(1500);
+            wait(forceWait);
             displayTextSlowly("Locking onto the first planet: " + currentPlanet.getName()+ "\n\n\n");
         }
         if (currentPlanet != null) {
@@ -518,7 +559,12 @@ public class Frontend {
             wait(1500);
     
             // Mid-travel event trigger
-            displayTextSlowly("\n\n[WARNING] An event has occurred during travel!\n");
+            runEvents(cur_player, scanner);
+
+            frontendUXElements.newSlideScene();
+
+            next(scanner);
+
             currentPlanet.triggerRandomEvent(cur_player);
     
             // Check if the player survived the event
@@ -546,6 +592,8 @@ public class Frontend {
      * Handles user input.
      */
     public static String inputUser(Scanner scanner) {
+        displayTextSlowly("You and your crew are currently at " + currentPlanet.getName() + " with " + currentPlanet.getAmenities().toString() + " amenities, what would you like to do here?\n\n\n");
+        
         System.out.print("Input> ");
         String userInput = scanner.nextLine();
 
@@ -566,7 +614,7 @@ public class Frontend {
         else if (userInput.equalsIgnoreCase("end")) {
             System.out.println("Ending game...");
         } else if (userInput.equalsIgnoreCase("tutorial")) {
-            tutorial.tutorialOperator(scanner);
+            Tutorial.tutorialOperator(scanner);
         }
         else if (userInput.equalsIgnoreCase("lore")) {
             //display the planets that we have visited
@@ -591,7 +639,7 @@ public class Frontend {
             }
         }
         else {
-            displayTextSlowly("Invalid command. Type 'help' for a list of commands.");
+            displayTextSlowly("Invalid command. Type 'help' for a list of commands.\n\n\n");
         }
 
         return userInput;

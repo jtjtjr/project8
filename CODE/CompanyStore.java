@@ -71,7 +71,7 @@ public class CompanyStore {
             
             if (userInput.equalsIgnoreCase("y")) {
                 frontendUXElements.newSlideScene();
-                tutorial.shopTutorial(scanner);
+                Tutorial.shopTutorial(scanner);
             } else if (userInput.equalsIgnoreCase("dev")) {
                 int[] resourcesAmount = {10, 100, 1000, 9999999}; 
                 return resourcesAmount;

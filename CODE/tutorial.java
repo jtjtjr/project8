@@ -7,7 +7,7 @@ import java.util.Scanner;
 /**
  * This class handles all the tutorials seen throughout the game
  */
-public class tutorial {
+public class Tutorial {
     /*
      * tutorialOperator handles the requests from the user on which tutorial to display
      */
@@ -20,8 +20,14 @@ public class tutorial {
         } else if (userInput.equalsIgnoreCase("Shop")) {
             frontendUXElements.newSlideScene();
             shopTutorial(s);
+        } else if (userInput.equalsIgnoreCase("event")) {
+            frontendUXElements.newSlideScene();
+            eventTutorial(s, -1);
         } else if (userInput.equalsIgnoreCase("exit")) {
             return;
+        } else {
+            Frontend.displayTextSlowly("Didnt get that, please, come again...");
+            tutorialOperator(s);
         }
     }
     
@@ -77,4 +83,23 @@ public class tutorial {
         Frontend.next(s);
     }
 
+    public static void eventTutorial(Scanner s, int crewNum) {
+        frontendUXElements.newSlideScene();
+
+        Frontend.displayTextSlowly("Between planets you and your crew will experience events. \n\n\nTypcally these events will cost you morale and resources\n\n\n");
+        
+        Frontend.displayTextSlowly("Good news, killing... I mean SACRIFICING your crew will give your resources and sometimes a boost in morale\n\n\n");
+        Frontend.displayTextSlowly("Do you wish to sacrifice your crewmates? This includes yourself but you should try not do that \n\n\n");
+
+        if (crewNum == -1) {
+            Frontend.next(s);
+
+            return;
+        }
+
+        Frontend.displayTextSlowly(crewNum + " Crew Members in your Crew - if this is zero crew then you can only sacrifice yourself\n\n\npress 1 to sacrifice 0 to not\n\n\n");
+
+        Frontend.next(s);
+        frontendUXElements.newSlideScene();
+    }
 }
