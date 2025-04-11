@@ -259,6 +259,7 @@ public class Frontend {
                     displayTextSlowly("Goodbye!");
                     break;
                 }
+                
                 else if(input.equals("help")) {
                     frontendUXElements.availableCommands();
                 }
