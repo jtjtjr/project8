@@ -72,7 +72,7 @@ public class tutorial {
         System.out.println("*   XM-8900F    *       12000        *   Faster ship, shiny.                                        *");
         System.out.println("*****************************************************************************************************");
         Frontend.next(s);
-        Frontend.displayTextSlowly("If you wish to purchase an item you will");
+        Frontend.displayTextSlowly("If you wish to purchase an item do the following steps:\n\n");
 
         Frontend.displayTextSlowly("If you are on a planet enter \'shop\' to access the shop menu\n\n");
 
