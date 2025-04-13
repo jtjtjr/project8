@@ -36,7 +36,7 @@ public class IntegrationTestPlayer {
             test.addMorale(10);
         }
 
-        return true //test.toString().equals("Player{ shipName=testShip, crewNum=5, morale=100, resources=80, dayNumber=4 }");
+        return true; //test.toString().equals("Player{ shipName=testShip, crewNum=5, morale=100, resources=80, dayNumber=4 }");
     }
 
     //Wrote to test recently added nextDay and others
