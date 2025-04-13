@@ -271,10 +271,14 @@ public class Frontend {
      * Given a shop object we setup based on the planet
      */
     public static void setUpShop(Shop shop) {
-        // TODO Auto-generated method stub
-        System.out.println("Setting up shop ...");
+
+        List<ShopItem> itemsOnCurrPlanet = ShopItemLoader.getShopItemsForPlanet(currentPlanet.getName());
+
+        for(ShopItem item : itemsOnCurrPlanet) {
+            shop.addShopItem(item.getName(), item.getPrice(), item.getDescription());
+        }
+
         wait(1000);
-        System.out.println("Shop is ready!");
     }
     
     /**

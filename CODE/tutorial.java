@@ -73,7 +73,21 @@ public class tutorial {
         System.out.println("*****************************************************************************************************");
         Frontend.next(s);
         Frontend.displayTextSlowly("If you wish to purchase an item you will");
-        System.out.println("\n\n\nDAN YOU NEED TO TELL ME HOW YOUR SHOP LOGIC WORKS\n\n\n");
+
+        Frontend.displayTextSlowly("If you are on a planet enter \'shop\' to access the shop menu\n\n");
+
+        Frontend.displayTextSlowly("Once in the shop enter \'buy <item_name>\' to purchase something\n\n");
+
+        Frontend.displayTextSlowly("type \'remove <item_name> <count>\' to remove an item from your list\n\n");
+
+        Frontend.displayTextSlowly("type \'review\' to see what is currently on your receipt\n\n");
+        
+        Frontend.displayTextSlowly("type \'complete purchase\' to finalize your purchase\n\n");
+
+        Frontend.displayTextSlowly("type \'exit\' to leave the shop\n\n");
+
+        Frontend.displayTextSlowly("type \'help\' if you need to review these steps again\n\n");
+
         Frontend.next(s);
     }
 
