@@ -289,6 +289,19 @@ public class Frontend {
             Shop shop = new Shop();
             setUpShop(shop);
 
+            //if shop on planet has an art style, display it here
+            if(currentPlanet.getName().equals("Bucephalus")) {
+                frontendUXElements.shopArtBrucephalus2();
+            } 
+            else if (currentPlanet.getName().equals("Ezekiel's Salvation")) {
+                frontendUXElements.shopArtEzekialsSalvation();
+            }
+            else
+            {
+                //nothing to do here
+            }
+
+            //display the store and then ask what to buy
             shop.displayStore();
             displayTextSlowly("\n What would you like to buy? \n", 1000);
 
