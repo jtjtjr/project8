@@ -36,3 +36,4 @@ target/
 build/
 !gradle/wrapper/gradle-wrapper.jar
 
+/CODE/mysql-connector-j-9.2.0

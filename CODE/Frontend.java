@@ -141,12 +141,12 @@ public class Frontend {
         if (difficulty == 2) {
             displayTextSlowly("You chose HARD mode. Buckle up...\n\n");
             planets = paths.get("hard");
-            //cur_player = new Player(0, 0, 0, 0, null);
+            cur_player = new Player();
             cur_player.setHardMode(true);
         } else {
             displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n");
             planets = paths.get("easy");
-            //cur_player = new Player(0, 0, 0, 0, null);
+            cur_player = new Player();
             cur_player.setHardMode(false);
         }
 
@@ -294,9 +294,13 @@ public class Frontend {
      */
     public static void setUpShop(Shop shop) {
 
-        System.out.println("Setting up shop ...");
+        List<ShopItem> itemsOnCurrPlanet = ShopItemLoader.getShopItemsForPlanet(currentPlanet.getName());
+
+        for(ShopItem item : itemsOnCurrPlanet) {
+            shop.addShopItem(item.getName(), item.getPrice(), item.getDescription());
+        }
+
         wait(1000);
-        System.out.println("Shop is ready!");
     }
     
     /**
@@ -308,6 +312,19 @@ public class Frontend {
             Shop shop = new Shop();
             setUpShop(shop);
 
+            //if shop on planet has an art style, display it here
+            if(currentPlanet.getName().equals("Bucephalus")) {
+                frontendUXElements.shopArtBrucephalus2();
+            } 
+            else if (currentPlanet.getName().equals("Ezekiel's Salvation")) {
+                frontendUXElements.shopArtEzekialsSalvation();
+            }
+            else
+            {
+                //nothing to do here
+            }
+
+            //display the store and then ask what to buy
             shop.displayStore();
             displayTextSlowly("\n What would you like to buy? \n", forceWait);
 
