@@ -141,12 +141,12 @@ public class Frontend {
         if (difficulty == 2) {
             displayTextSlowly("You chose HARD mode. Buckle up...\n\n");
             planets = paths.get("hard");
-            cur_player = new Player(0, 0, 0, 0, null);
+            //cur_player = new Player(0, 0, 0, 0, null);
             cur_player.setHardMode(true);
         } else {
             displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n");
             planets = paths.get("easy");
-            cur_player = new Player(0, 0, 0, 0, null);
+            //cur_player = new Player(0, 0, 0, 0, null);
             cur_player.setHardMode(false);
         }
 
