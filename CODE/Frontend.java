@@ -292,15 +292,13 @@ public class Frontend {
     /**
      * Given a shop object we setup based on the planet
      */
-    public static void setUpShop(Shop shop) {
-
+    public static Shop setUpShopOnCurrentPlanet() {
         List<ShopItem> itemsOnCurrPlanet = ShopItemLoader.getShopItemsForPlanet(currentPlanet.getName());
 
-        for(ShopItem item : itemsOnCurrPlanet) {
-            shop.addShopItem(item.getName(), item.getPrice(), item.getDescription());
-        }
+        Shop shop = new Shop(itemsOnCurrPlanet);
 
         wait(1000);
+        return shop;
     }
     
     /**
@@ -308,8 +306,7 @@ public class Frontend {
     */
     public static void openPlanetResourceStore(Scanner scanner) {
         if(planetContainsShop(currentPlanet)) {
-            Shop shop = new Shop();
-            setUpShop(shop);
+            Shop shop = setUpShopOnCurrentPlanet();
 
             //if shop on planet has an art style, display it here
             if(currentPlanet.getName().equals("Bucephalus")) {
@@ -381,7 +378,7 @@ public class Frontend {
                     currentPoints -= totalCost;
                         
                     //add items to inventory and clear the receipt
-                    cur_player.addResources(shop.getShopItemsAsResources());
+                    cur_player.addResources(shop.getResourceShopItems());
                     //clear the receipt as you are theoretically done with it
                     shop.clearReceipt();
                 } 
@@ -613,6 +610,7 @@ public class Frontend {
         System.out.print("Input> ");
         String userInput = scanner.nextLine();
 
+        //gives information about the current planet
         if (userInput.equalsIgnoreCase("planet")) {
             displayCurrentPlanet(scanner);
         } else if (userInput.equalsIgnoreCase("travel")) {
