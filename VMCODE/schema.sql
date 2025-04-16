@@ -23,3 +23,4 @@ VALUES
 (6, 'Your Toilet Breaks', 'Toilet Broke -> Your excrement had no where to go, its piling up and gained intellegence - This is bad', 10, 10),
 (7, 'Shower Stops working', 'Your shower broke -> Your crewmates stink - you save water but man is it painful', 15, 1),
 (8, 'Rust buildup', 'Rust has started to damage the ship and repairs have to be done quickly', 7, 15);
+

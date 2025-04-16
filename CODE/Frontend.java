@@ -415,7 +415,7 @@ public class Frontend {
      */
     @SuppressWarnings({ "java:S1301", "Unused", "java:S1126" })
     public static void runEvents(Player curr, Scanner scannerEvent) {
-        
+         
         Random random = new Random(); //We will need to simulate randomness
         int eventNumber = random.nextInt(8) + 1; 
         EventSQL eventgetter = new EventSQL(cur_player);
