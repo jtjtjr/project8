@@ -306,7 +306,6 @@ public class Frontend {
     /**
      * This function opens the shop if the current planet has a shop on it
     */
-    @SuppressWarnings("Unused")
     public static void openPlanetResourceStore(Scanner scanner) {
         if(planetContainsShop(currentPlanet)) {
             Shop shop = new Shop();
@@ -624,6 +623,7 @@ public class Frontend {
             displayPlayerStatus();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
+            openPlanetResourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
