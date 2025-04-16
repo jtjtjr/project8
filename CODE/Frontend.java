@@ -417,7 +417,7 @@ public class Frontend {
     public static void runEvents(Player curr, Scanner scannerEvent) {
         
         Random random = new Random(); //We will need to simulate randomness
-        int eventNumber = random.nextInt(5) + 1; 
+        int eventNumber = random.nextInt(8) + 1; 
         EventSQL eventgetter = new EventSQL(cur_player);
         //return the event
         Event chosen =  eventgetter.getEventFromSQL(eventNumber);

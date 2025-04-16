@@ -19,4 +19,7 @@ VALUES
 (2, 'Solar Panel Malfunction', 'You notice a strange flickering on the solar panels, and power seems unstable. The crew is getting worried about energy loss.', 2, 4),
 (3, 'Pirates Attack Your Ship', 'Florian Pirates begin firing on your port side. They are known for taking no prisoners', 4, 5),
 (4, 'Your Crew Mutinys', 'Steven, your first officer, decides that your booze allotments for your crew is not enough. You think Steven is being rediculous the crew already drinks their weight in beer', 1, 1),
-(5, 'Your Tail Gunner Falls Asleep', 'Your tail gunner--dan--falls asleep at the controls and sends a barrage of lazer blasts into your engine   damint!   you say, this is going to be a long day', 1, 2);
+(5, 'Your Tail Gunner Falls Asleep', 'Your tail gunner--dan--falls asleep at the controls and sends a barrage of lazer blasts into your engine   damint!   you say, this is going to be a long day', 1, 2),
+(6, 'Your Toilet Breaks', 'Toilet Broke -> Your excrement had no where to go, its piling up and gained intellegence - This is bad', 10, 10),
+(7, 'Shower Stops working', 'Your shower broke -> Your crewmates stink - you save water but man is it painful', 15, 1),
+(8, 'Rust buildup', 'Rust has started to damage the ship and repairs have to be done quickly', 7, 15);
