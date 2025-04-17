@@ -141,12 +141,12 @@ public class Frontend {
         if (difficulty == 2) {
             displayTextSlowly("You chose HARD mode. Buckle up...\n\n");
             planets = paths.get("hard");
-            cur_player = new Player();
+            //cur_player = new Player();
             cur_player.setHardMode(true);
         } else {
             displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n");
             planets = paths.get("easy");
-            cur_player = new Player();
+            //cur_player = new Player();
             cur_player.setHardMode(false);
         }
 
@@ -616,6 +616,7 @@ public class Frontend {
      * Handles user input.
      */
     public static String inputUser(Scanner scanner) {
+        cur_player.display();
         displayTextSlowly("You and your crew are currently at " + currentPlanet.getName() + " with " + currentPlanet.getAmenities().toString() + " amenities, what would you like to do here?\n\n\n");
         
         System.out.print("Input> ");
@@ -628,7 +629,7 @@ public class Frontend {
             travelToNextPlanet(scanner);
         }
         else if (userInput.equalsIgnoreCase("status")) {
-            displayPlayerStatus();
+            cur_player.detailedDisplay();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
         }
