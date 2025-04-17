@@ -64,6 +64,7 @@ public class Player {
     public class Ship {
         private int resourceCost;
         private String shipType;
+        private int travelSpeed;
 
         public Ship(Pace pace) {
 
@@ -71,17 +72,24 @@ public class Player {
                 case SLOW:
                     this.resourceCost = 20 + 10*crewNum;
                     this.shipType = "SS Driftwing";
+                    this.travelSpeed = 3;
                     break;
                 case NORMAL:
                     this.resourceCost = 25 + 13*crewNum;
                     this.shipType = "SS StarBorne";
+                    this.travelSpeed = 2;
                     break;
                 case FAST:
                     this.resourceCost = 30 + 15*crewNum;
                     this.shipType = "SS Nova Viper";
+                    this.travelSpeed = 1;
                     break;
             }
 
+        }
+
+        public int speed() {
+            return this.travelSpeed;
         }
 
         public int resourceCost() {
@@ -129,10 +137,20 @@ public class Player {
         this.resources = -1;
     }
 
+    /**
+     * Return the user name for the player
+     */
+    public String getUserName() {
+        return this.userName;
+    }
+
     /** 
      * Display the current infomation for player(day,crew,...to be added)
      */
     public void display() {
+        Frontend.displayTextSlowly("Captain " + this.userName + ", here is a brief overview of our current condition.\n");
+        playerArt();
+
         Frontend.displayTextSlowly("Ship: " + this.shipName + ", Ship Type:" + this.ship.shipType() + ", Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale + "\n");
         if (this.crewNum == 1) {
             Frontend.displayTextSlowly("WARNING: Only 1 crew member left!\n");
@@ -149,6 +167,70 @@ public class Player {
         if (this.resources <= 0) {
             Frontend.displayTextSlowly("WARNING: No resources left!\n");
         }
+    }
+
+    public void detailedDisplay() {
+        Frontend.displayTextSlowly("Detailed Status of Player:\n");
+        Frontend.displayTextSlowly("Captain: " + this.userName + ", Ship: " + this.shipName + ".\n");
+        System.out.println("");
+
+        Frontend.displayTextSlowly("You are traveling with model " + this.ship.shipType() + ".\n");
+        Frontend.displayTextSlowly("This means it will take you " + this.ship.speed() + " Day(s) to get to the next planet.\n");
+        System.out.println("");
+
+        Frontend.displayTextSlowly("You currently have " + this.crewNum + " crew members.\n",100);
+        Frontend.displayTextSlowly("This means you will be consuming " + this.ship.resourceCost() + " resources a Day.\n");
+        System.out.println("");
+
+        Frontend.displayTextSlowly("You have " + this.resources + " resources.\n");
+        if (this.resources <= (3*this.ship.resourceCost())) {
+            Frontend.displayTextSlowly("You are running low on resources! It is going to start costing you crew member's lives!\n");
+        } else {
+            Frontend.displayTextSlowly("You should have enough resources to get you through.\n");
+        }
+        System.out.println("");
+
+        Frontend.displayTextSlowly("Your team has " + this.morale + " morale.\n");
+        if (this.morale < 10) {
+            Frontend.displayTextSlowly("Super low on team morale! Better start watching out.\n");
+        } else {
+            Frontend.displayTextSlowly("You have enough team morale to last you a while.\n");
+        }
+    }
+
+    /**
+     * ASCII art of player for display
+     */
+    public void playerArt() {
+
+        System.out.println(".................:=**+-:...:-+*+=:................");
+        System.out.println("...............=#=:........    .:=#-..............");
+        System.out.println("............*+:............         .++...........");
+        System.out.println("..........*+---+#*-........    ..=*-...=+.........");
+        System.out.println(".........=*-=+-:..::=+*******+=:....:=.:*:........");
+        System.out.println(".........+*-:::+@@@@@@@@@@@@@@@%@@@*...:*=........");
+        System.out.println("........#@@=:-%@@@@@@@@@@@@@@@@%*%*@%-.-@@#.......");
+        System.out.println(".......:@%@+:#@@@@@@@@@@@@@@@@@@@@@@@#.=@%%:......");
+        System.out.println("........%@@*:#@@@@@@@@@@@@@@@@@@@@@@@%.+@@@:......");
+        System.out.println("........=%@*:*@@@@@@@@@@@@@@@@@@@@@@@*.=@%=.......");
+        System.out.println("..........*=-.*@@@@@@@@@@@@@@@@@@@@@*..=+.........");
+        System.out.println("...........%=:..+%@@@@@@@@@@@@@@@%+...-#:.........");
+        System.out.println("............=*==--....-=++++-....--:=*+...........");
+        System.out.println("..............:=@%%*+==------==+%%%=:.............");
+        System.out.println(".............-#=-=#=====+#+===--=..+*:............");
+        System.out.println("............=#:.:+-..-:.:+:..:+++-..=#............");
+        System.out.println("...........=%+=%#+:%+...:=..:*#@#%%+-+%...........");
+        System.out.println("..........-%::=##:......:=...:**-=*=:-++..........");
+        System.out.println("..........*%*++#+.......:=.......:%+++#%-.........");
+        System.out.println(".........:*==#@@-:...  .:=.......:%@#=-=+.........");
+        System.out.println(".........:*:.:#@@@@@@@@%###@@@@%%@@#:..=+.........");
+        System.out.println("..........-%**##*++++++++*++++==+*@+*+#*:.........");
+        System.out.println("..............:@=::......::+*-=*++#*..............");
+        System.out.println("..............=#-..:==+#@%@#+=-:..:#:.............");
+        System.out.println("..............+*-+##*-:=#.#=:+#*#*:#-.............");
+        System.out.println("..............+%*:...-#+#.#*#:....#%-.............");
+        System.out.println("............::+#-:::::-%*:*%-:::::-#=:::..........");
+        System.out.println("...::----------=+++++++=---++++++===---------:::..");
     }
 
     /**
@@ -412,6 +494,9 @@ public class Player {
         return this.hardMode;
     }
     
+
+
+
 
     ////////////////////////////////////////////////////////
     /**
