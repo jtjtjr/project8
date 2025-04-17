@@ -589,6 +589,13 @@ public class Frontend {
                 displayTextSlowly("\nYou have perished in space...");
                 return;
             }
+
+            // Randomly trigger a (less consequential) mystery event 30% of the time after main event
+            Random rand = new Random();
+            if(rand.nextInt(10) < 3) {
+                MysteryEvent mysteryEvent = new MysteryEvent(cur_player, rand);
+                mysteryEvent.triggerMysteryEvent();
+            }
     
             // Now officially change the planet
             currentPlanet = nextPlanet;
