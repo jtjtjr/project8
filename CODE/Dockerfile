@@ -16,7 +16,7 @@ COPY mysql-connector-j-9.2.0/mysql-connector-j-9.2.0.jar ./lib/
 COPY ../planets.csv ../lore.csv ../storeItems.csv ./ 
 
 # Compile the Java files
-RUN javac -cp lib/mysql-connector-j-9.2.0.jar Frontend.java GameLoop.java Player.java Event.java Planet.java PlanetLoader.java EventSQL.java EventConnector.java frontendUXElements.java LoreLoader.java Shop.java Tutorial.java ShipDisplayer.java CompanyStore.java ShopItem.java ShopItemLoader.java
+RUN javac -cp lib/mysql-connector-j-9.2.0.jar Frontend.java GameLoop.java Player.java Event.java Planet.java PlanetLoader.java EventSQL.java EventConnector.java frontendUXElements.java LoreLoader.java Shop.java Tutorial.java ShipDisplayer.java CompanyStore.java ShopItem.java ShopItemLoader.java MysteryEvent.java
 
 # Run the game
 CMD ["java",  "-cp", ".:lib/mysql-connector-j-9.2.0.jar","GameLoop"]

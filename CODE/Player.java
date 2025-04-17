@@ -105,6 +105,14 @@ public class Player {
     }
 
     /**
+     * Retrieves the current pace of the game.
+     * @return The current pace.
+     */
+    public Pace getPace() {
+        return this.pace;
+    }
+
+    /**
      * Sets the pace if the game
      * @param pace 1,2, or 3 for now (changable)
      */
