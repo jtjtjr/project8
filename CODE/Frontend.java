@@ -141,12 +141,12 @@ public class Frontend {
         if (difficulty == 2) {
             displayTextSlowly("You chose HARD mode. Buckle up...\n\n");
             planets = paths.get("hard");
-            cur_player = new Player();
+            //cur_player = new Player();
             cur_player.setHardMode(true);
         } else {
             displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n");
             planets = paths.get("easy");
-            cur_player = new Player();
+            //cur_player = new Player();
             cur_player.setHardMode(false);
         }
 
@@ -414,9 +414,9 @@ public class Frontend {
      */
     @SuppressWarnings({ "java:S1301", "Unused", "java:S1126" })
     public static void runEvents(Player curr, Scanner scannerEvent) {
-        
+         
         Random random = new Random(); //We will need to simulate randomness
-        int eventNumber = random.nextInt(5) + 1; 
+        int eventNumber = random.nextInt(8) + 1; 
         EventSQL eventgetter = new EventSQL(cur_player);
         //return the event
         Event chosen =  eventgetter.getEventFromSQL(eventNumber);
@@ -441,9 +441,11 @@ public class Frontend {
            while (true) {
 
                frontendUXElements.sacrifice();
+               System.out.print("You currently have " +cur_player.getCrewNum()+ " Crew Members ");
                System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Sacrifice them' to sacrifice.\n\n\nInput> ");
 
-               String userSacrifice = scannerEvent.nextLine();
+               String userSacrifice = scannerEvent.nextLine().trim();
+               //System.out.println("You chose->" +userSacrifice);
                
                if (userSacrifice.equalsIgnoreCase("no") || userSacrifice.equalsIgnoreCase("sacrifice them")) {
                     if (userSacrifice.equalsIgnoreCase("no")) {
@@ -456,7 +458,7 @@ public class Frontend {
                         }
                         next(scannerEvent);
                          break; 
-                   } else if(userSacrifice.equalsIgnoreCase("sacrifice them")){
+                   } else { //if(userSacrifice.equalsIgnoreCase("sacrifice them"))
                          sacNum = chosen.sacrifice();
                          if (sacNum == -1){
                             displayTextSlowly("\nYou accidently sacrificed yourself?\n\n\n");
@@ -474,16 +476,15 @@ public class Frontend {
                             next(scannerEvent);
                          }
                          else{
-                            System.out.println("Unexpected behavior - error to be added");
+                            //System.out.println("Unexpected behavior - error to be added");
+                            throw new IllegalStateException("Invalid sacrifice outcome: " + sacNum);
                          }
                          break; 
                    }
-                   else {
-                       System.out.println("Invalid input. Please enter 0 or 1.");
-                   }
+                   
                } else {
                    displayTextSlowly("Invalid input. State clearly if you would like to sacrifice them.\n\n\nInput> ");
-                   scannerEvent.next(); 
+                   //scannerEvent.next(); 
                }
 
 
@@ -588,6 +589,13 @@ public class Frontend {
                 displayTextSlowly("\nYou have perished in space...");
                 return;
             }
+
+            // Randomly trigger a (less consequential) mystery event 30% of the time after main event
+            Random rand = new Random();
+            if(rand.nextInt(10) < 3) {
+                MysteryEvent mysteryEvent = new MysteryEvent(cur_player, rand);
+                mysteryEvent.triggerMysteryEvent();
+            }
     
             // Now officially change the planet
             currentPlanet = nextPlanet;
@@ -608,6 +616,7 @@ public class Frontend {
      * Handles user input.
      */
     public static String inputUser(Scanner scanner) {
+        cur_player.display();
         displayTextSlowly("You and your crew are currently at " + currentPlanet.getName() + " with " + currentPlanet.getAmenities().toString() + " amenities, what would you like to do here?\n\n\n");
         
         System.out.print("Input> ");
@@ -620,7 +629,7 @@ public class Frontend {
             travelToNextPlanet(scanner);
         }
         else if (userInput.equalsIgnoreCase("status")) {
-            displayPlayerStatus();
+            cur_player.detailedDisplay();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
             openPlanetResourceStore(scanner);
