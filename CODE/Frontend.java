@@ -1,6 +1,5 @@
 // package project; // fix this with whole project
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -187,6 +186,11 @@ public class Frontend {
         cur_player.setResources(resourcesAmount[2]);
         cur_player.setShipName(shipName);
         cur_player.nextDay();
+
+        // Subtract from the number of points its hardcoded
+        currentPoints -= resourcesAmount[0] * 100;
+        currentPoints -= resourcesAmount[1] * 40;
+        currentPoints -= resourcesAmount[2] * 10;
 
         frontendUXElements.newSlideScene();
 
@@ -676,13 +680,14 @@ public class Frontend {
             while(true) {
                 System.out.print("Lore> ");
                 String loreInput = scanner.nextLine();
+
                 if (loreInput.equalsIgnoreCase("exit")) {
                     break;
                 }
 
                 String lore = LoreLoader.getLoreByPlanetName(loreInput.trim());
                 if (lore != null) {
-                    displayTextSlowly(lore + "\n");
+                    displayTextSlowly(loreInput + " - " + lore + "\n");
                 } else {
                     displayTextSlowly("Lore not found for " + loreInput + ". Please try again.\n");
                 }
