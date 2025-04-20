@@ -92,7 +92,7 @@ public class Shop {
      */
     public void addItemToReceipt(String item, int numItems) {
         if (this.shopItems.containsKey(item)) {
-            this.receipt.put(item, shopItems.get(item).getPrice());
+            this.receipt.put(item, numItems);
         } else {
             System.out.println("Item not found in the shop.");
         }
@@ -194,48 +194,38 @@ public class Shop {
      * Return totalNumber of ResourceItems on your list
      */
     public int getResourceShopItems() {
-        int totalResources = 0;
-        for (String key : this.shopItems.keySet()) {
-            //check if its a resource item
-            if(this.shopItems.get(key).getType().equals("resources")) {
-                totalResources += this.shopItems.get(key).getQuantity();
-            }
-        }
-
-        //returns the total number of resources in the shop
-        return totalResources;
+        return getTotalNumberOfItems("resources");
     }
 
     /**
      * Returns the total number of moraleItems on your list
      */
     public int getMoraleShopItems() {
-        int totalMorale = 0;
-        for (String key : this.shopItems.keySet()) {
-            //check if its a morale item
-            if(this.shopItems.get(key).getType().equals("morale")) {
-                totalMorale += this.shopItems.get(key).getQuantity();
-            }
-        }
-
-        //returns the total number of morale items in the shop
-        return totalMorale;
+        return getTotalNumberOfItems("morale");
     }
 
     /**
      * Returns the total number of crewItems on your list
      */
     public int getCrewShopItems() {
-        int totalCrew = 0;
-        for (String key : this.shopItems.keySet()) {
-            //check if its a crew item
-            if(this.shopItems.get(key).getType().equals("crew")) {
-                totalCrew += this.shopItems.get(key).getQuantity();
+        return getTotalNumberOfItems("crew");
+    }
+
+    /**
+     * getTotalNumber of items in the shop
+     * 
+     * @param itemType - the type of item we are trying to get
+     */
+    public int getTotalNumberOfItems(String itemType) {
+        int totalItems = 0;
+        for (String key : this.receipt.keySet()) {
+            //check if its a resource item
+            if(this.shopItems.get(key).getType().equals(itemType)) {
+                totalItems += this.receipt.get(key);
             }
         }
 
-        //returns the total number of crew items in the shop
-        return totalCrew;
+        //returns the total number of items in the shop
+        return totalItems;
     }
-
 }
