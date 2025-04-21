@@ -17,6 +17,7 @@ public class Frontend {
     static int currentPoints = 10000;
     static int textTimer = 30;
     static int forceWait = 2000;
+    static String[] crewMatesArray = null;
     
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
