@@ -1,6 +1,6 @@
 name,affiliation,healthPerDay,crewPerDay,dangerLevel,amenities,atmosphere,firstPlanet,lastPlanet,nextPlanet
 Fiador X,The Company,0,0,0,null,80,TRUE,FALSE,Bucephalus
-Bucephalus,None,0,0,0,null,80,FALSE,FALSE,Norman's Rock
+Bucephalus,None,0,0,0,Market,80,FALSE,FALSE,Norman's Rock
 Norman's Rock,Atlas Station,0,0,1,Market,80,FALSE,FALSE,Atlas Station
 Atlas Station,Atlas Station,0,0,0,Market,80,FALSE,FALSE,Ezekiel's Salvation
 Ezekiel's Salvation,None,0,0,0,Market,50,FALSE,FALSE,Mu 6

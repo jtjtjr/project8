@@ -99,7 +99,7 @@ public class Frontend {
      */
     public static void introSlide(Scanner scanner) {
         frontendUXElements.newSlideScene();
-        displayTextSlowly("Would you like a tutorial, press y for yes: ");
+        displayTextSlowly("Would you like a tutorial, press y for yes: ", textTimer);
         String input = scanner.nextLine();
         
         if (input.contains("y")) {
@@ -118,10 +118,10 @@ public class Frontend {
         /* Now we do the setup */
         System.out.print("USERNAME: ");
         String username = scanner.nextLine();   
-        displayTextSlowly("Welcome, Captain " + username + "! \n\n");
+        displayTextSlowly("Welcome, Captain " + username + "! \n\n", textTimer);
 
         //get the ship name
-        displayTextSlowly("What will you call your ship: ");
+        displayTextSlowly("What will you call your ship: ", textTimer);
         String shipName = scanner.nextLine();  
         displayTextSlowly("Excellent Name!!!\n\n", forceWait);
 
@@ -145,12 +145,12 @@ public class Frontend {
         int difficulty = parseInt(scanner, "difficulty");
 
         if (difficulty == 2) {
-            displayTextSlowly("You chose HARD mode. Buckle up...\n\n");
+            displayTextSlowly("You chose HARD mode. Buckle up...\n\n", textTimer);
             planets = paths.get("hard");
             //cur_player = new Player();
             cur_player.setHardMode(true);
         } else {
-            displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n");
+            displayTextSlowly("You chose EASY mode. Let's go for a ride...\n\n", textTimer);
             planets = paths.get("easy");
             //cur_player = new Player();
             cur_player.setHardMode(false);
@@ -169,7 +169,7 @@ public class Frontend {
 
         System.out.println("--------------------------- Legend: CARGO = {} SUPPLY = [] Crew = >:| ------------------------------\n\n\n");
         ShipDisplayer.emptyShipDisplay();
-        displayTextSlowly("This is your ship, it will act as your home base\n");
+        displayTextSlowly("This is your ship, it will act as your home base\n", textTimer);
         
         next(scanner);
         
@@ -193,6 +193,11 @@ public class Frontend {
         cur_player.setShipName(shipName);
         cur_player.nextDay();
         cur_player.setMoney(resourcesAmount[3]);
+
+        // Subtract from the number of points its hardcoded
+        currentPoints -= resourcesAmount[0] * 100;
+        currentPoints -= resourcesAmount[1] * 40;
+        currentPoints -= resourcesAmount[2] * 10;
 
         frontendUXElements.newSlideScene();
 
@@ -301,8 +306,25 @@ public class Frontend {
      * returns whether the current planet has a shop on it or not
      */
     public static boolean planetContainsShop(Planet planet) {
+
         if(planet == null) {
+
+            if(forceWait == 0) {
+                System.out.println("No planet found.");
+            } 
+
             return false;
+        }
+
+        // Check if the planet has a shop
+        if(forceWait == 0)
+        {
+            System.out.println("Amenities on " + planet.getName() + ": ");
+            for (String p : planet.getAmenities()) 
+            {
+                System.out.print(p + " ");
+            }
+            System.out.println();
         }
 
         return planet.getAmenities().contains("Market");
@@ -312,25 +334,21 @@ public class Frontend {
     /**
      * Given a shop object we setup based on the planet
      */
-    public static void setUpShop(Shop shop) {
-
+    public static Shop setUpShopOnCurrentPlanet() {
         List<ShopItem> itemsOnCurrPlanet = ShopItemLoader.getShopItemsForPlanet(currentPlanet.getName());
 
-        for(ShopItem item : itemsOnCurrPlanet) {
-            shop.addShopItem(item.getName(), item.getPrice(), item.getDescription());
-        }
+        Shop shop = new Shop(itemsOnCurrPlanet);
 
         wait(1000);
+        return shop;
     }
     
     /**
      * This function opens the shop if the current planet has a shop on it
     */
-    @SuppressWarnings("Unused")
     public static void openPlanetResourceStore(Scanner scanner) {
         if(planetContainsShop(currentPlanet)) {
-            Shop shop = new Shop();
-            setUpShop(shop);
+            Shop shop = setUpShopOnCurrentPlanet();
 
             //if shop on planet has an art style, display it here
             if(currentPlanet.getName().equals("Bucephalus")) {
@@ -344,47 +362,61 @@ public class Frontend {
                 //nothing to do here
             }
 
+            displayTextSlowly("\nYou have " + currentPoints + " points to spend.\n\n", forceWait);
+            displayTextSlowly("You currently have " + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, and " + cur_player.getCrewNum() + " crew members.\n\n", forceWait);
+
             //display the store and then ask what to buy
             shop.displayStore();
             displayTextSlowly("\n What would you like to buy? \n", forceWait);
-
+            
             String input = "";
 
             while(true) {
+                //show the shop console
+                System.out.print("Shop> ");
                 input = scanner.nextLine();
+                System.out.println();
                 
                 if(input.equals("exit")) {
-                    displayTextSlowly("Goodbye!");
+                    displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + "points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", forceWait);
                     break;
                 }
-                
                 else if(input.equals("help")) {
                     frontendUXElements.availableCommands();
                 }
                 else if(input.startsWith("buy")) {
-                    String[] parts = input.split(" ");
-                    if(parts.length == 3) {
-                        String item = parts[1];
-                        int count = Integer.parseInt(parts[2]);
-                        if(shop.shopItems.containsKey(item)) {
-                            shop.addItemToReceipt(item, count);
-                        } else {
-                            System.out.println("Item not found in shop.");
-                        }
+                    String[] parts = input.trim().split(" ");
+
+                    String item = "";
+                    for(int i = 1; i < parts.length - 1; i++) {
+                        item += parts[i] + " ";
+                    }
+
+                    item = item.trim(); // Remove leading and trailing spaces
+
+                    int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
+                    if(shop.shopItems.containsKey(item)) {
+                        shop.addItemToReceipt(item, count);
+                        displayTextSlowly(item + " added to your list.\n", forceWait);
                     } else {
-                        System.out.println("Invalid command format. Use: buy <item> <count>");
+                        System.out.println("Item not found in shop.");
                     }
                 } 
                 else if(input.startsWith("remove")) {
-                    String[] parts = input.split(" ");
-                    if(parts.length == 3) {
-                        String item = parts[1];
-                        int count = Integer.parseInt(parts[2]);
-                        shop.removeItemFromReceipt(item, count);
-                        System.out.println("Removed " + count + " " + item + "(s) from your list.");
-                    } else {
-                        System.out.println("Invalid command format. Use: remove <item> <count>");
+                    
+                    String[] parts = input.trim().split(" ");
+
+                    String item = "";
+                    for(int i = 1; i < parts.length - 1; i++) {
+                        item += parts[i] + " ";
                     }
+
+                    item = item.trim(); // Remove leading and trailing spaces
+
+                    int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
+                    shop.removeItemFromReceipt(item, count);
+                    System.out.println("Removed " + count + " " + item + "(s) from your list.");
+                   
                 } 
                 else if(input.equals("review")) {
                     shop.printContentsOfReceipt();
@@ -402,16 +434,19 @@ public class Frontend {
                     cur_player.setMoney(cur_player.getMoney() - totalCost);
                         
                     //add items to inventory and clear the receipt
-                    cur_player.addResources(shop.getShopItemsAsResources());
+                    cur_player.addResources(shop.getResourceShopItems());
+
+                    //add morale items to the player
+                    cur_player.addMorale(shop.getMoraleShopItems());
+
+                    //add crew items to the player 
+                    cur_player.addCrewNum(shop.getCrewShopItems());
+
                     //clear the receipt as you are theoretically done with it
                     shop.clearReceipt();
                 } 
                 else if(input.equals("show")) {
                     shop.displayStore();
-                } 
-                else if(input.equals("exit")) {
-                    displayTextSlowly("Goodbye!");
-                    break;
                 } 
                 else if(input.equals("help")) {
                     frontendUXElements.availableCommands();
@@ -420,7 +455,7 @@ public class Frontend {
                 }
             }
         } else {
-            displayTextSlowly("You are not at a shop, you cannot buy items here!");
+            displayTextSlowly("You are not at a shop, you cannot buy items here!\n\n");
         }
         
     }
@@ -645,6 +680,7 @@ public class Frontend {
         inputAsk();
         String userInput = scanner.nextLine();
 
+        //gives information about the current planet
         if (userInput.equalsIgnoreCase("planet")) {
             displayCurrentPlanet(scanner);
         } else if (userInput.equalsIgnoreCase("travel")) {
@@ -655,6 +691,7 @@ public class Frontend {
             cur_player.detailedDisplay();
         }
         else if (userInput.equalsIgnoreCase("shop")) {
+            openPlanetResourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
@@ -666,7 +703,7 @@ public class Frontend {
         }
         else if (userInput.equalsIgnoreCase("lore")) {
             //display the planets that we have visited
-            displayTextSlowly("These are the planets you have currently visited (type \'exit\' to leave): ");
+            displayTextSlowly("These are the planets you have currently visited (type \'exit\' to leave): \n");
             for(int i = 0; i < visitedPlanets.size(); i++) {
                 displayTextSlowly("\t " + visitedPlanets.get(i).getName() + "\n");
             }
@@ -674,15 +711,16 @@ public class Frontend {
             while(true) {
                 System.out.print("Lore> ");
                 String loreInput = scanner.nextLine();
+
                 if (loreInput.equalsIgnoreCase("exit")) {
                     break;
                 }
 
-                String lore = LoreLoader.getLoreByPlanetName(loreInput);
+                String lore = LoreLoader.getLoreByPlanetName(loreInput.trim());
                 if (lore != null) {
-                    displayTextSlowly(lore);
+                    displayTextSlowly(loreInput + " - " + lore + "\n");
                 } else {
-                    displayTextSlowly("Lore not found for " + loreInput + ". Please try again.");
+                    displayTextSlowly("Lore not found for " + loreInput + ". Please try again.\n");
                 }
             }
         }
