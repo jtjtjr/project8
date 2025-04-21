@@ -5,25 +5,8 @@ import java.util.List;
  * The Shop class represents a shop in the game where players can buy items.
  */
 public class Shop {
-    class ItemDescription {
-        private Integer price;
-        private String description;
-
-        public ItemDescription(Integer _price, String _desc) {
-            this.price = _price;
-            this.description = _desc;
-        }
-
-        public Integer getPrice() {
-            return price;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-    }
-    
-    public HashMap<String, ItemDescription> shopItems; //contains the items in the shop and their price and description
+        
+    public HashMap<String, ShopItem> shopItems; //contains the items in the shop and their price and description
 
     public HashMap<String, Integer> receipt; //contains the items bought and their price
 
@@ -31,9 +14,21 @@ public class Shop {
      * Default constructor that initializes the shop with no items.
      */
     public Shop() {
-        shopItems = new HashMap<String, ItemDescription>();
-
+        shopItems = new HashMap<String, ShopItem>();
         receipt = new HashMap<String, Integer>();
+    }
+
+    /**
+     * Constructor that initializes the shop with a list of items.
+     * 
+     * @param shopItems The list of items to be added to the shop.
+     */
+    public Shop(List<ShopItem> shopItems) {
+        this.shopItems = new HashMap<String, ShopItem>();
+        this.receipt = new HashMap<String, Integer>();
+        for (ShopItem item : shopItems) {
+            this.shopItems.put(item.getName(), item);
+        }
     }
 
     /**
@@ -42,8 +37,8 @@ public class Shop {
      * @param item The item to be added.
      * @param price The price of the item.
      */
-    public void addShopItem(String item, int price, String description) {
-        this.shopItems.put(item, new ItemDescription(price, description));   
+    public void addShopItem(ShopItem item) {
+        this.shopItems.put(item.getName(), item);   
     }
 
     /**
@@ -73,7 +68,7 @@ public class Shop {
     
         // Display all shop items
         for (String key : this.shopItems.keySet()) {
-            ItemDescription inventory = this.shopItems.get(key);
+            ShopItem inventory = this.shopItems.get(key);
             printCenteredLine(String.format("* %-" + ITEM_WIDTH + "s* %-" + POINTS_WIDTH + "d* %-" + DESC_WIDTH + "s*", 
                 key, inventory.getPrice(), inventory.getDescription()));
             printCenteredLine("*".repeat(TOTAL_WIDTH));
@@ -97,7 +92,7 @@ public class Shop {
      */
     public void addItemToReceipt(String item, int numItems) {
         if (this.shopItems.containsKey(item)) {
-            this.receipt.put(item, shopItems.get(item).getPrice());
+            this.receipt.put(item, numItems);
         } else {
             System.out.println("Item not found in the shop.");
         }
@@ -196,15 +191,41 @@ public class Shop {
     }
     
     /**
-     * Returns the items in the shop as resources
+     * Return totalNumber of ResourceItems on your list
      */
-    public int getShopItemsAsResources() {
-        int total = 0;
-        for (String key : this.shopItems.keySet()) {
-            total += this.receipt.get(key);
+    public int getResourceShopItems() {
+        return getTotalNumberOfItems("resources");
+    }
+
+    /**
+     * Returns the total number of moraleItems on your list
+     */
+    public int getMoraleShopItems() {
+        return getTotalNumberOfItems("morale");
+    }
+
+    /**
+     * Returns the total number of crewItems on your list
+     */
+    public int getCrewShopItems() {
+        return getTotalNumberOfItems("crew");
+    }
+
+    /**
+     * getTotalNumber of items in the shop
+     * 
+     * @param itemType - the type of item we are trying to get
+     */
+    public int getTotalNumberOfItems(String itemType) {
+        int totalItems = 0;
+        for (String key : this.receipt.keySet()) {
+            //check if its a resource item
+            if(this.shopItems.get(key).getType().equals(itemType)) {
+                totalItems += this.receipt.get(key);
+            }
         }
 
-        //returns the total number of resources in the shop
-        return total;
+        //returns the total number of items in the shop
+        return totalItems;
     }
 }

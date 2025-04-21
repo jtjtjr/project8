@@ -136,10 +136,10 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
    * this function creates the help elements
    */
   public static void helpElements() {
-      // TODO Auto-generated method stub
       System.out.println("Input Commands: ");
       System.out.println("planet - Displays the current planet's information.");
       System.out.println("shop - open the shopping menu if you are currently on a planet");
+      System.out.println("lore - Displays the lore of the current planet.");
       System.out.println("travel - Moves to the next planet.");  
       System.out.println("status - Displays how you are doing at the moment.");    
       System.out.println("end - Ends the game.");

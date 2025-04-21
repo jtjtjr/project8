@@ -26,7 +26,7 @@ public class LoreLoader {
             br.readLine(); // Skip header line
 
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] data = line.split(";");
                 if (data.length < 2) {
                     System.out.println("Skipping invalid line: " + line);
                     continue;
@@ -71,9 +71,12 @@ public class LoreLoader {
 
     /**
      * Get individual planet lore by planet name.
+     * 
+     * @param planetName Name of the planet
      */
     public static String getLoreByPlanetName(String planetName) {
         Map<String, String> loreList = loadLore();
+
         for (Map.Entry<String, String> entry : loreList.entrySet()) {
             if (entry.getKey().equalsIgnoreCase(planetName)) {
                 return entry.getValue(); // Return the lore for the given planet name
@@ -81,5 +84,16 @@ public class LoreLoader {
         }
        
         return null; // If no lore found for the given planet name, return null or an empty string
+    }
+
+    /**
+     * displayLore method to display lore in a formatted way.
+     */
+    public static void displayLore(Map<String, String> loreList) {
+        for (Map.Entry<String, String> entry : loreList.entrySet()) {
+            System.out.println("Planet: " + entry.getKey());
+            System.out.println("Lore: " + entry.getValue());
+            System.out.println("------------------------------");
+        }
     }
 }

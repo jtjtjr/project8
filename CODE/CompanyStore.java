@@ -78,7 +78,7 @@ public class CompanyStore {
             }
         }
         
-        int startingPoints = 8000;
+        int startingPoints = 10000;
 
         frontendUXElements.newSlideScene();
 
