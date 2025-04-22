@@ -136,10 +136,10 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
    * this function creates the help elements
    */
   public static void helpElements() {
-      // TODO Auto-generated method stub
       System.out.println("Input Commands: ");
       System.out.println("planet - Displays the current planet's information.");
       System.out.println("shop - open the shopping menu if you are currently on a planet");
+      System.out.println("lore - Displays the lore of the current planet.");
       System.out.println("travel - Moves to the next planet.");  
       System.out.println("status - Displays how you are doing at the moment.");    
       System.out.println("end - Ends the game.");
@@ -750,5 +750,16 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
 """;
 
       System.out.println(art);
+    }
+
+    public static void shipChooser() {
+        Frontend.displayTextSlowly("Your ship is the most important tool that you will need to complete the game.\n\n\n");
+        Frontend.displayTextSlowly("Choose it wisely!\n\n\n");
+        Frontend.displayTextSlowly("The default ship model is set to SS Driftwing. Type the corresponding number for the ship you would like.\n");
+        System.out.println("**********************************************************************************************************************");
+        Frontend.displayTextSlowly("[1]SS Driftwing: Slow pace ship. Travels slow but consumes very little resources per day. COST: $$0\n", 500);
+        Frontend.displayTextSlowly("[2]SS StarBorne: Median pace ship. Travels average and consumes average resources per day. COST: $$2000\n", 500);
+        Frontend.displayTextSlowly("[3]SS Nova Viper: Fast pace ship. Travels fast but consumes a lot of resources per day. COST: $$4000\n", 500);
+        System.out.println("**********************************************************************************************************************\n");
     }
 }

@@ -157,9 +157,10 @@ public class Player {
      */
     public void display() {
         Frontend.displayTextSlowly("Captain " + this.userName + ", here is a brief overview of our current condition.\n");
+        
         playerArt();
 
-        Frontend.displayTextSlowly("Ship: " + this.shipName + ", Ship Type:" + this.ship.shipType() + ", Day: " + this.dayNumber + ", Crew: " + this.crewNum + ", Resource: " + this.resources + ", Morale: " + this.morale + "\n");
+        Frontend.displayTextSlowly("\n\n * Ship: " + this.shipName + "\n * Ship Type:" + this.ship.shipType() + "\n * Day: " + this.dayNumber + "\n * Crew: " + this.crewNum + "\n * Resource: " + this.resources + "\n * Morale: " + this.morale + "\n\n");
         if (this.crewNum == 1) {
             Frontend.displayTextSlowly("WARNING: Only 1 crew member left!\n");
         }

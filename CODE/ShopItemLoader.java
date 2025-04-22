@@ -12,7 +12,7 @@ import java.util.Map;
 public class ShopItemLoader {
 
     // Path to the CSV file containing store items
-    private static final String STORE_ITEM_CSV_FILE = "ShopItems.csv";
+    private static final String STORE_ITEM_CSV_FILE = "shopItems.csv";
 
     /**
      * Parses the storeItems.csv file and returns a list of StoreItem objects.

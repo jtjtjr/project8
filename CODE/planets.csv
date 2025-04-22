@@ -1,12 +1,12 @@
 name,affiliation,healthPerDay,crewPerDay,dangerLevel,amenities,atmosphere,firstPlanet,lastPlanet,nextPlanet
 Fiador X,The Company,0,0,0,null,80,TRUE,FALSE,Bucephalus
-Bucephalus,None,0,0,0,[Market],80,FALSE,FALSE,Norman's Rock
-Norman's Rock,Atlas Station,0,0,1,[Market],80,FALSE,FALSE,Atlas Station
-Atlas Station,Atlas Station,0,0,0,[Market],80,FALSE,FALSE,Ezekiel's Salvation
-Ezekiel's Salvation,None,0,0,0,[Market],50,FALSE,FALSE,Mu 6
-Mu 6,Astros Confederation,1,1,1,[Market],80,FALSE,FALSE,Orion's Bane
-Orion's Bane,None,2,2,2,[Market],25,FALSE,FALSE,Technon 9
-Technon 9,Astros Confederation,0,1,1,[Market],90,FALSE,FALSE,Astros Militarum
-Astros Militarum,Astros Confederation,0,1,0,[Market],90,FALSE,FALSE,Unknown J76G432
-Unknown J76G432,None,2,2,2,[Market],80,FALSE,FALSE,Cerberus XVII
+Bucephalus,None,0,0,0,Market,80,FALSE,FALSE,Norman's Rock
+Norman's Rock,Atlas Station,0,0,1,Market,80,FALSE,FALSE,Atlas Station
+Atlas Station,Atlas Station,0,0,0,Market,80,FALSE,FALSE,Ezekiel's Salvation
+Ezekiel's Salvation,None,0,0,0,Market,50,FALSE,FALSE,Mu 6
+Mu 6,Astros Confederation,1,1,1,Market,80,FALSE,FALSE,Orion's Bane
+Orion's Bane,None,2,2,2,Market,25,FALSE,FALSE,Technon 9
+Technon 9,Astros Confederation,0,1,1,Market,90,FALSE,FALSE,Astros Militarum
+Astros Militarum,Astros Confederation,0,1,0,Market,90,FALSE,FALSE,Unknown J76G432
+Unknown J76G432,None,2,2,2,Market,80,FALSE,FALSE,Cerberus XVII
 Cerberus XVII,The Company,0,0,0,null,80,FALSE,TRUE,null

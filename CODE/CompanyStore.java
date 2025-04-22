@@ -73,12 +73,12 @@ public class CompanyStore {
                 frontendUXElements.newSlideScene();
                 Tutorial.shopTutorial(scanner);
             } else if (userInput.equalsIgnoreCase("dev")) {
-                int[] resourcesAmount = {10, 100, 1000, 9999999}; 
+                int[] resourcesAmount = {10, 100, 1000, 999999999}; 
                 return resourcesAmount;
             }
         }
         
-        int startingPoints = 8000;
+        int startingPoints = currentPoints;
 
         frontendUXElements.newSlideScene();
 
