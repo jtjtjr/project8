@@ -7,7 +7,6 @@ WORKDIR /app
 # Copy your Java source files into the container
 COPY *.java ./
 
-
 # Create a directory for dependencies
 RUN mkdir -p lib
 COPY mysql-connector-j-9.2.0/mysql-connector-j-9.2.0.jar ./lib/

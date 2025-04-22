@@ -2,9 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /*
  * This class loads store items from a CSV file and creates a list of ShopItem objects.
@@ -25,7 +23,7 @@ public class ShopItemLoader {
             br.readLine(); // Skip header line
 
             while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+                String[] data = line.split(";");
                 if (data.length < 5) {
                     System.out.println("Skipping invalid line: " + line);
                     continue;
