@@ -17,6 +17,7 @@ public class Frontend {
     static int currentPoints = 10000;
     static int textTimer = 30;
     static int forceWait = 2000;
+    static String[] crewMatesArray = null;
     
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
@@ -198,6 +199,8 @@ public class Frontend {
         currentPoints -= resourcesAmount[0] * 100;
         currentPoints -= resourcesAmount[1] * 40;
         currentPoints -= resourcesAmount[2] * 10;
+
+        CrewMates.crewGenerator(cur_player.getCrewNum());
 
         frontendUXElements.newSlideScene();
 
@@ -703,15 +706,26 @@ public class Frontend {
         }
         else if (userInput.equalsIgnoreCase("status")) {
             cur_player.detailedDisplay();
+            next(scanner);
         }
         else if (userInput.equalsIgnoreCase("shop")) {
             openPlanetResourceStore(scanner);
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
+            next(scanner);
+        }
+        else if (userInput.equalsIgnoreCase("crew")) {
+            if (crewMatesArray == null) {
+                crewMatesArray = CrewMates.crewGenerator(cur_player.getCrewNum());
+            }
+            crewMatesArray = CrewMates.crewEqualizer(crewMatesArray, cur_player.getCrewNum());
+            CrewMates.crewPrinter(crewMatesArray);
+            next(scanner);
         }
         else if (userInput.equalsIgnoreCase("end")) {
             System.out.println("Ending game...");
+            next(scanner);
         } else if (userInput.equalsIgnoreCase("tutorial")) {
             Tutorial.tutorialOperator(scanner);
         }
@@ -737,6 +751,7 @@ public class Frontend {
                     displayTextSlowly("Lore not found for " + loreInput + ". Please try again.\n");
                 }
             }
+            next(scanner);
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.\n\n\n");
