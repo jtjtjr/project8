@@ -378,7 +378,7 @@ public class Frontend {
                 System.out.println();
                 
                 if(input.equals("exit")) {
-                    displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + "points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", forceWait);
+                    displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", forceWait);
                     break;
                 }
                 else if(input.equals("help")) {
@@ -424,7 +424,6 @@ public class Frontend {
 
                         int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
                         shop.removeItemFromReceipt(item, count);
-                        displayTextSlowly("Removed " + count + " " + item + "(s) from your list.\n");
                     } 
                     catch (NumberFormatException e) {
                         displayTextSlowly("Please enter a valid number for quantity.\n");

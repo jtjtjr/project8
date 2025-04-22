@@ -47,6 +47,7 @@ public class Shop {
      * @param item The item to be removed.
      */
     public void removeShopItem(String item) {
+
         this.shopItems.remove(item);
     }
 
@@ -114,6 +115,8 @@ public class Shop {
             if (this.receipt.get(item) <= 0) {
                 this.receipt.remove(item);
             }
+
+            System.out.println("Removed " + numItems + " " + item + "(s) from your list.\n");
         } else {
             // If the item is not in the receipt, print a message
             System.out.println("Item not found in the receipt.");
