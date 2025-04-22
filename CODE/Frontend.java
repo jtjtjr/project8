@@ -188,6 +188,8 @@ public class Frontend {
         cur_player.setShipName(shipName);
         cur_player.nextDay();
 
+        CrewMates.crewGenerator(cur_player.getCrewNum());
+
         frontendUXElements.newSlideScene();
 
         System.out.println("--------------------------- Legend: CARGO = {} SUPPLY = [] Crew = >:| ------------------------------\n\n\n");
@@ -632,14 +634,25 @@ public class Frontend {
         }
         else if (userInput.equalsIgnoreCase("status")) {
             cur_player.detailedDisplay();
+            next(scanner);
         }
         else if (userInput.equalsIgnoreCase("shop")) {
         }
         else if (userInput.equalsIgnoreCase("help")) {
             help();
+            next(scanner);
+        }
+        else if (userInput.equalsIgnoreCase("crew")) {
+            if (crewMatesArray == null) {
+                crewMatesArray = CrewMates.crewGenerator(cur_player.getCrewNum());
+            }
+            crewMatesArray = CrewMates.crewEqualizer(crewMatesArray, cur_player.getCrewNum());
+            CrewMates.crewPrinter(crewMatesArray);
+            next(scanner);
         }
         else if (userInput.equalsIgnoreCase("end")) {
             System.out.println("Ending game...");
+            next(scanner);
         } else if (userInput.equalsIgnoreCase("tutorial")) {
             Tutorial.tutorialOperator(scanner);
         }
@@ -664,6 +677,7 @@ public class Frontend {
                     displayTextSlowly("Lore not found for " + loreInput + ". Please try again.");
                 }
             }
+            next(scanner);
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.\n\n\n");
