@@ -385,38 +385,53 @@ public class Frontend {
                     frontendUXElements.availableCommands();
                 }
                 else if(input.startsWith("buy")) {
-                    String[] parts = input.trim().split(" ");
+                    try {
+                        String[] parts = input.trim().split(" ");
 
-                    String item = "";
-                    for(int i = 1; i < parts.length - 1; i++) {
-                        item += parts[i] + " ";
+                        String item = "";
+                        for(int i = 1; i < parts.length - 1; i++) {
+                            item += parts[i] + " ";
+                        }
+
+                        item = item.trim(); // Remove leading and trailing spaces
+
+                        int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
+                        if(shop.shopItems.containsKey(item)) {
+                            shop.addItemToReceipt(item, count);
+                            displayTextSlowly(item + " added to your list.\n", forceWait);
+                        } else {
+                            System.out.println("Item not found in shop.");
+                        }
                     }
-
-                    item = item.trim(); // Remove leading and trailing spaces
-
-                    int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
-                    if(shop.shopItems.containsKey(item)) {
-                        shop.addItemToReceipt(item, count);
-                        displayTextSlowly(item + " added to your list.\n", forceWait);
-                    } else {
-                        System.out.println("Item not found in shop.");
+                    catch (NumberFormatException e) {
+                        displayTextSlowly("Please enter a valid number for quantity.\n");
+                    }
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please use the format: buy <item name> <quantity>");
                     }
                 } 
                 else if(input.startsWith("remove")) {
-                    
-                    String[] parts = input.trim().split(" ");
+                    try{
+                        String[] parts = input.trim().split(" ");
 
-                    String item = "";
-                    for(int i = 1; i < parts.length - 1; i++) {
-                        item += parts[i] + " ";
+                        String item = "";
+                        for(int i = 1; i < parts.length - 1; i++) {
+                            item += parts[i] + " ";
+                        }
+
+                        item = item.trim(); // Remove leading and trailing spaces
+
+                        int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
+                        shop.removeItemFromReceipt(item, count);
+                        displayTextSlowly("Removed " + count + " " + item + "(s) from your list.\n");
+                    } 
+                    catch (NumberFormatException e) {
+                        displayTextSlowly("Please enter a valid number for quantity.\n");
                     }
-
-                    item = item.trim(); // Remove leading and trailing spaces
-
-                    int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
-                    shop.removeItemFromReceipt(item, count);
-                    System.out.println("Removed " + count + " " + item + "(s) from your list.");
-                   
+                    catch(Exception e) {
+                        displayTextSlowly("Invalid input. Please use the format: remove <item name> <quantity>\n");
+                    }
                 } 
                 else if(input.equals("review")) {
                     shop.printContentsOfReceipt();
