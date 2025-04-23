@@ -515,13 +515,13 @@ public class Frontend {
 
                frontendUXElements.sacrifice();
                System.out.print("You currently have " +cur_player.getCrewNum()+ " Crew Members ");
-               System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Sacrifice them' to sacrifice.");
+               System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Yes' to sacrifice them.");
                inputAsk();
 
                String userSacrifice = scannerEvent.nextLine().trim();
                //System.out.println("You chose->" +userSacrifice);
                
-               if (userSacrifice.equalsIgnoreCase("no") || userSacrifice.equalsIgnoreCase("sacrifice them")) {
+               if (userSacrifice.equalsIgnoreCase("no") || userSacrifice.equalsIgnoreCase("yes")) {
                     if (userSacrifice.equalsIgnoreCase("no")) {
                         Random sacrificeMessage = new Random();
                         int randomValue = sacrificeMessage.nextInt();
