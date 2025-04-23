@@ -514,7 +514,8 @@ public class Frontend {
            while (true) {
 
                frontendUXElements.sacrifice();
-               System.out.print("You currently have " +cur_player.getCrewNum()+ " Crew Members ");
+               System.out.println("You currently have " +cur_player.getCrewNum()+ " Crew Members ");
+               System.out.println("You currently have " +cur_player.getResources()+ " Resources and "+cur_player.getMorale()+ " Morale");
                System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Yes' to sacrifice them.");
                inputAsk();
 
