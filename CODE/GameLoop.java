@@ -22,17 +22,9 @@ public class GameLoop {
         Frontend.introSlide(scanner);
         boolean gameOver = false;
 
-        while (!gameOver) {
-            String input = Frontend.inputUser(scanner);
-
-            //added a player status check to see if they are dead
-            if (input.equals("end") || !Frontend.playerStatus()) {
-                gameOver = true;
-            }
-            
+        while (!Frontend.gameOver) {
+            Frontend.inputUser(scanner);           
         }
-
-        Frontend.gameEnd(gameOver);
     }
 
     public static void main(String[] args) {
