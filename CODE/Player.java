@@ -160,7 +160,7 @@ public class Player {
         
         playerArt();
 
-        Frontend.displayTextSlowly("\n\n * Ship: " + this.shipName + "\n * Ship Type:" + this.ship.shipType() + "\n * Day: " + this.dayNumber + "\n * Crew: " + this.crewNum + "\n * Resource: " + this.resources + "\n * Morale: " + this.morale + "\n\n");
+        Frontend.displayTextSlowly("\n\n * Ship: " + this.shipName + "\n * Ship Type: " + this.ship.shipType() + "\n * Day: " + this.dayNumber + "\n * Crew: " + this.crewNum + "\n * Resource: " + this.resources + "\n * Morale: " + this.morale + "\n\n");
         if (this.crewNum == 1) {
             Frontend.displayTextSlowly("WARNING: Only 1 crew member left!\n");
         }

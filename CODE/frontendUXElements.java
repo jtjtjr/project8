@@ -144,6 +144,7 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
       System.out.println("status - Displays how you are doing at the moment.");    
       System.out.println("end - Ends the game.");
       System.out.println("tutorial - bring up list of tutorils associated with the game.");
+      System.out.println("crew - Displays the stupid saps who have to listen to you, cap'n");
     }
 
     /*

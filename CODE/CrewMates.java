@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 public class CrewMates {
@@ -112,8 +111,9 @@ public class CrewMates {
         for (int i = 0; i < myCrew.length; i++) {
             if (i == 0) {
                 Frontend.displayTextSlowly("\n\nCrewmate " + (i + 1) + ": " + myCrew[i] + "\n\n");
+            } else {
+                Frontend.displayTextSlowly("Crewmate " + (i + 1) + ": " + myCrew[i] + "\n\n");
             }
-            Frontend.displayTextSlowly("Crewmate " + (i + 1) + ": " + myCrew[i] + "\n\n");
         }
     }
 
