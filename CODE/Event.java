@@ -158,6 +158,54 @@ public class Event {
         //return 0;
     }
 
+    public int percentLossResources(){
+        int curr_res = player.getResources();
+        int tenPercent = (int) Math.round(curr_res * 0.1);
+        player.setResources(player.getResources()-tenPercent);
+        if (player.getResources()< 0) {
+            player.setSurvivalBoolean(false);
+        }
+        return player.getResources();
+    }
+
+    public int percentLossMorale(){
+        int curr_mor = player.getMorale();
+        int tenPercent = (int) Math.round(curr_mor * 0.1);
+        player.setMorale(player.getMorale()-tenPercent);
+        if (player.getMorale()< 0) {
+            player.setSurvivalBoolean(false);
+        }
+        return player.getMorale();
+    }
+
+    public String hardModeSacrifice(){
+        Random rand = new Random();
+        int randomInt = rand.nextInt(10);
+        //chance loss
+        if (randomInt==0){
+            int result = percentLossResources();
+            String accident = "The sacrificed crewmate demands a last meal request and eats 10% of your resources!\n";
+            return accident + "Leaving you with " + result + " resources";
+        }
+        else if (randomInt==1)
+        {
+            int result = percentLossMorale();
+            String accident = "The sacrificed crewmate admits that he pissed on the wall, taking morale down by 10%\n";
+            return accident + "Leaving you with " + result + " morale";
+        }
+        else if (randomInt==2)
+        {
+            int result_1 = percentLossResources();
+            int result_2 = percentLossMorale();
+            String accident = "The sacrificed crewmate begins crying and binge eating, taking morale and resources down 10%\n";
+            return accident + "Leaving you with " + result_1 + " resources and " + result_2 + " morale";
+        }
+        else{
+            return null;
+        }
+
+    }
+
     /** Returns a string representation of the event.
      * @return A formatted string describing the event and its effects.
      */
