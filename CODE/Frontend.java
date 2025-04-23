@@ -66,7 +66,7 @@ public class Frontend {
         boolean validInput = false;
         while (!validInput) {
             try {
-                num = Integer.parseInt(scanner.nextLine());
+                num = Integer.parseInt(scanner.nextLine().trim());
                 validInput = true; // If we get here, input was valid
             } catch (NumberFormatException e) {
                 displayTextSlowly("Didn't quite get that, whats your " + property + "?\n");
@@ -144,6 +144,12 @@ public class Frontend {
         displayTextSlowly("Select your difficulty (1 for Easy, 2 for Hard)");
         inputAsk();
         int difficulty = parseInt(scanner, "difficulty");
+
+        while(!(difficulty==1 || difficulty==2)){
+            System.out.println("Invalid command pick only 1 or 2");
+            inputAsk();
+            difficulty = parseInt(scanner, "difficulty");
+        }
 
         if (difficulty == 2) {
             displayTextSlowly("You chose HARD mode. Buckle up...\n\n", textTimer);
