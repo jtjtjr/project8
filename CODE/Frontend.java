@@ -393,7 +393,7 @@ public class Frontend {
 
             //display the store and then ask what to buy
             shop.displayStore();
-            displayTextSlowly("\n What would you like to buy? \n", textTimer);
+            displayTextSlowly("\n What would you like to buy? Or type 'talk' to speak with the Sage.\n", textTimer);
             
             String input = "";
 
@@ -407,6 +407,10 @@ public class Frontend {
                     displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", textTimer);
                     break;
                 }
+                else if(input.equalsIgnoreCase("talk")) {
+                    String speech = Sage.speak(currentPlanet, cur_player);
+                    displayTextSlowly(speech + "\n", textTimer);
+                }            
                 else if(input.equals("help")) {
                     frontendUXElements.availableCommands();
                 }
