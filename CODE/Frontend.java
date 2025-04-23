@@ -537,8 +537,8 @@ public class Frontend {
            while (true) {
 
                frontendUXElements.sacrifice();
-               System.out.println("You currently have " +cur_player.getCrewNum()+ " Crew Members ");
-               System.out.println("You currently have " +cur_player.getResources()+ " Resources and "+cur_player.getMorale()+ " Morale");
+               System.out.println("You currently have " +cur_player.getCrewNum()+ " Crew Members \n");
+               System.out.println("You have " +cur_player.getResources()+ " Resources and "+cur_player.getMorale()+ " Morale");
                System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Yes' to sacrifice them.");
                inputAsk();
 
@@ -565,11 +565,23 @@ public class Frontend {
                          }
                          else if (sacNum==0){
                             displayTextSlowly("\nResources went up but you killed a good friend among your crew, dropping morale\n\n\n", textTimer);
+                            if (curr.isHardMode()){
+                                String ress = chosen.hardModeSacrifice() ;
+                                if (!ress.equals("")){
+                                    displayTextSlowly(ress + "\n\n");
+                                }
+                            }
                             displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew...\n\n\n", textTimer);
                             next(scannerEvent);
                          }
                          else if (sacNum==1){
                             displayTextSlowly("\nResources went up and you killed an annoying person among your crew, increasing morale\n\n\n", textTimer);
+                            if (curr.isHardMode()){
+                                String ress = chosen.hardModeSacrifice() ;
+                                if (!ress.equals("")){
+                                    displayTextSlowly(ress + "\n\n");
+                                }
+                            }
                             displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew...\n\n\n", textTimer);
                             next(scannerEvent);
                          }
