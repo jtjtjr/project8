@@ -5,7 +5,7 @@ public class EndGame {
         if (!finalplanet) {
             System.out.println("YOU HAVE NOT ARRIVED AT THE DESIGNATED DESTINATION\n");
             Frontend.displayTextSlowly("!!!!!!!!!!!          !!!!!!!!!!!          !!!!!!!!!!!          !!!!!!!!!!!          !!!!!!!!!!!          \n!!!!!!!!!!!          !!!!!!!!!!!          !!!!!!!!!!!          !!!!!!!!!!!          !!!!!!!!!!!          \n");
-            Frontend.displayTextSlowly("\n\nARE YOU GOING TO LET THE COMPANY DOWN?\n\n\n\n\n\n\n\n\nWE WILL HUNT YOU DOWN AND INSTALL A COMPLIANCE CHIP (TM)\n\n\n");
+            Frontend.displayTextSlowly("\n\nARE YOU GOING TO LET THE COMPANY DOWN?\n\n\n\n\n\n\n\n\nWE WILL HUNT YOU DOWN AND INSTALL THE COMPLIANCE CHIP (TM)\n\n\n");
             return -2;
         } else {
             Frontend.displayTextSlowly("THE COMPANY THANKS YOU FOR COMPLETING YOUR CARGO SHIPMENT INTACT\n\n\n");

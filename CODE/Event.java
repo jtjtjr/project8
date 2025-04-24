@@ -130,29 +130,29 @@ public class Event {
     }
     /**
      * Sacrifice a players crew memeber, this can include the player themselves - if the player
-     * safricses themselves the game ends. If the player sacrifises the crew further resources are gained for the player
+     * sacrifices themselves the game ends. If the player sacrifices the crew, resources are gained for the player.
+     * 1/2 chance of morale boost/loss, and 1/n chance of killing yourself, where n is the # of crew members.
      * @return -2 is more of a error check, -1 means the player died, 1- means the morale went up and 0 means morale went down
      */
-    public int sacrifice(){
-        if(player.getCrewNum()>=1){
+    public int sacrifice() {
+        if(player.getCrewNum()>=1) {
             //TODO add specific flags?
             player.setResources(player.getResources()+25);
             Random rand = new Random();
             int randomInt = rand.nextInt(2);
-            if (randomInt==0){
+            if (randomInt==0) {
                 player.setMorale(player.getMorale()-5);
-            }
-            else{
+            } else {
                 player.setMorale(player.getMorale()+5);
             }
             player.removeCrewNum(1);
             return randomInt;
         }
-        else if(player.getCrewNum()==0){
+        else if(player.getCrewNum()==0) {
             player.setSurvivalBoolean(false);
             return -1;
         }
-        else{
+        else {
             return -2;
         }
         //return 0;
@@ -164,7 +164,7 @@ public class Event {
      * 
      * @return The player's remaining resources after deduction.
      */
-    public int percentLossResources(){
+    public int percentLossResources() {
         int curr_res = player.getResources();
         int tenPercent = (int) Math.round(curr_res * 0.1);
         player.setResources(player.getResources()-tenPercent);
@@ -180,7 +180,7 @@ public class Event {
      * 
      * @return The player's remaining morale after deduction.
      */
-    public int percentLossMorale(){ 
+    public int percentLossMorale() { 
         int curr_mor = player.getMorale(); 
         int tenPercent = (int) Math.round(curr_mor * 0.1); 
         player.setMorale(player.getMorale()-tenPercent);
@@ -220,8 +220,7 @@ public class Event {
             int result_2 = percentLossMorale();
             String accident = "The sacrificed crewmate begins crying and binge eating, taking morale and resources down 10%\n";
             return accident + "Leaving you with " + result_1 + " resources and " + result_2 + " morale";
-        }
-        else{
+        } else {
             return "";
         }
 

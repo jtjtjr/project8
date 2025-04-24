@@ -14,7 +14,7 @@ public class PlayerTester {
 
     @BeforeEach
     void setUp() {
-        testPlayer = new Player(1, 5, 10, 10, "Test Ship");
+        testPlayer = new Player("user", 5, 10, 10, "Ship");
     }
 
     @Test
@@ -23,7 +23,7 @@ public class PlayerTester {
         assertEquals(5, testPlayer.getCrewNum());
         assertEquals(10, testPlayer.getMorale());
         assertEquals(10, testPlayer.getResources());
-        assertEquals("Test Ship", testPlayer.getShipName());
+        assertEquals("Ship", testPlayer.getShipName());
     }
 
     @Test
@@ -77,8 +77,17 @@ public class PlayerTester {
     }
 
     @Test
+    void testShipPace(){
+        testPlayer.setPace(2);
+        assertEquals(25+13*5, testPlayer.getShip().resourceCost());
+
+        testPlayer.setPace(3);
+        assertEquals(30+15*5, testPlayer.getShip().resourceCost());
+    }
+
+    @Test
     void testToString() {
-        String expected = "Player{ shipName=Test Ship, crewNum=5, morale=10, resources=10, dayNumber=1 }";
+        String expected = "Player{ shipName=Ship, shipType=SS Driftwing, crewNum=5, morale=10, resources=10, dayNumber=1, dailyResourceCost=70 }";
         assertEquals(expected, testPlayer.toString());
     }
 

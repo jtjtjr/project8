@@ -113,6 +113,14 @@ public class Player {
     }
 
     /**
+     * Retrieves the current ship being used.
+     * @return The current ship.
+     */
+    public Ship getShip() {
+        return this.ship;
+    }
+
+    /**
      * Retrieves the current pace of the game.
      * @return The current pace.
      */
@@ -521,7 +529,7 @@ public class Player {
                 ", morale=" + this.morale +
                 ", resources=" + this.resources +
                 ", dayNumber=" + this.dayNumber +
-                ", resourceConsumed=" + this.ship.resourceCost() +
+                ", dailyResourceCost=" + this.ship.resourceCost() +
                 " }";
     }
 }
