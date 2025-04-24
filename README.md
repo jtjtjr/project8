@@ -9,7 +9,7 @@ Text-only version of Oregon Trail that does a spin on the original game. This ti
 The game includes Ships, Crew, Morale, Planets, Events, and resources. 
 You can and often will lose crew, resources, and morale during events. 
 
-## Installation
+## Installation/Running
 Impossible for the public as of now, as we use a CSL VM for the MySQL server.
 
 For us:
