@@ -710,8 +710,8 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
      */
     public static void availableCommands() {
       System.out.println("\nAvailable commands: ");
-      System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
-      System.out.println("remove <item> <count> - leave the shop.");
+      System.out.println("buy <item_index> <count> - Add a certain number of a particular item to your list");
+      System.out.println("remove <item_index> <count> - leave the shop.");
       System.out.println("review - see what is on your list.");
       System.out.println("complete purchase - buy all the items on your list.");
       System.out.println("show - show the items available in the shop.");

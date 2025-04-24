@@ -389,6 +389,8 @@ public class Frontend {
 
             shop.displayStore();
             displayTextSlowly("\n What would you like to buy? \n", textTimer);
+
+            displayTextSlowly("You can buy items by typing 'buy <item index> <quantity> (index is 1 - 3)'\n", textTimer);
             
             String input = "";
 
@@ -409,47 +411,32 @@ public class Frontend {
                     try {
                         String[] parts = input.trim().split(" ");
 
-                        String item = "";
-                        for(int i = 1; i < parts.length - 1; i++) {
-                            item += parts[i] + " ";
-                        }
-
-                        item = item.trim(); // Remove leading and trailing spaces
-
-                        int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
-                        if (shop.shopItems.containsKey(item)) {
-                            shop.addItemToReceipt(item, count);
-                            displayTextSlowly(item + " added to your list.\n", textTimer);
-                        } else {
-                            System.out.println("Item not found in shop.");
-                        }
+                        int itemIndex = Integer.parseInt(parts[1]) - 1;
+                        int count = Integer.parseInt(parts[2]);
+                        shop.addItemToReceiptByIndex(itemIndex, count);
                     }
                     catch (NumberFormatException e) {
-                        displayTextSlowly("Please enter a valid number for quantity.\n", textTimer);
+                        displayTextSlowly("Please enter a valid number for quantity. Format is: buy <item index> <quantity>\n", textTimer);
                     }
-                    catch (Exception e) {
-                        System.out.println("Invalid input. Please use the format: buy <item name> <quantity>");
+                    catch(Exception e)
+                    {
+                        System.out.println("Invalid input. Please use the format: buy <item index> <quantity>");
                     }
                 } 
                 else if (input.startsWith("remove")) {
                     try {
                         String[] parts = input.trim().split(" ");
 
-                        String item = "";
-                        for(int i = 1; i < parts.length - 1; i++) {
-                            item += parts[i] + " ";
-                        }
-
-                        item = item.trim(); // Remove leading and trailing spaces
-
-                        int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
-                        shop.removeItemFromReceipt(item, count);
+                        int itemIndex = Integer.parseInt(parts[1]) - 1;
+                        int count = Integer.parseInt(parts[2]);                        
+                        shop.removeItemFromReceiptByIndex(itemIndex, count);
                     } 
                     catch (NumberFormatException e) {
-                        displayTextSlowly("Please enter a valid number for quantity.\n", textTimer);
+                        displayTextSlowly("Please enter a valid number for quantity. Use format: remove <item index> <quantity>\n", textTimer);
                     }
-                    catch (Exception e) {
-                        displayTextSlowly("Invalid input. Please use the format: remove <item name> <quantity>\n", textTimer);
+                    catch(Exception e) {
+                        displayTextSlowly("Invalid input. Please use the format: remove <item index> <quantity>\n", textTimer);
+                        System.out.println(e.toString());
                     }
                 } 
                 else if (input.equals("review")) {

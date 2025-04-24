@@ -56,23 +56,26 @@ public class Shop {
      */
     public void displayStore() {
         // Define column widths
+        final int NUMBER_WIDTH = 5;
         final int ITEM_WIDTH = 15;
         final int POINTS_WIDTH = 15;
         final int DESC_WIDTH = 60;
-        final int TOTAL_WIDTH = ITEM_WIDTH + POINTS_WIDTH + DESC_WIDTH + 6; // +6 for separators and padding
+        final int TOTAL_WIDTH = NUMBER_WIDTH + ITEM_WIDTH + POINTS_WIDTH + DESC_WIDTH + 8; // +8 for separators and padding
         
         // Print header
         printCenteredLine("*".repeat(TOTAL_WIDTH));
-        printCenteredLine(String.format("* %-" + ITEM_WIDTH + "s* %-" + POINTS_WIDTH + "s* %-" + DESC_WIDTH + "s*", 
-            "Item", "Company Points", "Description"));
+        printCenteredLine(String.format("* %-" + NUMBER_WIDTH + "s* %-" + ITEM_WIDTH + "s* %-" + POINTS_WIDTH + "s* %-" + DESC_WIDTH + "s*", 
+            "#", "Item", "Company Points", "Description"));
         printCenteredLine("*".repeat(TOTAL_WIDTH));
     
-        // Display all shop items
+        // Display all shop items with numbering
+        int itemNumber = 1;
         for (String key : this.shopItems.keySet()) {
             ShopItem inventory = this.shopItems.get(key);
-            printCenteredLine(String.format("* %-" + ITEM_WIDTH + "s* %-" + POINTS_WIDTH + "d* %-" + DESC_WIDTH + "s*", 
-                key, inventory.getPrice(), inventory.getDescription()));
+            printCenteredLine(String.format("* %-" + NUMBER_WIDTH + "d* %-" + ITEM_WIDTH + "s* %-" + POINTS_WIDTH + "d* %-" + DESC_WIDTH + "s*", 
+                itemNumber, key, inventory.getPrice(), inventory.getDescription()));
             printCenteredLine("*".repeat(TOTAL_WIDTH));
+            itemNumber++;
         }
     }
     
@@ -100,6 +103,25 @@ public class Shop {
     }
 
     /**
+     * Adds an item to the receipt using an index rather than a name.
+     * @param index The index of the item to be added.
+     * @param numItems The number of items to be added.
+     */
+    public void addItemToReceiptByIndex(int itemIndex, int numItems)
+    {
+        if(itemIndex > this.shopItems.size() || itemIndex < 0) {
+            System.out.println("Invalid index. Please enter a valid index.");
+            return;
+        }
+
+        // Get the item name using the index
+        String itemName = (String) this.shopItems.keySet().toArray()[itemIndex];
+
+        this.receipt.put(itemName, numItems);
+        System.out.println("Added " + numItems + " " + itemName + "(s) to your list.\n");
+    }
+
+    /**
      * Removes an item from the receipt.
      * 
      * @param item The item to be removed.
@@ -123,6 +145,29 @@ public class Shop {
         }
     }
     
+    /**
+     * Removes an item from the receipt using an index rather than a name.
+     * @param index The index of the item to be removed.
+     * @param numItems The number of items to be removed.
+     */
+    public void removeItemFromReceiptByIndex(int itemIndex, int numItems) {
+        if(itemIndex > this.shopItems.size() || itemIndex < 0) {
+            System.out.println("Invalid index. Please enter a valid index.");
+            return;
+        }
+
+        // Get the item name using the index
+        String itemName = (String) this.shopItems.keySet().toArray()[itemIndex];
+
+        // Reduce the quantity of the item in the receipt
+        this.receipt.replace(itemName, this.receipt.get(itemName) - numItems);
+        if (this.receipt.get(itemName) <= 0) {
+            this.receipt.remove(itemName);
+        }
+
+        System.out.println("Removed " + numItems + " " + itemName + "(s) from your list.\n");
+    }
+
     /*
      * Clears the receipt of anything on it.
      */
