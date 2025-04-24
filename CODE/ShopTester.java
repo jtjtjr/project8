@@ -67,9 +67,9 @@ public class ShopTester {
         // Create a new shop instance
         Shop shop = new Shop();
 
-        foreach (ShopItem item : shopItems) {
+        for (ShopItem item : shopItems) {
             // Add items to the shop
-            shop.addShopItem(item.getName(), item.getType(), item.getPrice());
+            shop.addShopItem(item);
         }
 
         // Check if the shop is created successfully
