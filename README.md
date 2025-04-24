@@ -21,12 +21,12 @@ Download source code from repository, extract it
 Download [Java database connector jar file (version 9.2.0)](https://dev.mysql.com/downloads/connector/j/?os=26), put in CODE folder
 
 Open command shell, cd into Project_08 directory and do:
-ssh -L localhost:60000:localhost:60000 (last name)@cs506x08.cs.wisc.edu
+ssh -L localhost:60000:localhost:60000 CSLUSERNAME@cs506x08.cs.wisc.edu
 (this allows you to connect to the VM with the MySQL server)
 
 Make sure Docker Desktop is running
 
-Open run_game.bat file (run_game.sh for Mac/Linux)
+Open run_game.bat file in the CODE folder (run_game.sh for Mac/Linux)
 
 Enjoy!
 
@@ -64,3 +64,4 @@ We then decided to start cleaning up our code, as the core gameplay was taking s
 
 Sprint 3:
 As of Sprint 3, we're starting to focus more and more on documentation and making sure our code is up to snuff and not a bunch of spaghetti. We started deleting unused code last sprint, and this sprint we even split off the frontend into multiple classes. We have a few features in the backlog still, like an easy/hard mode, a full tutorial, and mystery events, but most functionality is in the game now and what we're adding won't affect the core gameplay much. We're also probably going to be adding more events, for more gameplay flavor.
+As of the end of Sprint 3, we've also added a sage NPC, event graphics, individual crew members, improved the UI, and made our first stable release.
