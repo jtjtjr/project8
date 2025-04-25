@@ -20,6 +20,7 @@ public class Frontend {
     static boolean gameOver = false;
     static int cargo = -1;
     static boolean devToggle = false;
+    static boolean useSQL = true;
     
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
@@ -101,6 +102,27 @@ public class Frontend {
      * Basic Intro slide for the game
      */
     public static void introSlide(Scanner scanner) {
+        frontendUXElements.newSlideScene();
+        displayTextSlowly("\n\nWill you be running the game online or offline(recommended):\n\t[1] Online\n\t[2] Offline\n\n\nInput>", textTimer);
+        String statusInput = scanner.nextLine();
+        boolean validCommandStatus = false;
+
+        while (!validCommandStatus) {
+            if (statusInput.contains("1")) {
+                textTimer = 30;
+                displayTextSlowly("\n\nMake sure you are running the SQL command", textTimer);
+                validCommandStatus = true;
+            } else if (statusInput.contains("2")) {
+                textTimer = 10;
+                displayTextSlowly("\n\nRespectable", textTimer);
+                useSQL = false;
+                validCommandStatus = true;
+            } else {
+                displayTextSlowly("\n\nPlease enter a valid command", textTimer);
+            }
+        }
+        next(scanner);
+        
         frontendUXElements.newSlideScene();
         displayTextSlowly("\n\nHow fast would you like main story:\n\t[1] I want the senic experience\n\t[2] I want a normal Game\n\t[3] I'm a pro and can play fast\n\n\nInput>", textTimer);
         String speedInput = scanner.nextLine();
@@ -494,12 +516,23 @@ public class Frontend {
          
         Random random = new Random(); //We will need to simulate randomness
         int eventNumber = random.nextInt(8) + 1; 
-        EventSQL eventgetter = new EventSQL(cur_player);
-        //return the event
-        Event chosen =  eventgetter.getEventFromSQL(eventNumber);
-        if (chosen==null) {
-            throw new NullPointerException("Issue with getting event by index, chosen returning null\n\n\n");
+        Event chosen;
+
+        if (useSQL) {
+            EventSQL eventgetter = new EventSQL(cur_player);
+            chosen = eventgetter.getEventFromSQL(eventNumber);
+            if (chosen == null) {
+                throw new NullPointerException("Issue with getting event by index, chosen returning null\n\n\n");
+            }
+        } else {
+            EventCSV eventgetter = new EventCSV(cur_player);
+            chosen = eventgetter.getEventFromCSV(eventNumber);
+            if (chosen == null) {
+                throw new NullPointerException("Issue with getting event by index from CSV, chosen returning null\n\n\n");
+            }
         }
+        //return the event
+        
 
         frontendUXElements.warning();
        

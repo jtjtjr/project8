@@ -1,0 +1,14 @@
+event_id,event_name,event_description,morale,resources
+1,Ion Array Failure,You hear a loud scrape and the sound of sparks. Shit... You hear the high voltage from a transformer. The Ion Array must have failed.,3,5
+2,Solar Panel Malfunction,"You notice a strange flickering on the solar panels- and power seems unstable. The crew is getting worried about energy loss.",2,4
+3,Pirates Attack Your Ship,Florian Pirates begin firing on your port side. They are known for taking no prisoners.,4,5
+4,Your Crew Mutinys,"Steven- your first officer- decides that your booze allotments for your crew is not enough. You think Steven is being ridiculous; the crew already drinks their weight in beer.",1,1
+5,Your Tail Gunner Falls Asleep,"Your tail gunner--dan--falls asleep at the controls and sends a barrage of laser blasts into your engine. Dammit! You say- this is going to be a long day.",1,2
+6,Excrement found in the torpedo tube,You have discovered that someone has defecated in the torpedo tube. Why can I never get good crew?,0,0
+7,Bad rations,"Your rations are found to be rancid once one of your crew- James- pukes all over the matter condenser.",1,4
+8,Engine Subroutines fail,"You knew that sketchy programmer- Sanjay- couldn't actually upgrade your engines...",2,5
+9,Meteor storm occurs,"Ooooh Shit- your first mate remarks- must have hit a meteor storm. We better have put down the solar cells.",4,10
+10,Astros Militarum Stop,The officer seems to be in a good mood and lets you pass unscathed.,0,0
+11,Astros Militarum Stop,Steven manages to bribe the officer with a smuggled case of 80-year-aged ale.,5,1
+12,Astros Militarum Stop,"Oh- he's pissed- remarks one of your less bright officers.",5,20
+13,Astros Militarum Stop,"Dan- did you make sure to buy our licenses? you say. Dan did not bring the licenses.",100,100
