@@ -2,6 +2,7 @@
  * 
  */
 
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -23,6 +24,12 @@ public class Tutorial {
         } else if (userInput.equalsIgnoreCase("event")) {
             frontendUXElements.newSlideScene();
             eventTutorial(s, -1);
+        } else if (userInput.equalsIgnoreCase("planet")) {
+            frontendUXElements.newSlideScene();
+            planetTutorial(s);
+        } else if (userInput.equalsIgnoreCase("ship")) {
+            frontendUXElements.newSlideScene();
+            shipTutorial(s);
         } else if (userInput.equalsIgnoreCase("exit")) {
             return;
         } else {
@@ -97,12 +104,15 @@ public class Tutorial {
         Frontend.next(s);
     }
 
+    /*
+     * This tutorial covers events
+     */
     public static void eventTutorial(Scanner s, int crewNum) {
         frontendUXElements.newSlideScene();
 
         Frontend.displayTextSlowly("Between planets you and your crew will experience events. \n\n\nTypcally these events will cost you morale and resources\n\n\n");
         
-        Frontend.displayTextSlowly("Good news, killing... I mean SACRIFICING your crew will give your resources and sometimes a boost in morale\n\n\n");
+        Frontend.displayTextSlowly("Good news, killing... I mean SACRIFICING your crew will boost your resources and sometimes offer a boost in morale, making up for some events that take away your precious resources\n\n\n");
         Frontend.displayTextSlowly("Do you wish to sacrifice your crewmates? This includes yourself but you should try not do that \n\n\n");
 
         if (crewNum == -1) {
@@ -111,9 +121,37 @@ public class Tutorial {
             return;
         }
 
-        Frontend.displayTextSlowly(crewNum + " Crew Members in your Crew - if this is zero crew then you can only sacrifice yourself\n\n\npress 1 to sacrifice 0 to not\n\n\n");
+        Frontend.displayTextSlowly(crewNum + " Crew Members in your Crew - if this is zero crew then you can only sacrifice yourself\n\n\ntype [yes] to sacrifice one of the dumb buggers and [no] spare their worthless skin\n\n\n");
 
         Frontend.next(s);
         frontendUXElements.newSlideScene();
+    }
+
+    /*
+     * This tutorial covers planets
+     */
+    public static void planetTutorial(Scanner s) {
+        Frontend.displayTextSlowly("Throughout the game, you will visit many planets, some hostile, some less hostile\n\n\nMost of the time, planets will not kill you. Planets can have amenities, denoted in game with []\n\n\nThe two amenities that you can have are Market (called by using the command *shop*) and Finish (called by using the command *end*)\n\n\nFinish will allow you to end the game with a score, if called before this you will lose\n\n\nShop will allow you to purchase various items that the planet you are on has to offer, some planets have better items than others", Frontend.textTimer);
+        Frontend.next(s);
+    }
+
+    /*
+     * This tutorial covers the ship
+     */
+    public static void shipTutorial (Scanner s) {
+        String shipType = Frontend.cur_player.getShip().toString();
+        String shipName = Frontend.cur_player.getShipName();
+        
+        Random random = new Random();
+        int randomNumber = random.nextInt(100);
+        String a = "";
+        if (randomNumber % 2 == 0) {
+            a = "unfortunate";
+        } else {
+            a = "good enough";
+        }
+        String line1 = "You, being a space cargo hauler and all, have a space freighter, these come in several flavors, yours is " + shipType + " with the " + a + " name of " + shipName + ".";
+        Frontend.displayTextSlowly(line1, Frontend.textTimer);
+        Frontend.next(s);
     }
 }
