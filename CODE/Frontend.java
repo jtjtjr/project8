@@ -438,15 +438,11 @@ public class Frontend {
                     displayTextSlowly("Goodbye! - you are leaving with: " + cur_player.getMoney() + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", textTimer);
                     break;
                 }
-<<<<<<< CODE/Frontend.java
                 else if(input.equalsIgnoreCase("talk")) {
                     String speech = Sage.speak(currentPlanet, cur_player);
                     displayTextSlowly(speech + "\n", textTimer);
                 }            
                 else if(input.equals("help")) {
-=======
-                else if (input.equals("help")) {
->>>>>>> CODE/Frontend.java
                     frontendUXElements.availableCommands();
                 }
                 else if (input.startsWith("buy")) {
