@@ -410,8 +410,7 @@ public class Frontend {
             displayTextSlowly("You currently have " + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, and " + cur_player.getCrewNum() + " crew members.\n\n", textTimer);
 
             shop.displayStore();
-            displayTextSlowly("\n What would you like to buy? \n", textTimer);
-
+            displayTextSlowly("\n What would you like to buy? Or type 'talk' to speak with the Sage.\n", textTimer);
             displayTextSlowly("You can buy items by typing 'buy <item index> <quantity> (index is 1 - 3)'\n", textTimer);
             
             String input = "";
@@ -426,7 +425,15 @@ public class Frontend {
                     displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", textTimer);
                     break;
                 }
+<<<<<<< CODE/Frontend.java
+                else if(input.equalsIgnoreCase("talk")) {
+                    String speech = Sage.speak(currentPlanet, cur_player);
+                    displayTextSlowly(speech + "\n", textTimer);
+                }            
+                else if(input.equals("help")) {
+=======
                 else if (input.equals("help")) {
+>>>>>>> CODE/Frontend.java
                     frontendUXElements.availableCommands();
                 }
                 else if (input.startsWith("buy")) {
