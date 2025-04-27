@@ -26,6 +26,24 @@ public class EndGame {
             } else {
                 Frontend.displayTextSlowly("./salvagable_resources/the_company_approves_of_fugality/\n");
             }
+            int difficultyAddr = 0;
+            if (Frontend.difficulty == 1) {
+                Frontend.displayTextSlowly("./economical_route/not_taken/subtracting score" +  "/\n...\n...\n...\n");
+                difficultyAddr -= 1000;
+            } else {
+                Frontend.displayTextSlowly("./economical_route/taken/adding_score" +  "/\n...\n...\n...\n");
+                difficultyAddr += 2000; 
+            }
+            int shipResaleValue = 0;
+            if (Frontend.cur_player.getPace().equals(1)) {
+                Frontend.displayTextSlowly("./ship_resale_val/driftwing/heavily_used/company_owned/\n...\n...\n...\n");
+            } else if (Frontend.cur_player.getPace().equals(2)) {
+                Frontend.displayTextSlowly("./ship_resale_val/starborne/moderately_used/employee_leased/3000/\n...\n...\n...\n");
+                shipResaleValue += 3000;
+            } else if (Frontend.cur_player.getPace().equals(3)) {
+                Frontend.displayTextSlowly("./ship_resale_val/novaviper/case_hardend/employee_owned/9000/\n...\n...\n...\n");
+                shipResaleValue += 9000;
+            }
             if (cargo <= 0) {
                 Frontend.displayTextSlowly("YOU HAVE FAILED TO BRING CARGO! YOU WILL BECOME AN INTERN");
                 System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -34,7 +52,7 @@ public class EndGame {
                 Frontend.displayTextSlowly("./cargo_shipped/" + cargo + "/\n\n\n\n\n");
             }
 
-            float score = cargo * 100 + crewValue + money;
+            float score = cargo * 100 + crewValue + money + difficultyAddr + shipResaleValue;
             int intScore = (int) score;
             return intScore;
         }

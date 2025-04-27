@@ -184,11 +184,11 @@ public class Player {
      * Display the current infomation for player(day,crew,...to be added)
      */
     public void display() {
-        Frontend.displayTextSlowly("Captain " + this.userName + ", here is a brief overview of our current condition.\n");
+        Frontend.displayTextSlowly("Captain " + this.userName + ", on day number " + this.getDayNumber() + ",here is a brief overview of our current condition.\n");
         
         playerArt();
 
-        Frontend.displayTextSlowly("\n\n * Ship: " + this.shipName + "\n * Ship Type: " + this.ship.shipType() + "\n * Day: " + this.dayNumber + "\n * Crew: " + this.crewNum + "\n * Resource: " + this.resources + "\n * Morale: " + this.morale + "\n\n");
+        Frontend.displayTextSlowly("\n\n * Ship: " + this.shipName + "\n * Ship Type: " + this.ship.shipType() + "\n * Day: " + this.dayNumber + "\n * Crew: " + this.crewNum +"\n * Money: $$ " + this.money + "\n * Resources: " + this.resources + "\n * Morale: " + this.morale + "\n");
         if (this.crewNum == 1) {
             Frontend.displayTextSlowly("WARNING: Only 1 crew member left!\n");
         }

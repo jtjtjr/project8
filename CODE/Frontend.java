@@ -21,6 +21,7 @@ public class Frontend {
     static int cargo = -1;
     static boolean devToggle = false;
     static boolean useSQL = true;
+    static int difficulty;
     
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
@@ -157,8 +158,27 @@ public class Frontend {
             Tutorial.tutorialOperator(scanner);
         } else if (input.equalsIgnoreCase("dev")) {
             devToggle = true;
-            currentPoints = 999999999;
             textTimer = 0;
+        }
+
+        displayTextSlowly("Would you like to see a game map? [y]es/[n]o", textTimer);
+        inputAsk();
+        String inputMap = scanner.nextLine();
+        boolean validmapinput = false;
+
+        while (!validmapinput) {
+            if (inputMap.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
+                displayTextSlowly("please zoom viewer out as far as you can before viewing");
+                next(scanner);
+                frontendUXElements.gameMap();
+                next(scanner);
+                validmapinput = true;
+            } else if (inputMap.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
+                validmapinput = true;
+            } else {
+                displayTextSlowly("Please input a valid line!", textTimer);
+                inputAsk();
+            }
         }
 
         frontendUXElements.newSlideScene();
@@ -190,12 +210,12 @@ public class Frontend {
             return;
         }
 
-        displayTextSlowly("Select your difficulty (1 for Easy, 2 for Hard)", textTimer);
+        displayTextSlowly("Select your difficulty ([1] for Easy, [2] for Hard)", textTimer);
         inputAsk();
-        int difficulty = parseInt(scanner, "difficulty");
+        difficulty = parseInt(scanner, "difficulty");
 
         while(!(difficulty==1 || difficulty==2)){
-            System.out.println("Invalid command, pick only 1 or 2");
+            System.out.println("Invalid command, pick only [1] or [2]");
             inputAsk();
             difficulty = parseInt(scanner, "difficulty");
         }
@@ -247,17 +267,12 @@ public class Frontend {
         cur_player.setMorale(resourcesAmount[1]);
         cur_player.setResources(resourcesAmount[2]);
         cur_player.setShipName(shipName);
-        cur_player.nextDay();
         cur_player.setMoney(resourcesAmount[3]);
         cargo = 1000 - resourcesAmount[2];
         if (devToggle) {
             cargo = 999999999;
+            cur_player.setMoney(999999999);
         }
-
-        // Subtract from the number of points as it's hardcoded
-        currentPoints -= resourcesAmount[0] * 100;
-        currentPoints -= resourcesAmount[1] * 40;
-        currentPoints -= resourcesAmount[2] * 10;
 
         CrewMates.crewGenerator(cur_player.getCrewNum());
 
@@ -288,8 +303,6 @@ public class Frontend {
         }
         
         frontendUXElements.newSlideScene();
-
-        runEvents(cur_player, scanner);
     }
 
     /*
@@ -307,7 +320,7 @@ public class Frontend {
     public static void setUpShipType(Scanner scanner) {
         //Ship Type stuff - SLOW, MED, FAST
         frontendUXElements.shipChooser();
-        displayTextSlowly("\n\n\nCurrent Balance: " + currentPoints, textTimer);
+        displayTextSlowly("\n\n\nCurrent Balance: $$ " + currentPoints, textTimer);
         inputAsk();
         String currentShipDisplayer = "";
         Boolean validChoice = false;
@@ -406,7 +419,7 @@ public class Frontend {
                 frontendUXElements.shopArtEzekialsSalvation();
             }
 
-            displayTextSlowly("\nYou have " + currentPoints + " points to spend.\n\n", textTimer);
+            displayTextSlowly("\nYou have " + cur_player.getMoney() + " points to spend.\n\n", textTimer);
             displayTextSlowly("You currently have " + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, and " + cur_player.getCrewNum() + " crew members.\n\n", textTimer);
 
             shop.displayStore();
@@ -422,7 +435,7 @@ public class Frontend {
                 System.out.println();
                 
                 if (input.equals("exit")) {
-                    displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", textTimer);
+                    displayTextSlowly("Goodbye! - you are leaving with: " + cur_player.getMoney() + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", textTimer);
                     break;
                 }
 <<<<<<< CODE/Frontend.java
@@ -850,6 +863,10 @@ public class Frontend {
             }
             next(scanner);
             return;
+        } else if (userInput.equalsIgnoreCase("map")) {
+            displayTextSlowly("please zoom viewer out as far as you can before viewing");
+            next(scanner);
+            frontendUXElements.gameMap();
         }
         else {
             displayTextSlowly("Invalid command. Type 'help' for a list of commands.\n\n\n", textTimer);
