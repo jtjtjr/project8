@@ -715,6 +715,7 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
       System.out.println("review - see what is on your list.");
       System.out.println("complete purchase - buy all the items on your list.");
       System.out.println("show - show the items available in the shop.");
+      System.out.println("talk - allows for you to speak with the company designated sage");
       System.out.println("exit - leave shop.\n");
     }
 
