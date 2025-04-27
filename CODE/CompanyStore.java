@@ -169,7 +169,7 @@ public class CompanyStore {
                     displayTextSlowly("You will be unable to make it to the next planet ...\n\nResources: ");
                 }
                 if(initialResourceCount > 1000) {
-                    displayTextSlowly("You ran out of cargo capacity, dumbass ...\n\nResources: ");
+                    displayTextSlowly("You don't have enough cargo capacity, dumbass ...\n\nResources: ");
                 }
             }
     
@@ -187,7 +187,7 @@ public class CompanyStore {
 
             Boolean userInputLoopBoolean = false;
             while (!userInputLoopBoolean) {
-                displayTextSlowly("You have selected the items: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount + "\n\nIs this what you would like to continue with these items [y]es/[n]o: "); 
+                displayTextSlowly("You have selected the items: Crew: " + crewNum + " Morale: " + initialMorale + " Resources: " + initialResourceCount + "\n\nAre you fine with these items [y]es/[n]o: "); 
                 String userInput = scanner.nextLine();
                 if (userInput.equalsIgnoreCase("y")) {
                     int[] resourcesAmount = {crewNum, initialMorale, initialResourceCount, currentPoints};

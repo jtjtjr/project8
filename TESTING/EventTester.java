@@ -16,9 +16,9 @@ public class EventTester {
     void setUp() {
         // Create a test event (Player is set to null since it's not being tested)
         event = new Event("Test Event", 1, "coyote", 10, 15, null);
-        test_guy = new Player(1, 5, 10, 10, null);
+        test_guy = new Player("user", 5, 10, 10, "Ship");
         event_2 = new Event("Test Event_2", 2, "animal" , 6, 7, test_guy);
-        event_3 = new Event("Test Event_2", 3, "bruush attack", 0, 7, test_guy);
+        event_3 = new Event("Test Event_2", 3, "brush attack", 0, 7, test_guy);
     }
 
     //Test getDescription() and setDescription() 
@@ -83,7 +83,7 @@ public class EventTester {
         assertEquals(false, test_guy.getSurvivalBoolean());
 
         assertThrows(IllegalArgumentException.class, () -> {
-            event_3.triggerEvent(); // This should throw an exception since 
+            event_3.triggerEvent(); // This should throw an exception since test guy's dead
         });
 
     }
@@ -92,7 +92,7 @@ public class EventTester {
     void testSacrifice() {
         assertEquals(10, test_guy.getResources());
         event_2.sacrifice();
-        assertEquals(60, event.getResourcesEffect());
+        assertEquals(15, event.getResourcesEffect());
     }
 
 

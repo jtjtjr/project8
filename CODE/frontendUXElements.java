@@ -138,12 +138,12 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
   public static void helpElements() {
       System.out.println("Input Commands: ");
       System.out.println("planet - Displays the current planet's information.");
-      System.out.println("shop - open the shopping menu if you are currently on a planet");
+      System.out.println("shop - Opens the shopping menu if you are currently on a planet");
       System.out.println("lore - Displays the lore of the current planet.");
       System.out.println("travel - Moves to the next planet.");  
       System.out.println("status - Displays how you are doing at the moment.");    
       System.out.println("end - Ends the game.");
-      System.out.println("tutorial - bring up list of tutorils associated with the game.");
+      System.out.println("tutorial - Brings up list of tutorils associated with the game.");
       System.out.println("crew - Displays the stupid saps who have to listen to you, cap'n");
     }
 
@@ -153,7 +153,7 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
   public static void endScreen() {
       System.out.println("****************************************************");
       System.out.println("*                                                  *");
-      System.out.println("*        Well Done on making it alive...           *");
+      System.out.println("*        Well done on making it alive...           *");
       System.out.println("*                                                  *");
       System.out.println("*                                                  *");
       System.out.println("*                                                  *");
@@ -710,8 +710,8 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
      */
     public static void availableCommands() {
       System.out.println("\nAvailable commands: ");
-      System.out.println("buy <item> <count> - Add a certain number of a particular item to your list");
-      System.out.println("remove <item> <count> - leave the shop.");
+      System.out.println("buy <item_index> <count> - Add a certain number of a particular item to your list");
+      System.out.println("remove <item_index> <count> - leave the shop.");
       System.out.println("review - see what is on your list.");
       System.out.println("complete purchase - buy all the items on your list.");
       System.out.println("show - show the items available in the shop.");
@@ -756,10 +756,10 @@ COMPANY DESCRIPTION: Large yellow Gas Giant
     public static void shipChooser() {
         Frontend.displayTextSlowly("Your ship is the most important tool that you will need to complete the game.\n\n\n");
         Frontend.displayTextSlowly("Choose it wisely!\n\n\n");
-        Frontend.displayTextSlowly("The default ship model is set to SS Driftwing. Type the corresponding number for the ship you would like.\n");
+        Frontend.displayTextSlowly("The default ship model is set to SS Driftwing. Type the corresponding number for the ship you'd like.\n");
         System.out.println("**********************************************************************************************************************");
         Frontend.displayTextSlowly("[1]SS Driftwing: Slow pace ship. Travels slow but consumes very little resources per day. COST: $$0\n", 500);
-        Frontend.displayTextSlowly("[2]SS StarBorne: Median pace ship. Travels average and consumes average resources per day. COST: $$2000\n", 500);
+        Frontend.displayTextSlowly("[2]SS StarBorne: Median pace ship. Travels at a middling speed and consumes an average amount of resources per day. COST: $$2000\n", 500);
         Frontend.displayTextSlowly("[3]SS Nova Viper: Fast pace ship. Travels fast but consumes a lot of resources per day. COST: $$4000\n", 500);
         System.out.println("**********************************************************************************************************************\n");
     }

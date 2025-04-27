@@ -20,6 +20,7 @@ public class Frontend {
     static boolean gameOver = false;
     static int cargo = -1;
     static boolean devToggle = false;
+    static boolean useSQL = true;
     
     /*
      * This function simplifies the Thread.sleep and adds the special interrupt in case of issues, that way there are no issues in the actaul game
@@ -102,6 +103,27 @@ public class Frontend {
      */
     public static void introSlide(Scanner scanner) {
         frontendUXElements.newSlideScene();
+        displayTextSlowly("\n\nWill you be running the game online or offline(recommended):\n\t[1] Online\n\t[2] Offline\n\n\nInput>", textTimer);
+        String statusInput = scanner.nextLine();
+        boolean validCommandStatus = false;
+
+        while (!validCommandStatus) {
+            if (statusInput.contains("1")) {
+                textTimer = 30;
+                displayTextSlowly("\n\nMake sure you are running the SQL command", textTimer);
+                validCommandStatus = true;
+            } else if (statusInput.contains("2")) {
+                textTimer = 10;
+                displayTextSlowly("\n\nRespectable", textTimer);
+                useSQL = false;
+                validCommandStatus = true;
+            } else {
+                displayTextSlowly("\n\nPlease enter a valid command", textTimer);
+            }
+        }
+        next(scanner);
+        
+        frontendUXElements.newSlideScene();
         displayTextSlowly("\n\nHow fast would you like main story:\n\t[1] I want the senic experience\n\t[2] I want a normal Game\n\t[3] I'm a pro and can play fast\n\n\nInput>", textTimer);
         String speedInput = scanner.nextLine();
         boolean validCommand = false;
@@ -173,7 +195,7 @@ public class Frontend {
         int difficulty = parseInt(scanner, "difficulty");
 
         while(!(difficulty==1 || difficulty==2)){
-            System.out.println("Invalid command pick only 1 or 2");
+            System.out.println("Invalid command, pick only 1 or 2");
             inputAsk();
             difficulty = parseInt(scanner, "difficulty");
         }
@@ -232,7 +254,7 @@ public class Frontend {
             cargo = 999999999;
         }
 
-        // Subtract from the number of points its hardcoded
+        // Subtract from the number of points as it's hardcoded
         currentPoints -= resourcesAmount[0] * 100;
         currentPoints -= resourcesAmount[1] * 40;
         currentPoints -= resourcesAmount[2] * 10;
@@ -292,7 +314,7 @@ public class Frontend {
 
         while (!validChoice){
             String shipType = scanner.nextLine();
-            if (shipType.equals("1")) {
+            if (shipType.equals("1")) { // SLow pace
                 displayTextSlowly("\n\nGreat! This is recommended for most people. ", textTimer);
                 displayTextSlowly("Loading new ship...\n\n\n", 100 * textTimer);
                 next(scanner);
@@ -300,16 +322,16 @@ public class Frontend {
                 displayTextSlowly("New Ship has been set!\n", textTimer);
                 currentShipDisplayer += ("SS Driftwing\n\n * Description: Slow pace ship. Travels slow but consumes very little resources per day.");
                 validChoice = true;
-            } else if (shipType.equals("2")) {
+            } else if (shipType.equals("2")) { // Medium pace
                 displayTextSlowly("\n\nGood Choice! A solid balance between speed and resource consumption.", textTimer);
                 displayTextSlowly("Loading new ship...\n\n\n", 100 * textTimer);
                 next(scanner);
                 cur_player.setPace(2);
                 displayTextSlowly("New Ship has been set!\n", textTimer);
-                currentShipDisplayer += ("SS StarBorne\n\n * Description: Travels average and consumes average resources per day.");
+                currentShipDisplayer += ("SS StarBorne\n\n * Description: Travels average and consumes an average amount of resources per day.");
                 validChoice = true;
-            } else if (shipType.equals("3")) {
-                displayTextSlowly("\n\nBold Decision! Speed comes at a price.", textTimer);
+            } else if (shipType.equals("3")) { // Fast pace
+                displayTextSlowly("\n\nBold decision! Speed comes at a price.", textTimer);
                 displayTextSlowly("Loading new ship...\n\n\n", 100 * textTimer);
                 next(scanner);
                 cur_player.setPace(3);
@@ -333,7 +355,7 @@ public class Frontend {
      */
     public static boolean planetContainsShop(Planet planet) {
 
-        if(planet == null) {
+        if (planet == null) {
 
             if(textTimer == 0) {
                 System.out.println("No planet found.");
@@ -343,8 +365,7 @@ public class Frontend {
         }
 
         // Check if the planet has a shop
-        if(textTimer == 0)
-        {
+        if (textTimer == 0) {
             System.out.println("Amenities on " + planet.getName() + ": ");
             for (String p : planet.getAmenities()) 
             {
@@ -377,95 +398,80 @@ public class Frontend {
             Shop shop = setUpShopOnCurrentPlanet();
 
             //if shop on planet has an art style, display it here
+            //as of now, only Bucephalus and Ezekiel's Salvation
             if(currentPlanet.getName().equals("Bucephalus")) {
                 frontendUXElements.shopArtBrucephalus2();
             } 
             else if (currentPlanet.getName().equals("Ezekiel's Salvation")) {
                 frontendUXElements.shopArtEzekialsSalvation();
             }
-            else
-            {
-                //nothing to do here
-            }
 
             displayTextSlowly("\nYou have " + currentPoints + " points to spend.\n\n", textTimer);
             displayTextSlowly("You currently have " + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, and " + cur_player.getCrewNum() + " crew members.\n\n", textTimer);
 
-            //display the store and then ask what to buy
             shop.displayStore();
             displayTextSlowly("\n What would you like to buy? Or type 'talk' to speak with the Sage.\n", textTimer);
+            displayTextSlowly("You can buy items by typing 'buy <item index> <quantity> (index is 1 - 3)'\n", textTimer);
             
             String input = "";
 
-            while(true) {
+            while (true) {
                 //show the shop console
                 System.out.print("Shop> ");
                 input = scanner.nextLine();
                 System.out.println();
                 
-                if(input.equals("exit")) {
+                if (input.equals("exit")) {
                     displayTextSlowly("Goodbye! - you are leaving with: " + currentPoints + " points,"  + cur_player.getResources() + " resources, " + cur_player.getMorale() + " morale, " + cur_player.getCrewNum() + " crew members\n\n", textTimer);
                     break;
                 }
+<<<<<<< CODE/Frontend.java
                 else if(input.equalsIgnoreCase("talk")) {
                     String speech = Sage.speak(currentPlanet, cur_player);
                     displayTextSlowly(speech + "\n", textTimer);
                 }            
                 else if(input.equals("help")) {
+=======
+                else if (input.equals("help")) {
+>>>>>>> CODE/Frontend.java
                     frontendUXElements.availableCommands();
                 }
-                else if(input.startsWith("buy")) {
+                else if (input.startsWith("buy")) {
                     try {
                         String[] parts = input.trim().split(" ");
 
-                        String item = "";
-                        for(int i = 1; i < parts.length - 1; i++) {
-                            item += parts[i] + " ";
-                        }
-
-                        item = item.trim(); // Remove leading and trailing spaces
-
-                        int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
-                        if(shop.shopItems.containsKey(item)) {
-                            shop.addItemToReceipt(item, count);
-                            displayTextSlowly(item + " added to your list.\n", textTimer);
-                        } else {
-                            System.out.println("Item not found in shop.");
-                        }
+                        int itemIndex = Integer.parseInt(parts[1]) - 1;
+                        int count = Integer.parseInt(parts[2]);
+                        shop.addItemToReceiptByIndex(itemIndex, count);
                     }
                     catch (NumberFormatException e) {
-                        displayTextSlowly("Please enter a valid number for quantity.\n", textTimer);
+                        displayTextSlowly("Please enter a valid number for quantity. Format is: buy <item index> <quantity>\n", textTimer);
                     }
                     catch(Exception e)
                     {
-                        System.out.println("Invalid input. Please use the format: buy <item name> <quantity>");
+                        System.out.println("Invalid input. Please use the format: buy <item index> <quantity>");
                     }
                 } 
-                else if(input.startsWith("remove")) {
-                    try{
+                else if (input.startsWith("remove")) {
+                    try {
                         String[] parts = input.trim().split(" ");
 
-                        String item = "";
-                        for(int i = 1; i < parts.length - 1; i++) {
-                            item += parts[i] + " ";
-                        }
-
-                        item = item.trim(); // Remove leading and trailing spaces
-
-                        int count = Integer.parseInt(parts.length - 1 > 2 ? parts[parts.length - 1] : "1");
-                        shop.removeItemFromReceipt(item, count);
+                        int itemIndex = Integer.parseInt(parts[1]) - 1;
+                        int count = Integer.parseInt(parts[2]);                        
+                        shop.removeItemFromReceiptByIndex(itemIndex, count);
                     } 
                     catch (NumberFormatException e) {
-                        displayTextSlowly("Please enter a valid number for quantity.\n", textTimer);
+                        displayTextSlowly("Please enter a valid number for quantity. Use format: remove <item index> <quantity>\n", textTimer);
                     }
                     catch(Exception e) {
-                        displayTextSlowly("Invalid input. Please use the format: remove <item name> <quantity>\n", textTimer);
+                        displayTextSlowly("Invalid input. Please use the format: remove <item index> <quantity>\n", textTimer);
+                        System.out.println(e.toString());
                     }
                 } 
-                else if(input.equals("review")) {
+                else if (input.equals("review")) {
                     shop.printContentsOfReceipt();
                 } 
-                else if(input.equals("complete purchase")) {
+                else if (input.equals("complete purchase")) {
                     int totalCost = shop.getTotalReceiptCost();
 
                     //validate the number of points the player has
@@ -489,10 +495,10 @@ public class Frontend {
                     //clear the receipt as you are theoretically done with it
                     shop.clearReceipt();
                 } 
-                else if(input.equals("show")) {
+                else if (input.equals("show")) {
                     shop.displayStore();
                 } 
-                else if(input.equals("help")) {
+                else if (input.equals("help")) {
                     frontendUXElements.availableCommands();
                 } else {
                     System.out.println("Command not recognized.");
@@ -517,18 +523,29 @@ public class Frontend {
          
         Random random = new Random(); //We will need to simulate randomness
         int eventNumber = random.nextInt(8) + 1; 
-        EventSQL eventgetter = new EventSQL(cur_player);
-        //return the event
-        Event chosen =  eventgetter.getEventFromSQL(eventNumber);
-        if (chosen==null){
-            throw new NullPointerException("Issue with getting event by index, chosen returning null\n\n\n");
+        Event chosen;
+
+        if (useSQL) {
+            EventSQL eventgetter = new EventSQL(cur_player);
+            chosen = eventgetter.getEventFromSQL(eventNumber);
+            if (chosen == null) {
+                throw new NullPointerException("Issue with getting event by index, chosen returning null\n\n\n");
+            }
+        } else {
+            EventCSV eventgetter = new EventCSV(cur_player);
+            chosen = eventgetter.getEventFromCSV(eventNumber);
+            if (chosen == null) {
+                throw new NullPointerException("Issue with getting event by index from CSV, chosen returning null\n\n\n");
+            }
         }
+        //return the event
+        
 
         frontendUXElements.warning();
        
         displayTextSlowly(chosen.getDescription() + "\n\n\n", textTimer);
                 
-        if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)){
+        if ((curr.getResources()-chosen.getResourcesEffect()>=0) &&(curr.getMorale()-chosen.getMoraleEffect()>=0)) {
            // displayTextSlowly("You should have survived and the game should continue \n");
            displayTextSlowly("\n\n\n*You have lost " + chosen.getResourcesEffect() + " resources and " +chosen.getMoraleEffect() +" morale*\n\n\n" , textTimer);
 
@@ -541,14 +558,13 @@ public class Frontend {
            while (true) {
 
                frontendUXElements.sacrifice();
-               System.out.println("You currently have " +cur_player.getCrewNum()+ " Crew Members ");
-               System.out.println("You currently have " +cur_player.getResources()+ " Resources and "+cur_player.getMorale()+ " Morale");
+               System.out.println("You currently have " +cur_player.getCrewNum()+ " Crew Members \n");
+               System.out.println("You have " +cur_player.getResources()+ " Resources and "+cur_player.getMorale()+ " Morale");
                System.out.print("\n\n\nEnter 'No' for no sacrifice or 'Yes' to sacrifice them.");
                inputAsk();
 
                String userSacrifice = scannerEvent.nextLine().trim();
                //System.out.println("You chose->" +userSacrifice);
-               
                if (userSacrifice.equalsIgnoreCase("no") || userSacrifice.equalsIgnoreCase("yes")) {
                     if (userSacrifice.equalsIgnoreCase("no")) {
                         Random sacrificeMessage = new Random();
@@ -569,16 +585,27 @@ public class Frontend {
                          }
                          else if (sacNum==0){
                             displayTextSlowly("\nResources went up but you killed a good friend among your crew, dropping morale\n\n\n", textTimer);
+                            if (curr.isHardMode()){
+                                String ress = chosen.hardModeSacrifice() ;
+                                if (!ress.equals("")){
+                                    displayTextSlowly(ress + "\n\n");
+                                }
+                            }
                             displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew...\n\n\n", textTimer);
                             next(scannerEvent);
                          }
                          else if (sacNum==1){
                             displayTextSlowly("\nResources went up and you killed an annoying person among your crew, increasing morale\n\n\n", textTimer);
+                            if (curr.isHardMode()){
+                                String ress = chosen.hardModeSacrifice() ;
+                                if (!ress.equals("")){
+                                    displayTextSlowly(ress + "\n\n");
+                                }
+                            }
                             displayTextSlowly(""+ cur_player.getCrewNum() + " Crew Members left in your Crew...\n\n\n", textTimer);
                             next(scannerEvent);
                          }
-                         else{
-                            //System.out.println("Unexpected behavior - error to be added");
+                         else {
                             throw new IllegalStateException("Invalid sacrifice outcome: " + sacNum);
                          }
                          break; 
@@ -736,7 +763,7 @@ public class Frontend {
             next(scanner);
             return;
         }
-        else if (userInput.equalsIgnoreCase("status")) {
+        else if (userInput.equalsIgnoreCase("status")) { //get current crew/ship/resource stats
             cur_player.detailedDisplay();
             next(scanner);
             return;
@@ -751,7 +778,7 @@ public class Frontend {
             next(scanner);
             return;
         }
-        else if (userInput.equalsIgnoreCase("crew")) {
+        else if (userInput.equalsIgnoreCase("crew")) { //lists crewmates individually (unlike status)
             if (crewMatesArray == null) {
                 crewMatesArray = CrewMates.crewGenerator(cur_player.getCrewNum());
                 CrewMates.crewPrinter(crewMatesArray);
@@ -768,19 +795,19 @@ public class Frontend {
             int score = EndGame.scoreCalculatron(cur_player.getMoney(), cur_player.getCrewNum(), cargo, cur_player.getResources(), cur_player.getMorale(), cur_player.getCurrentPlanet().isLastPlanet());
             
             if (score == -2) {
-                displayTextSlowly("\ndo you wish to let the company down(yes or no)?:", textTimer);
+                displayTextSlowly("\nDo you wish to let the company down (yes or no)?:", textTimer);
                 String userinput = scanner.nextLine();
                 if (userInput.equalsIgnoreCase("yes")) {
                     next(scanner);
                     frontendUXElements.newSlideScene();
-                    displayTextSlowly("you have failed", textTimer);
+                    displayTextSlowly("You have failed.", textTimer);
                     gameOver = true;
                     return;
                 }
             } else if (score == -1) {
                 next(scanner);
                     frontendUXElements.newSlideScene();
-                    displayTextSlowly("you have failed", textTimer);
+                    displayTextSlowly("You have failed.", textTimer);
                     gameOver = true;
                     return;
             } else if (score >= 0) {
@@ -791,7 +818,7 @@ public class Frontend {
                 next(scanner);
                 gameOver = true;
             } else {
-                displayTextSlowly("uninteligible, continuing...", textTimer);
+                displayTextSlowly("Unintelligible, continuing...", textTimer);
                 next(scanner);
                 return;
             }
