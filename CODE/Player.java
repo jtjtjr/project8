@@ -19,6 +19,8 @@ public class Player {
     private Pace pace;
     private int money;
 
+    private boolean hasPrayed;
+
     /**
      * Default Constructor that takes no input yet
      * This is only for testing purposes
@@ -35,6 +37,8 @@ public class Player {
         this.pace = Pace.SLOW;
         this.money = -1;
         createShip();
+
+        this.hasPrayed = false;
     }
 
     /**         CHANGE
@@ -55,6 +59,8 @@ public class Player {
         this.pace = Pace.SLOW;
         createShip();
         this.money = 0;
+
+        this.hasPrayed = false;
     }
 
     /**
@@ -158,6 +164,20 @@ public class Player {
      */
     public String getUserName() {
         return this.userName;
+    }
+
+    /**
+     * Return if player has already prayed
+     */
+    public boolean hasPrayed() {
+        return this.hasPrayed;
+    }
+
+    /**
+     * Makes hasPrayed true
+     */
+    public void hasPrayTrue() {
+        this.hasPrayed = true;
     }
 
     /** 
