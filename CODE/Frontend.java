@@ -172,11 +172,11 @@ public class Frontend {
         }
 
         displayTextSlowly("Would you like to see a game map? [y]es/[n]o", textTimer);
-        inputAsk();
-        String inputMap = scanner.nextLine();
         boolean validmapinput = false;
 
         while (!validmapinput) {
+            inputAsk();
+            String inputMap = scanner.nextLine();
             if (inputMap.equalsIgnoreCase("y") || inputMap.equalsIgnoreCase("yes")) {
                 displayTextSlowly("please zoom viewer out as far as you can before viewing");
                 next(scanner);
@@ -187,7 +187,6 @@ public class Frontend {
                 validmapinput = true;
             } else {
                 displayTextSlowly("Please input a valid line!", textTimer);
-                inputAsk();
             }
         }
 
