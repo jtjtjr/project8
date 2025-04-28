@@ -187,7 +187,6 @@ public class Frontend {
                 validmapinput = true;
             } else {
                 displayTextSlowly("Please input a valid line!", textTimer);
-                inputAsk();
             }
         }
 
