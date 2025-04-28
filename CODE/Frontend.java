@@ -149,16 +149,26 @@ public class Frontend {
         next(scanner);
         frontendUXElements.newSlideScene();
 
-        displayTextSlowly("Would you like a tutorial, press y for yes: ", textTimer);
-        String input = scanner.nextLine();
+        boolean userinput1 = false;
         
-        if (input.contains("y")) {
-            
-            frontendUXElements.newSlideScene();
-            Tutorial.tutorialOperator(scanner);
-        } else if (input.equalsIgnoreCase("dev")) {
-            devToggle = true;
-            textTimer = 0;
+        
+        while (!userinput1) {
+            displayTextSlowly("Would you like a tutorial, press y for yes, n for no: ", textTimer);
+            String input = scanner.nextLine();
+            if (input.contains("y")) {
+                userinput1 = true;
+                frontendUXElements.newSlideScene();
+                Tutorial.tutorialOperator(scanner);
+            } else if (input.equalsIgnoreCase("dev")) {
+                userinput1 = true;
+                devToggle = true;
+                textTimer = 0;
+            } else if (input.equalsIgnoreCase("n")) {
+                userinput1 = true;
+                continue;
+            } else {
+                displayTextSlowly("please use a valid command!\n\n");
+            }  
         }
 
         displayTextSlowly("Would you like to see a game map? [y]es/[n]o", textTimer);
@@ -167,13 +177,13 @@ public class Frontend {
         boolean validmapinput = false;
 
         while (!validmapinput) {
-            if (inputMap.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes")) {
+            if (inputMap.equalsIgnoreCase("y") || inputMap.equalsIgnoreCase("yes")) {
                 displayTextSlowly("please zoom viewer out as far as you can before viewing");
                 next(scanner);
                 frontendUXElements.gameMap();
                 next(scanner);
                 validmapinput = true;
-            } else if (inputMap.equalsIgnoreCase("n") || input.equalsIgnoreCase("no")) {
+            } else if (inputMap.equalsIgnoreCase("n") || inputMap.equalsIgnoreCase("no")) {
                 validmapinput = true;
             } else {
                 displayTextSlowly("Please input a valid line!", textTimer);
