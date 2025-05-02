@@ -37,8 +37,7 @@ Note: When prompted for a store tutorial, input "dev" to skip past the shop and 
 ![Logo](LOGO.png)
 
 ## Program architecture
-Our game runs as a .sh/.bat file that opens a command shell, through which the game is interacted with (this is a CLI game). This then starts the Docker container, which runs the code of our project. The frontend and backend are both written in Java, but the backend connects to a MySQL database hosted on a CSL VM machine.
-Program Frontend and Backend in Java, also include Database to be programmed in SQL. 
+Our game runs as a .sh/.bat file that opens a command shell, through which the game is interacted with (this is a CLI game). This then starts the Docker container, which runs the code of our project. The frontend and backend are both written in Java, but the backend connects to a MySQL database hosted on a CSL VM machine. There's also an offline version that doesn't require the CSL MySQL database, instead using CSVs.
 
 The frontend displays the output on the command shell, and also receives the inputs from the command line.
 
@@ -65,3 +64,19 @@ We then decided to start cleaning up our code, as the core gameplay was taking s
 Sprint 3:
 As of Sprint 3, we're starting to focus more and more on documentation and making sure our code is up to snuff and not a bunch of spaghetti. We started deleting unused code last sprint, and this sprint we even split off the frontend into multiple classes. We have a few features in the backlog still, like an easy/hard mode, a full tutorial, and mystery events, but most functionality is in the game now and what we're adding won't affect the core gameplay much. We're also probably going to be adding more events, for more gameplay flavor.
 As of the end of Sprint 3, we've also added a sage NPC, event graphics, individual crew members, improved the UI, and made our first stable release.
+
+Final demo:
+As of the final demo, we have also added an offline mode (for use after classes are done), fixed a bunch of typos, added some more documentation, fixed the testers, made QoL upgrades (mostly more game explanation), added a prayer feature (basically a gambling mechanic), finished easy/hard modes, and we released the final, stable version of our game.
+
+Our final game runs like this:
+* Get info about the game through tutorials (optional)
+* Name yourself/your ship
+* Pick ship and difficulty
+* Buy resources, morale, and crew for the journey
+* Travel to a planet
+* Shop, or travel to the next planet
+* Make decisions to deal with events that happen while traveling
+* Have "mystery" events happen sometimes while traveling (RNG-based resource/morale gain or loss)
+* Sacrifice crew members (optional)
+* Repeat previous 5 steps until you reach the end (or die)
+* Receive your score (if you make it), based on how well you performed
